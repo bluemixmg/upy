@@ -1,0 +1,6 @@
+
+Options +FollowSymLinks -MultiViews
+
+ReWriteEngine On
+
+RewriteRule ^([^/]+)/([^/]+) chofer.php?peticion=$1 [L,QSA]
