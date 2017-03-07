@@ -4,7 +4,7 @@
 <title>UPY | Nosotros</title>
 <link rel="icon" type="image/png" href="images/ic_launcher.png" />
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" rel="stylesheet"><!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
 <!-- Custom Theme files -->
 <!--theme-style-->

@@ -6,7 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 html,body{
 	background:#fff;
 	font-size: 100%;
-	font-family: 'DidactGothic';
+	font-family: 'Lato', sans-serif;
 }
 body a{
 	transition: 0.5s all;
@@ -21,7 +21,7 @@ body a{
 }
 h1,h2,h3,h4,h5,h6,label,p{
 	margin:0;	
-}
+}/*
 @font-face {
     font-family: 'DidactGothic';
     src:url(../fonts/DidactGothic.ttf) format('truetype');
@@ -36,7 +36,7 @@ h1,h2,h3,h4,h5,h6,label,p{
 }
 /*--header--*/
 .header {
-	background:url(../images/1.jpg) no-repeat;
+	background:url(http://upy3.com/wp-content/uploads/2016/12/quienes-somos-upy3.jpg) no-repeat;
 	width:100%;
 	background-size:cover;
 	-webkit-background-size:cover;
@@ -53,7 +53,6 @@ h1,h2,h3,h4,h5,h6,label,p{
 	float:left;
 }
 .logo h1 a{
-	background:url(../images/log.png) bottom no-repeat;
 	width: 240px;
 	height: 204px;
 	display:block;
@@ -183,7 +182,6 @@ h1,h2,h3,h4,h5,h6,label,p{
 .top-grid {
 	text-align: center;
 	border:none;
-	padding:0;
 	min-height: 252px;
 	background: rgba(0, 188, 228, 0.44);
 	padding: 0em 1.5em 1.5em;
@@ -222,7 +220,7 @@ h1,h2,h3,h4,h5,h6,label,p{
 	transform: rotate(90deg);
 }
 .top{
-	background-color: rgba(125, 63, 152, 0.44);
+	background-color: rgba(173,173,173,0.44);
 }
 .top:before{
 	border-bottom: 352px solid  rgba(125, 63, 152, 0.44);
@@ -269,8 +267,7 @@ a i.glyphicon.glyphicon-circle-arrow-right:hover {
 }
 .content-left-top h4{
 	font-size: 1.3em;
-  	font-family: 'Cinzel-Bold';
- 	margin: 0.8em 0 0.5em;
+  	font-family: 'Yanone Kaffeesatz'; 	margin: 0.8em 0 0.5em;
 }
 .content-left-top h4 a{
   	color: #7D3F98;
@@ -332,8 +329,7 @@ i.glyphicon.glyphicon-ok {
   	font-size: 3em;
   	display: block;
   	line-height: 35px;
-  	font-family: 'Cinzel-Bold';
-}
+  	font-family: 'Yanone Kaffeesatz';}
 .content-bottom-top span small{
 	font-size: 28px;
 	display: block;
@@ -362,32 +358,28 @@ i.glyphicon.glyphicon-ok {
 	margin: 0 9% 0 0;
   	display: inline-block;
 }
-.address1{
-	float: left;
-	vertical-align: middle;
-  display: inline-block;
-}
-.address1 p{
-	font-size:1.8em;
-	color: #fff;
-	line-height: 1.9em;	
-}
-.address1 p a{
-	text-decoration:none;
+.address p{
+	font-size: 18px;
 	color: #fff;
 }
-.address1 p a:hover{
-	color:#7D3F98;
+.address p a{
+	text-decoration: none;
+	color: #BCBCBC;
 }
-.address-more h3{
+.address p a:hover{
+	text-decoration: none;
+	color: #FFFD00;
+}
+
+.address h3{
 	color:#fff;
 	font-size:2em;
 	margin: 0 15px 0.7em;
 	font-family: 'Cinzel-Regular';
 }
 .address {
-  padding: 3em 0 ;
-  background: #404040;
+	color:#FFFFFF;
+	background: #404040;
 }
 /*--//address--*/
 /*--footer--*/
@@ -549,8 +541,7 @@ ul.nav.nav-pills {
 /*--blog--*/
 .blog-grid h3{
 	font-size: 1em;
-	font-family: 'Cinzel-Bold';
-}
+	font-family: 'Yanone Kaffeesatz';}
 .blog-grid h3 a{
 	color:#7D3F98;
 	text-decoration:none;
@@ -644,7 +635,6 @@ ul.grid-blog {
   }
 }
 .hvr-icon-wobble-horizontal {
-  display: inline-block;
   vertical-align: middle;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);

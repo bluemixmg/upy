@@ -3,10 +3,10 @@
 // Parametros a configurar para la conexion de la base de datos 
 
 $hotsbd = "localhost";    // sera el valor de nuestra BD 
-$basededatos = "bd_upy";    // sera el valor de nuestra BD 
+$basededatos = "ev000477_upy";    // sera el valor de nuestra BD 
 
-$usuariobd = "root";    // sera el valor de nuestra BD 
-$clavebd = "";    // sera el valor de nuestra BD 
+$usuariobd = "ev000477_upy";    // sera el valor de nuestra BD 
+$clavebd = "ZAgu22zofu";    // sera el valor de nuestra BD 
 
 // Fin de los parametros a configurar para la conexion de la base de datos 
 

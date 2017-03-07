@@ -89,7 +89,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                     $permisos[] = $c1['id_permiso'];
                 }
                 $_SESSION['permisos'] = $permisos;
-                header("Location:companie.php");
+                header("Location:http://www.upy3.com/upyweb/companie.php");
                 }
             } else {
                 header("Location:login.php?success=no");
@@ -104,6 +104,10 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
                 $_SESSION['rol'] = $ss['id_rol'];
+		if ($_SERVER['HTTP_HOST'] == "upy.com"){
+   			$url = "http://www." . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+   			header("Location: $url");
+		} 
                 header("Location:companie.php");
                 }
             } else {

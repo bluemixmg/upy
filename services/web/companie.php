@@ -22,12 +22,11 @@ if($_SESSION['success'] != 'yes'){
 <script src="js/timedropper.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/timedropper.min.css">
 <!--theme-style-->
-<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <style type="text/css">
 .header{
     background-size: 100%;
-    min-height: 320px;
+    min-height: 150px;
     }
 .contact-bottom input[type="text"] ,.contact-bottom textarea{
     width: 100%;
@@ -190,7 +189,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
         <?php
         if ($_SESSION['rol']==1){
             echo 'initialize();';
-        }if (in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || in_array(11, $_SESSION['permisos'])){
+        }elseif ($_SESSION['rol']==2){
             echo 'initialize_emp();';
         }
         ?>
@@ -215,19 +214,19 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 echo '<li><a data-toggle="tab" href="#empre">Empresa</a></li>';
             }
             if(in_array(5, $_SESSION['permisos']) || in_array(6, $_SESSION['permisos']) || in_array(7, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href="#choferes">Driver</a></li>';
+                echo '<li><a data-toggle="tab" href="#emp">Driver</a></li>';
             }
             if(in_array(8, $_SESSION['permisos'])){
                 echo '<li><a data-toggle="tab" href="#cho">Ubicación<i class="glyphicon glyphicon-map-marker pull-right"></i></a></li>';
             }
             if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || in_array(11, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href="#empleados">Empleados</a></li>';
+                echo '<li><a data-toggle="tab" href="#emp">Empleados</a></li>';
             }
             if(in_array(12, $_SESSION['permisos']) || in_array(13, $_SESSION['permisos'])){
                 echo '<li><a data-toggle="tab" href="#tra">Orden de Servicio</a></li>';
             }
             if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || in_array(16, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href="#filtros">Control de Rutas</a></li>';
+                echo '<li><a data-toggle="tab" href="#tra">Control de Rutas</a></li>';
             }
             if(in_array(17, $_SESSION['permisos']) || in_array(18, $_SESSION['permisos'])){
                 echo '<li><a data-toggle="tab" href=#difusion>Mensajería</a></li>';
@@ -602,7 +601,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             </div>
         </div>
         <!--EMPLEADOS-->
-        <div id="empleados" class="tab-pane fade">
+        <div id="emp" class="tab-pane fade">
             <div class="container">
                 <!--Menu Izquierdo-->
                 <div class="col-md-3">
@@ -1063,33 +1062,13 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             </span>
                         </div>
                     </div>-->
-
-                    <?php
+                <?php
                     }
-                    ?>
-                </div>
-            </div>
-        </div>
-        
-            <?php
-            if(in_array(5, $_SESSION['permisos'])){
-            ?>
-        
-        <div id="choferes" class="tab-pane fade">
-            <div class="container">
-                <!--Menu Izquierdo-->
-                <div class="col-md-3">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li><a data-toggle="pill" href="#registrar_chofer">Registrar</a></li>
-                        <li><a data-toggle="pill" href="#archivo_chofer">Subir archivo</a></li>
-                        <li><a data-toggle="pill" href="#editar_chofer">Editar</a></li>
-                        <li><a data-toggle="pill" href="#eliminar_chofer"></a></li>
-                    </ul>
-                </div>
-                <!--//Menu Izquierdo-->
-                <div class="tab-content">
-                    <!--TAB REGISTRAR CHOFER-->
-                    <div id="registrar_chofer" class="tab-pane fade">
+                    if(in_array(5, $_SESSION['permisos'])){
+                ?>
+
+                    <!--TAB REGISTRAR-->
+                    <div id="registrar" class="tab-pane fade">
                         <h3>Registrar</h3>
                         <p>Ingresar Choferes</p>
                         <div class="contact col-lg-6">
@@ -1201,7 +1180,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     ?>
 
                     <!--TAB ARCHIVO CHOFERES-->
-                    <div id="archivo_chofer" class="tab-pane fade">
+                    <div id="archivo" class="tab-pane fade">
                         <h3>Subir Archivo</h3>
                         <p>Suba un archivo con el siguiente <a href="upy3_chofer.xlsx">esquema</a> con el formato .csv (Delimitado por comas)</p><br>
                         <div class="input-group">
@@ -1246,7 +1225,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     ?>
 
                 <!--TAB EDITAR CHOFERES-->
-                <div id="editar_chofer" class="tab-pane fade">
+                <div id="editar" class="tab-pane fade">
                     <h3>Editar</h3>
                     <p>Editar características de un chofer</p>
                     <div class="input-group">
@@ -1406,13 +1385,15 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
         <?php
             }
         }
-        if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || in_array(16, $_SESSION['permisos'])){
         ?>
         
-        <!--FILTROS DE RUTAS-->
-        <div id="filtros" class="tab-pane fade">
+        <!--ORDEN DE SERVICIO-->
+        <div id="tra" class="tab-pane fade">
             <div class="container">
                 <div class="tab-content">
+                <?php
+                if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || in_array(16, $_SESSION['permisos'])){
+                ?>
                 <h3>Revisión y edición de rutas</h3>
                 <p>Elija una ruta para ser visualizada o editada</p><br>
                 Favor ingrese una fecha: 
@@ -1646,18 +1627,11 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     });
                 });
                 </script>
-                </div>
-            </div>
-        </div>
-        
-            <?php
-            }
-            ?>
-        
-        <!--ORDEN DE SERVICIO-->
-        <div id="tra" class="tab-pane fade">
-            <div class="container">
-                <div class="tab-content">
+
+                    <?php
+                    }
+                    if(in_array(12, $_SESSION['permisos'])){
+                    ?>
                     <div class="col-md-3">
                         <ul class="nav nav-pills nav-stacked">
                             <li><a data-toggle="pill" href="#eleccion">Generar Orden de Servicio</a></li>
@@ -1665,9 +1639,6 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                         </ul>
                     </div>
                     <!--//MENÚ IZQUIERDO-->
-                    <?php
-                    if(in_array(12, $_SESSION['permisos'])){
-                    ?>
                     <div id="eleccion" class="tab-pane fade">
                         <br>
                         <p style="align-content: center;">Elija los empleados a ser transportados</p>

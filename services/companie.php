@@ -1201,7 +1201,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     ?>
 
                     <!--TAB ARCHIVO CHOFERES-->
-                    <div id="archivo_chofer" class="tab-pane fade">
+                    <div id="archivo_choferes" class="tab-pane fade">
                         <h3>Subir Archivo</h3>
                         <p>Suba un archivo con el siguiente <a href="upy3_chofer.xlsx">esquema</a> con el formato .csv (Delimitado por comas)</p><br>
                         <div class="input-group">
@@ -1246,7 +1246,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     ?>
 
                 <!--TAB EDITAR CHOFERES-->
-                <div id="editar_chofer" class="tab-pane fade">
+                <div id="editar_choferes" class="tab-pane fade">
                     <h3>Editar</h3>
                     <p>Editar características de un chofer</p>
                     <div class="input-group">
