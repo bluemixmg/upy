@@ -1,8 +1,0 @@
-{
-	"name": "jcp/mysqli-database-class",
-	"description": "Hola",
-	"require": {
-    "ext-mysqli": "*",
-    "ext-gd": "*"
-  }
-}
