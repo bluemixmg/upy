@@ -19,9 +19,9 @@ class DBManager {
     $mysql_config = $services_json["cleardb"][0]["credentials"];
 
     $db = $mysql_config["name"];
-    $host = $mysql_config["host"];
+    $host = $mysql_config["hostname"];
     $port = $mysql_config["port"];
-    $username = $mysql_config["user"];
+    $username = $mysql_config["username"];
     $password = $mysql_config["password"];
 
     $conn = mysql_connect($host . ':' . $port, $username, $password);
