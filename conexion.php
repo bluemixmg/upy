@@ -1,5 +1,5 @@
 <?php 
-require 'DBmanager.php';
+require 'DBManager.php';
 ?>
 <?php
 
