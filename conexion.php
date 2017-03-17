@@ -2,11 +2,11 @@
 
 // Parametros a configurar para la conexion de la base de datos 
 
-$hotsbd = "localhost";    // sera el valor de nuestra BD 
-$basededatos = "ev000477_upy";    // sera el valor de nuestra BD 
+$hotsbd = "us-cdbr-iron-east-03.cleardb.net";    // sera el valor de nuestra BD 
+$basededatos = "ad_cf9caa47af41265";    // sera el valor de nuestra BD 
 
-$usuariobd = "ev000477_upy";    // sera el valor de nuestra BD 
-$clavebd = "ZAgu22zofu";    // sera el valor de nuestra BD 
+$usuariobd = "b74e1e2c618ed4";    // sera el valor de nuestra BD 
+$clavebd = "96c9ba72";    // sera el valor de nuestra BD 
 
 // Fin de los parametros a configurar para la conexion de la base de datos 
 
