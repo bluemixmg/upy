@@ -16,7 +16,7 @@ class DBManager {
 
     $services = getenv("VCAP_SERVICES");
     $services_json = json_decode($services,true);
-    $mysql_config = $services_json["ClearDB MySQL Database-lz"][0]["credentials"];
+    $mysql_config = $services_json["cleardb"][0]["credentials"];
 
     $db = $mysql_config["name"];
     $host = $mysql_config["host"];
