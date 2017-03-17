@@ -9,8 +9,12 @@ $usuariobd = "b74e1e2c618ed4";    // sera el valor de nuestra BD
 $clavebd = "96c9ba72";    // sera el valor de nuestra BD 
 
 // Fin de los parametros a configurar para la conexion de la base de datos 
-
-$conexion_bd = mysqli_connect("$hotsbd","$usuariobd","$clavebd","$basededatos")
-    or die ("Conexión denegada, el Servidor de Base de datos que solicitas no puede ser localizado"); 
+echo 'Voy a tratar de conectarme';
+//$conexion_bd = mysqli_connect("$hotsbd","$usuariobd","$clavebd","$basededatos")
+$conexion_bd = new mysqli("$hotsbd","$usuariobd","$clavebd","$basededatos");
+if($conexion_bd->connect_error) {
+    die ("Conexión denegada, el Servidor de Base de datos que solicitas no puede ser localizado"); 
+}
+echo 'Conectado exitosamente';
     $db = mysqli_select_db($conexion_bd,"$basededatos")
     or die ("La Base de Datos <b>$basededatos</b> no puede ser localizada");
