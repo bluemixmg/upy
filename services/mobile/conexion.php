@@ -1,10 +1,10 @@
 <?php 
-//require '../DBManager.php';
+require '../conexion.php';
 ?>
 <?php
 
-    $dbm = new DBManager();
-    $conexion_bd = $dbm->getConnection();
+    //$dbm = new DBManager();
+    //$conexion_bd = $dbm->getConnection();
 //// Parametros a configurar para la conexion de la base de datos 
 
 //$hotsbd = "localhost";    // sera el valor de nuestra BD 
