@@ -48,7 +48,8 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             <form class="form-inline">
                 <h4 style="color: white">Ingrese su Correo</h4>
                 <input type="text" id="txtid" name="txtid">
-                <input type="submit" onclick="r();return false;" value="Enviar"><br><br>
+                <!--<input type="submit" onclick="r();return false;" value="Enviar"><br><br>-->
+                <input type="submit" onclick="r()" value="Enviar"><br><br>
                 <div style="height: 200px;width: 300px;color: white;" id="resultado_reset"></div>
             </form>
         </div>

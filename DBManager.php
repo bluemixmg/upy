@@ -27,7 +27,7 @@ class DBManager {
     $conn = mysqli_connect($host, $username, $password, $db, $port);
   
     if(! $conn ){
-      die('Could not connect: ' . mysql_error());
+      die('No se puede conectar a BD: ' . mysqli_error($conn));
     }
 
     //mysql_select_db($db);
