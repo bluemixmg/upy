@@ -77,7 +77,7 @@
         require_once './conexion.php';
         $sql = 'SELECT * FROM noticia ORDER BY fecha DESC LIMIT 3';
                 $consulta = mysqli_query($conexion_bd, $sql);
-                if(@mysqli_num_rows($consulta)>0){
+                if(mysqli_num_rows($consulta) > 0){
                     echo '<div class="content-left">';
                     foreach ($consulta as $c){
                         echo '<div class="col-md-4 content-left-top">

@@ -24,13 +24,13 @@ class DBManager {
     $username = $mysql_config["username"];
     $password = $mysql_config["password"];
 
-    $conn = mysql_connect($host . ':' . $port, $username, $password);
+    $conn = mysqli_connect($host, $username, $password, $db, $port);
   
     if(! $conn ){
       die('Could not connect: ' . mysql_error());
     }
 
-    mysql_select_db($db);
+    //mysql_select_db($db);
     return $conn;
   }
 }
