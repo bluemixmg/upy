@@ -1,5 +1,5 @@
 <?php 
-require '/home/vcap/app/htdocs/conexion.php';
+require $_SERVER['DOCUMENT_ROOT'] . 'conexion.php';
 ?>
 <?php
 
