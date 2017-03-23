@@ -1,5 +1,5 @@
 <?php 
-require '.../conexion.php';
+require '/home/vcap/app/htdocs/conexion.php';
 ?>
 <?php
 
