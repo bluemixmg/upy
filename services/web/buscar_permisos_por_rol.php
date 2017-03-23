@@ -4,7 +4,7 @@ $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 
 require_once './conexion.php';
 
-$sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol='$id'";
+$sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=$id";
 $consulta = mysqli_query($conexion_bd, $sql);
 
 if(mysqli_num_rows($consulta)>0){

@@ -18,7 +18,7 @@ if($rif!='Rif' && $nombre!='Nombre' && $correo!='Correo'){
                  . "VALUES ('$rif','$nombre','1','$direccion','$latitud','$longitud','$correo','$telefono')";
             mysqli_query($conexion_bd, $sql);
             $pass = md5($rif);
-            $sql = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES('$correo','$pass','2','$rif')";
+            $sql = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES('$correo','$pass',2,'$rif')";
             mysqli_query($conexion_bd, $sql);
             $sql12 = "INSERT INTO parada (lat_o,lng_o,lat_d,lng_d,id_cliente,hora) VALUES "
                  . "('$latitud','$longitud','$latitud','$longitud','$rif','NULL')";

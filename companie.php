@@ -230,19 +230,19 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 echo '<li><a data-toggle="tab" href="#filtros">Control de Rutas</a></li>';
             }
             if(in_array(17, $_SESSION['permisos']) || in_array(18, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href=#difusion>Mensajería</a></li>';
+                echo '<li><a data-toggle="tab" href="#difusion">Mensajería</a></li>';
             }
             if(in_array(19, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href=#incidencia>Incidencias</a></li>';
+                echo '<li><a data-toggle="tab" href="#incidencia">Incidencias</a></li>';
             }
             if(in_array(20, $_SESSION['permisos']) || in_array(21, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href=#costos>Costos y Precios</a></li>';
+                echo '<li><a data-toggle="tab" href="#costos">Costos y Precios</a></li>';
             }
             if(in_array(22, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href=#permisos>Permisos</a></li>';
+                echo '<li><a data-toggle="tab" href="#permisos">Permisos</a></li>';
             }
             if(in_array(23, $_SESSION['permisos'])){
-                echo '<li><a data-toggle="tab" href=#usuarios>Usuarios</a></li>';
+                echo '<li><a data-toggle="tab" href="#usuarios">Usuarios</a></li>';
             }
             if(in_array(24, $_SESSION['permisos']) || in_array(25, $_SESSION['permisos']) || in_array(26, $_SESSION['permisos']) || in_array(27, $_SESSION['permisos']) || in_array(28, $_SESSION['permisos']) || in_array(29, $_SESSION['permisos'])){
                 echo '<li><a data-toggle="tab" href="#reportes">Reportes</a></li>';

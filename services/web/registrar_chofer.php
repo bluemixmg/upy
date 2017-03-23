@@ -32,7 +32,7 @@ if($cedula!='Cédula' && $nombre!='Nombre' && $apellido!='Apellido' && $correo!=
             mysqli_query($conexion_bd, $sql1);
             
             $pass = md5($cedula);
-            $sql2 = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$usuario','$pass','3','$rif')";
+            $sql2 = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$usuario','$pass',3,'$rif')";
             mysqli_query($conexion_bd, $sql2);
             echo '<p>Chofer registrado con éxito</p>';
         }else{

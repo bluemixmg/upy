@@ -85,6 +85,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 $_SESSION['rol'] = $ss['id_rol'];
                 $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=".$ss['id_rol'];
                 $consulta1 = mysqli_query($conexion_bd, $sql);
+                $permisos[] = array();
                 foreach ($consulta1 as $c1){
                     $permisos[] = $c1['id_permiso'];
                 }

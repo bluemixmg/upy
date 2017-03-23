@@ -12,7 +12,7 @@ if($tipo==1){
         $consulta = mysqli_query($conexion_bd, $sql);
         if(mysqli_num_rows($consulta)==0){
             $pass = md5($id);
-            $sql = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$user','$pass','3','$rif')";
+            $sql = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$user','$pass',3,'$rif')";
             mysqli_query($conexion_bd, $sql);
         
             $sql = "UPDATE chofer SET id_usuario='".$user."',estatus=1 WHERE id_cedula='$id'";

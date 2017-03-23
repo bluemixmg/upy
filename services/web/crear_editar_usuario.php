@@ -34,7 +34,7 @@ if($_POST['tipo']==1){
     $rol = $_POST['rol'];
     if($id!='' && $pass!=''){
         require_once './conexion.php';
-        $sql = "UPDATE usuario SET usuario='".$id."', contrasena='".$pass."', id_rol='".$rol."', rif_empresa='".$rif."' WHERE usuario='".$id_viejo."'";
+        $sql = "UPDATE usuario SET usuario='".$id."', contrasena='".$pass."', id_rol=".$rol.", rif_empresa='".$rif."' WHERE usuario='".$id_viejo."'";
         mysqli_query($conexion_bd, $sql);
         mysqli_close($conexion_bd);
         echo '<p>Usuario editado con éxito</p>';
