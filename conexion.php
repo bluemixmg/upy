@@ -5,7 +5,6 @@ require 'DBManager.php';
 
     $dbm = new DBManager();
     $conexion_bd = $dbm->getConnection();
-    echo 'Conectado a la BD exitosamente';
     //$db = mysql_select_db($conn,"$basededatos")
     //or die ("La Base de Datos <b>$basededatos</b> no puede ser localizada");
 //// Parametros a configurar para la conexion de la base de datos 

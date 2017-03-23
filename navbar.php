@@ -51,7 +51,13 @@ a, a:hover, a:focus, a:active {
 }
             </style>
                 <div class="menu info-top">
-                   <a href="logout.php" class="boton boton-sesion">Cerrar sesión</a>
+                    <?php
+                    if($_SESSION['success'] != 'yes') {
+                        echo '<a href="logout.php" class="boton boton-sesion">Cerrar sesión</a>';
+                    } else {
+                        echo '<a href="login.php" class="boton boton-sesion">Iniciar sesión</a>';
+                    }
+                    ?>
                 </div>
                 <figure class="logo">
                    <a href="index.php"><img src="http://upy3.com/wp-content/themes/upy3/img/logo-upy3.png" height="88" width="116"></a>
