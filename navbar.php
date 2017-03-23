@@ -52,7 +52,6 @@ a, a:hover, a:focus, a:active {
             </style>
                 <div class="menu info-top">
                     <?php
-                    session_start();
                     if($_SESSION['success'] == 'yes') {
                         echo '<a href="logout.php" class="boton boton-sesion">Cerrar sesión</a>';
                     } else {
