@@ -5,9 +5,8 @@
         <group>
             <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/conexion.php</file>
             <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/index.php</file>
-            <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/logout.php</file>
-            <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/DBManager.php</file>
             <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/companie.php</file>
+            <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/services/web/login.php</file>
             <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/login.php</file>
             <file>file:/C:/Users/jparedes/Documents/NetBeansProjects/upy/navbar.php</file>
         </group>
