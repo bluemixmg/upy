@@ -1422,8 +1422,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
         <?php
             }
         }
-        echo "_SESSION['permisos'] = {$_SESSION['permisos']}";
-        if(\in_array(14, $_SESSION['permisos']) || \in_array(15, $_SESSION['permisos']) || \in_array(16, $_SESSION['permisos'])){
+        
+        if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || !in_array(16, $_SESSION['permisos'])){
         ?>
         
         <!--FILTROS DE RUTAS-->
