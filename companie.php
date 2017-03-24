@@ -252,6 +252,11 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
     </div>
     
     <!--TABS'S CONTENT-->
+    <?php 
+        foreach($_SESSION['permisos'] as $p) {
+            echo '$p = ' . $p . '<br>';
+        }
+    ?>
     <div class="tab-content">
         <!--INICIO-->
         <div id="inicio" class="tab-pane fade in active">
