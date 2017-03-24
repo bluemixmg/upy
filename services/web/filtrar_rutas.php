@@ -28,7 +28,7 @@ if(isset($_POST['fecha'])){
     function filtros($id, $para, $fecha) {
         require_once './conexion.php';
         if ($para == "estado"){
-            $sql = "SELECT id,nombre_estado as texto FROM estado WHERE id_pais='17' ORDER BY nombre_estado";
+            $sql = "SELECT id,nombre_estado as texto FROM estado WHERE id_pais=17 ORDER BY nombre_estado";
             $p = 'r_estado';
             $f = 'L1';
         }else if ($para == "r"){
@@ -145,10 +145,10 @@ if(isset($_POST['fecha'])){
                 . "INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta "
                 . "INNER JOIN parada ON parada_ruta.id_parada = parada.id "
                 . "INNER JOIN cliente ON parada.id_cliente = cliente.cedula "
-                . "INNER JOIN empresa ON cliente.rif_empresa = empresa.rif WHERE ruta.id = '$id'";
+                . "INNER JOIN empresa ON cliente.rif_empresa = empresa.rif WHERE ruta.id = $id";
         $consultar_r = mysqli_query($conexion_bd, $sql);
         
-        $sql2 = "SELECT DISTINCT parada.id as parada, CONCAT (cliente.cedula, ' - ', cliente.nombre, ' ', cliente.apellido, ' - ', cliente.direccion) as cliente FROM ruta INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta INNER JOIN parada ON parada_ruta.id_parada = parada.id INNER JOIN cliente ON parada.id_cliente = cliente.cedula WHERE ruta.id = '$id'";
+        $sql2 = "SELECT DISTINCT parada.id as parada, CONCAT (cliente.cedula, ' - ', cliente.nombre, ' ', cliente.apellido, ' - ', cliente.direccion) as cliente FROM ruta INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta INNER JOIN parada ON parada_ruta.id_parada = parada.id INNER JOIN cliente ON parada.id_cliente = cliente.cedula WHERE ruta.id = $id";
         $consultar_cli = mysqli_query($conexion_bd, $sql2);
         
         if(mysqli_num_rows($consultar_r) == 0){
@@ -191,7 +191,7 @@ if(isset($_POST['fecha'])){
                 $sql3 = "SELECT chofer.id_cedula FROM ruta "
                       . "INNER JOIN vehiculo ON ruta.id_vehiculo = vehiculo.placa "
                       . "INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula "
-                      . "WHERE ruta.id='$id'";
+                      . "WHERE ruta.id=$id";
                 $consultar_chofer = mysqli_query($conexion_bd, $sql3);
                 if(mysqli_num_rows($consultar_chofer)>0){
                     foreach($consultar_chofer as $chofer){

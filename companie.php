@@ -16,7 +16,7 @@ if($_SESSION['success'] != 'yes'){
 <script src="js/jquery-ui.min.js"></script>
 <!--Google Maps API-->
 <link href="https://developers.google.com/maps/documentation/javascript/examples/default.css" rel="stylesheet">
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSWdB4sy4Q3_YKVoiqE259xFcCJ2NCPfU"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJSamIG6HU4kOCL6XMvyjzOVj4HCfPpyA"></script>
 <!-- Custom Theme files -->
 <!--timedropper jQuery plugin-->
 <script src="js/timedropper.min.js"></script>
@@ -204,22 +204,6 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
     ?>
     
     <!--TABS-->
-    <?php
-        if(!empty($_SESSION['rol'])){
-            echo '$_SESSION["rol"] = ' . $_SESSION['rol'];
-        }else{
-            echo '$_SESSION["rol"] está vacío' ;
-        }
-        if(!empty($_SESSION['permisos'])){
-            echo "\n\$_SESSION['permisos'] = " . $_SESSION['permisos'];
-            foreach($_SESSION['permisos'] as $per) {
-                echo '$per = ' . $per;
-                echo "<br>";
-            }
-        }else{
-            echo '\n$_SESSION["permisos"] está vacío' ;
-        }
-        ?>
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>            
@@ -1423,7 +1407,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             }
         }
         
-        //if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || !in_array(16, $_SESSION['permisos'])){
+        if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || !in_array(16, $_SESSION['permisos'])){
         ?>
         
         <!--FILTROS DE RUTAS-->
@@ -1668,7 +1652,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
         </div>
         
             <?php
-            //}
+            }
             ?>
         
         <!--ORDEN DE SERVICIO-->
