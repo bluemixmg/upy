@@ -188,11 +188,11 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
 <script>
     function iniciar_Mapas(){
         <?php
-        if ($_SESSION['rol']==1){
+        /*if ($_SESSION['rol']==1){
             echo 'initialize();';
         }if (in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || in_array(11, $_SESSION['permisos'])){
             echo 'initialize_emp();';
-        }
+        }*/
         ?>
     }
 </script>
