@@ -74,11 +74,6 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
-                if(!empty($_SESSION['usuario'])){
-                    echo '$_SESSION["usuario"] = ' . $_SESSION['usuario'];
-                }else{
-                    echo '$_SESSION["usuario"] está vacío' ;
-                }
                 $_SESSION['rif'] = $ss['rif'];
                 $_SESSION['nombre'] = $ss['nombre'];
                 $_SESSION['correo'] = $ss['correo'];
@@ -88,11 +83,6 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 $_SESSION['longitud'] = $ss['longitud'];
                 $_SESSION['estatus'] = $ss['estatus'];
                 $_SESSION['rol'] = $ss['id_rol'];
-                if(!empty($_SESSION['rol'])){
-                    echo '$_SESSION["rol"] = ' . $_SESSION['rol'];
-                }else{
-                    echo '$_SESSION["rol"] está vacío' ;
-                }
                 $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=".$ss['id_rol'];
                 $consulta1 = mysqli_query($conexion_bd, $sql);
                 $permisos[] = array();

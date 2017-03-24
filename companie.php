@@ -204,6 +204,19 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
     ?>
     
     <!--TABS-->
+    <?php
+        if(!empty($_SESSION['rol'])){
+            echo '$_SESSION["rol"] = ' . $_SESSION['rol'];
+        }else{
+            echo '$_SESSION["rol"] está vacío' ;
+        }
+        if(!empty($_SESSION['permisos'])){
+            echo '$_SESSION["permisos"] = ' . $_SESSION['permisos'];
+            echo '$_SESSION["permisos"][0] = ' . $_SESSION['permisos'][0];
+        }else{
+            echo '$_SESSION["permisos"] está vacío' ;
+        }
+        ?>
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#inicio">Inicio</a></li>            
