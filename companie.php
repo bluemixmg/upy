@@ -254,12 +254,12 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
     <!--TABS'S CONTENT-->
     <script type="text/javascript">
         console.log("Permisos de este usuario: ");
-        console.log(
+        console.log("
             <?php
             foreach($_SESSION['permisos'] as $p) {
                 echo $p . ', ';
             }
-            ?>);
+            ?>");
     </script>
     <div class="tab-content">
         <!--INICIO-->
