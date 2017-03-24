@@ -188,11 +188,11 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
 <script>
     function iniciar_Mapas(){
         <?php
-        /*if ($_SESSION['rol']==1){
+        if ($_SESSION['rol']==1){
             echo 'initialize();';
         }if (in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || in_array(11, $_SESSION['permisos'])){
             echo 'initialize_emp();';
-        }*/
+        }
         ?>
     }
 </script>
@@ -252,15 +252,6 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
     </div>
     
     <!--TABS'S CONTENT-->
-    <script type="text/javascript">
-        console.log("Permisos de este usuario: ");
-        console.log("
-            <?php
-            foreach($_SESSION['permisos'] as $p) {
-                echo $p . ', ';
-            }
-            ?>");
-    </script>
     <div class="tab-content">
         <!--INICIO-->
         <div id="inicio" class="tab-pane fade in active">
