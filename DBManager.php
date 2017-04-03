@@ -11,36 +11,69 @@
  *
  * @author jparedes
  */
+
+/*Permite dividir un string en varios substrings con delimitadores múltiples*/
+function multiexplode ($delimiters,$string) {
+    
+    $ready = str_replace($delimiters, $delimiters[0], $string);
+    $launch = explode($delimiters[0], $ready);
+    return  $launch;
+}
+
+/*Clase de conexión a BD*/
 class DBManager {
     function getConnection(){
 
     $services = getenv("VCAP_SERVICES");
     $services_json = json_decode($services,true);
-    //$mysql_config = $services_json["cleardb"][0]["credentials"];
-    $pgsql_config = $services_json["elephantsql"][0]["credentials"];
-
-    //$db = $mysql_config["name"];
-    $db = $pgsql_config["name"];
-    //$host = $mysql_config["hostname"];
-    $host = $pgsql_config["hostname"];
-    //$port = $mysql_config["port"];
-    $port = $pgsql_config["port"];
-    //$username = $mysql_config["username"];
-    $username = $pgsql_config["username"];
-    //$password = $mysql_config["password"];
-    $password = $pgsql_config["password"];
-
-    //Solo para pgsql:
-    $dbConnectionString = "host=" . $host . " port=" . $port . " dbname=" . $db . " user=" . $username . " password=" . $password;
     
+    /*==============Obtener credenciales de servicio ClearDB==================*/
+    
+    /*Obtener credenciales de servicio ClearDB*/
+    
+    //$mysql_config = $services_json["cleardb"][0]["credentials"];
+    //$db = $mysql_config["name"];
+    //$host = $mysql_config["hostname"];
+    //$port = $mysql_config["port"];
+    //$username = $mysql_config["username"];
+    //$password = $mysql_config["password"];
+
     //$conn = mysqli_connect($host, $username, $password, $db, $port);
+    
+    //if(! $conn ){
+      //die('No se puede conectar a BD: ' . mysqli_error($conn));
+    //}
+    
+    /*========================================================================*/
+    
+    /*==============Obtener credenciales de servicio Elephant=================*/
+    
+    $pgsql_config = $services_json["elephantsql"][0]["credentials"];
+    
+    //Formato URI en credenciales: "postgres://user:password@host:port/dbname"
+    $pg_credenciales = multiexplode(array(":","@","/"), substr($pgsql_config["uri"], 11));
+    
+    $user = $pg_credenciales[0];
+    echo "user = $user <br>";
+    $password = $pg_credenciales[1];
+    echo "password = $password <br>";
+    $host = $pg_credenciales[2];
+    echo "host = $host <br>";
+    $port = $pg_credenciales[3];
+    echo "port = $port <br>";
+    $dbname = $pg_credenciales[4];
+    echo "dbname = $dbname <br>";
+    
+    $dbConnectionString = "host=" . $host . " port=" . $port . " dbname=" . $dbname . " user=" . $user . " password=" . $password;
+    
     $conn = pg_connect($dbConnectionString);
   
     if(! $conn ){
       die('No se puede conectar a BD: ' . pg_errormessage($conn));
     }
-
-    //mysql_select_db($db);
+    
+    /*========================================================================*/
+    
     return $conn;
   }
 }
