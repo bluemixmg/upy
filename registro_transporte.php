@@ -69,7 +69,7 @@
             <?php
             require_once './conexion.php';
             $sql = "SELECT * FROM tipo_vehiculo ORDER BY nro_puestos ASC";
-            $consulta = pg_query($conexion_bd, $sql);
+            $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
             if (pg_num_rows($consulta)>0){
                 echo '<select id="tipo_ve" style="height: 32px;">';
                 foreach ($consulta as $c){
@@ -80,7 +80,7 @@
                 echo 'No hay tipos registrados';
             }
             $sql1 = 'SELECT * FROM condicion';
-            $consulta1 = pg_query($conexion_bd, $sql1);
+            $consulta1 = pg_fetch_all(pg_query($conexion_bd, $sql));
             if (pg_num_rows($consulta1)>0){
                 echo '<i>Condiciones del Vehiculo: </i>';
                 echo '<select id="cond_ve">';

@@ -57,28 +57,6 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
         include ('navbar.php');
     ?>
     <?php
-            $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
-            . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
-            . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
-            $consulta = pg_query($conexion_bd, $sql);
-            if (pg_num_rows($consulta) > 0){
-                foreach($consulta as $ss){
-                ?>
-                <script type="text/javascript">
-                    console.log("<?php echo 'usuario = ' . $ss['usuario']?>");
-                    console.log("<?php echo 'rif = ' . $ss['rif']?>");
-                    console.log("<?php echo 'nombre = ' . $ss['nombre']?>");
-                    console.log("<?php echo 'correo = ' . $ss['correo']?>");
-                    console.log("<?php echo 'telefono = ' . $ss['telefono']?>");
-                    console.log("<?php echo 'direccion = ' . $ss['direccion']?>");
-                    console.log("<?php echo 'estatus = ' . $ss['estatus']?>");
-                    console.log("<?php echo 'rol = ' . $ss['rol']?>");
-                </script>
-                <?php
-                }
-            }
-        ?>
-    <?php
     if(isset($_POST['success']) && $_POST['success']=='no'){
 
     }else{
@@ -107,7 +85,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
-            $consulta = pg_query($conexion_bd, $sql);
+            $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         ?>
             <script type="text/javascript">
                 console.log("<?php echo 'pg_num_rows($consulta) = ' . pg_num_rows($consulta)?>");
@@ -137,7 +115,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 $_SESSION['estatus'] = $ss['estatus'];
                 $_SESSION['rol'] = $ss['id_rol'];
                 $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=".$ss['id_rol'];
-                $consulta1 = pg_query($conexion_bd, $sql);
+                $consulta1 = pg_fetch_all(pg_query($conexion_bd, $sql));
                 $permisos[] = array();
                 foreach ($consulta1 as $c1){
                     $permisos[] = $c1['id_permiso'];
@@ -153,7 +131,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
                 . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
                 . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='J-406819212'";
-             $consulta = pg_query($conexion_bd, $sql);
+             $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
              ?>
                 <script type="text/javascript">
                     console.log("<?php echo 'pg_num_rows($consulta) 2 = ' . pg_num_rows($consulta)?>");

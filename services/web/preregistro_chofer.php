@@ -20,11 +20,11 @@ if($acept!=''){
         require_once './conexion.php';
         
         $sql = "SELECT id_cedula FROM chofer WHERE id_cedula='".$id."'";
-        $consulta = pg_query($conexion_bd, $sql);
+        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         
         if(pg_num_rows($consulta)==0){
             $sql = "SELECT placa FROM vehiculo WHERE placa='".$placa."'";
-            $consulta1 = pg_query($conexion_bd, $sql);
+            $consulta1 = pg_fetch_all(pg_query($conexion_bd, $sql));
             if(pg_num_rows($consulta1)==0){
                 $nombre1 = utf8_decode($nombre);
                 $apellido1 = utf8_decode($apellido);

@@ -25,12 +25,12 @@ if(isset($_POST['estatus'])){
         $sql = "UPDATE chofer SET id_cedula='$cednueva', nombre='$nombre', apellido='$apellido',sexo='$sexo', "
              . "telefono='$telefono', correo='$correo', direccion='$direccion', estatus='$estatus[0]' "
              . "WHERE id_cedula='$cedula'";
-        pg_query($conexion_bd, $sql);
+        pg_fetch_all(pg_query($conexion_bd, $sql));
         $sql = "UPDATE vehiculo SET placa='$placa', marca='$marca', modelo='$modelo', id_tipo_vehiculo='$tipo', "
              . "id_condicion='$cond',id_chofer='$cednueva' WHERE id_chofer='$cedula'";
-        pg_query($conexion_bd, $sql);
+        pg_fetch_all(pg_query($conexion_bd, $sql));
         $sql = "UPDATE ruta SET id_vehiculo='$placa' WHERE id_vehiculo='$plava_v'";
-        pg_query($conexion_bd, $sql);
+        pg_fetch_all(pg_query($conexion_bd, $sql));
         pg_close($conexion_bd);
         echo '<p>Se actualizó el chofer de cédula '.$cednueva.'<p> y nombre '.$nombre.' '.$apellido;
     }else{

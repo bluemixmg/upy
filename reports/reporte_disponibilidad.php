@@ -64,7 +64,7 @@ $sql = "SELECT disponibilidad.fecha, CONCAT (disponibilidad.id_usuario, ' - ',ch
     INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id
     WHERE fecha BETWEEN '".$fecha_inicio."' AND '".$fecha_fin."'"
   . " ORDER BY disponibilidad.fecha, chofer.nombre, bloque.id";
-$consulta = pg_query($conexion_bd, $sql);
+$consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
 if(pg_num_rows($consulta)>0){
     $x = $pdf->GetX();
     $y = $pdf->GetY();

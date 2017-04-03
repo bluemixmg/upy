@@ -19,14 +19,14 @@ function actualizar($conexion_bd,$id_parada,$id_ruta,$id_usuario,$respuestaJson)
 
     if($id_parada!="" && $id_ruta!="" && $id_usuario!=""){
         $sql = "UPDATE parada_ruta SET estatus=0 WHERE id_ruta='$id_ruta' AND id_parada='$id_parada'";
-        if(pg_query($conexion_bd, $sql)){
+        if(pg_fetch_all(pg_query($conexion_bd, $sql))){
             $respuestaJson['success'] = 1;
             $respuestaJson['message'] = "Parada Cumplida";
             $sql1 = "SELECT DISTINCT estatus FROM parada_ruta WHERE id_ruta='$id_ruta'";
-            $consulta = pg_query($conexion_bd, $sql1);
+            $consulta = pg_fetch_all(pg_query($conexion_bd, $sql1));
             if(pg_num_rows($consulta)==1){
                 $sql = "UPDATE ruta SET estatus=1 WHERE id='$id_ruta'";
-                pg_query($conexion_bd, $sql);
+                pg_fetch_all(pg_query($conexion_bd, $sql));
                 $MY_API_KEY="AIzaSyClESwq7mvo76CoqqqkO1Lfef5UA_5xU1Y";
                 $data = array(
                     "to" => "/topics/upy",
@@ -54,7 +54,7 @@ function actualizar($conexion_bd,$id_parada,$id_ruta,$id_usuario,$respuestaJson)
                 curl_close($ch);
             }else{
                 $sql = "UPDATE ruta SET estatus=2 WHERE id='$id_ruta'";
-                pg_query($conexion_bd, $sql);
+                pg_fetch_all(pg_query($conexion_bd, $sql));
             }
         }else{
             $respuestaJson['success'] = 0;

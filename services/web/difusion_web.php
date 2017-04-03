@@ -25,7 +25,7 @@ if($titulo!='Título' && $texto!='Texto'){
 
     require_once ('conexion.php');
     $sql = "INSERT INTO noticia (titulo,texto,ruta_imagen,fecha) VALUES ('$titulo','$texto','$ruta','$fecha')";
-    pg_query($conexion_bd, $sql);
+    pg_fetch_all(pg_query($conexion_bd, $sql));
     echo 'Informacion registrada exitosamente';
     pg_close($conexion_bd);
 }else{

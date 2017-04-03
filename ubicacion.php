@@ -7,7 +7,7 @@ include './conexion.php';
     $sql = "SELECT cliente.*,parada.* FROM cliente "
          . "INNER JOIN parada ON cliente.cedula=parada.id_cliente "
          . "WHERE rif_empresa='V-2525'";
-    $con = pg_query($conexion_bd, $sql);
+    $con = pg_fetch_all(pg_query($conexion_bd, $sql));
     if(pg_num_rows($con)>0){
         $i = 1;
         foreach ($con as $c){

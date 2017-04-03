@@ -17,11 +17,11 @@ $longitud_emp = $_POST['longitud_emp'];
 if($rif!='' && $cedula!='Cédula' && $nombre!='Nombre' && $correo!='Correo'){
     include ('conexion.php');
     $sql = "SELECT * FROM cliente WHERE cedula='$cedula'";
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         if(pg_num_rows($consulta)==0){
             $sql = "INSERT INTO cliente (cedula,rif_empresa,nombre,apellido,sexo,direccion,correo,telefono,latitud,longitud) "
                  . "VALUES ('$cedula','$rif','".utf8_decode($nombre)."','".utf8_decode($apellido)."','$sexo','$direccion','$correo','$telefono','$latitud','$longitud')";
-            pg_query($conexion_bd, $sql);
+            pg_fetch_all(pg_query($conexion_bd, $sql));
             foreach ($json as $j){
                 $tiempo = strtotime($j[2]);
                 $hora_nueva = date('H:i:s', $tiempo);

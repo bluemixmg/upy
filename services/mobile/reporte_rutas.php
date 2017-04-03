@@ -23,7 +23,7 @@ function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
         }elseif($estatus==1){
             $sql.= "AND ruta.estatus='1' AND chofer.id_usuario='$id' ORDER BY parada.hora ASC";
         }
-        $consulta = pg_query($conexion_bd, $sql);
+        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         if(pg_num_rows($consulta)>0){
             $respuestaJson['success'] = 1;
             foreach ($consulta as $c){

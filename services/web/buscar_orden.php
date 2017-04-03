@@ -9,7 +9,7 @@ if($_POST['fecha']!=''){
          . "INNER JOIN parada ON parada.id = parada_ruta.id_parada "
          . "INNER JOIN cliente ON parada.id_cliente = cliente.cedula "
          . "WHERE cliente.rif_empresa = '$rif' AND ruta.fecha='$fecha' AND ruta.estatus=0 ORDER BY ruta.id";
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
     pg_close($conexion_bd);
     if(pg_num_rows($consulta)>0){
         echo '<p>Leyenda</p>

@@ -21,7 +21,7 @@ function mostrar($conexion_bd,$id_u,$id_bloque,$fecha,$respuestaJson){
     if($id_u!="" && $fecha!=""){
         foreach ($id_bloque['id_bloq'] as $i){
             $sql = "INSERT INTO disponibilidad (id_usuario,id_bloque,fecha) VALUES ('$id_u','".$i['id_b']."','$fecha')";
-            pg_query($conexion_bd, $sql);
+            pg_fetch_all(pg_query($conexion_bd, $sql));
             $respuestaJson['success'] = 1;
         }
     }else{

@@ -5,7 +5,7 @@ $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
 require_once './conexion.php';
 
 $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=$id";
-$consulta = pg_query($conexion_bd, $sql);
+$consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
 
 if(pg_num_rows($consulta)>0){
     foreach ($consulta as $c){
@@ -16,7 +16,7 @@ if(pg_num_rows($consulta)>0){
 }
 
 $sql = "SELECT * FROM permiso";
-$consulta = pg_query($conexion_bd, $sql);
+$consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
 foreach ($consulta as $c){
     if(in_array($c['id'], $permisos)){
         echo '<label><input type="checkbox" id="lista_de_permisos'.$c['id'].'" value="'.$c['id'].'" checked>'.utf8_encode($c['nombre']).'</label><br>';

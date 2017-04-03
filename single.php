@@ -25,7 +25,7 @@
     
     if(isset($_GET['id'])){
         $sql = "SELECT * FROM noticia WHERE id='".$_GET['id']."'";
-        $consulta = pg_query($conexion_bd, $sql);
+        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         if (pg_num_rows($consulta)>0){
             foreach ($consulta as $c){
                 echo '<!--blog-->

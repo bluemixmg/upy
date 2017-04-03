@@ -5,7 +5,7 @@ $correo = filter_var($_POST['correo'], FILTER_VALIDATE_EMAIL);
 if($correo!=''){
     include './conexion.php';
     $sql = "SELECT rif,nombre FROM empresa WHERE correo='$correo'";
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
     pg_close($conexion_bd);
 
     $para = $correo;

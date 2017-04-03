@@ -30,7 +30,7 @@ if(isset($_FILES['file-0'])){
                     }else{
                         //comprobamos que no exista la misma cedula
                         $sql = "SELECT cedula FROM cliente WHERE cedula='$c[0]'";
-                        $consulta = pg_query($conexion_bd, $sql);
+                        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                         if(pg_num_rows($consulta)==0){
                             //Insertamos los datos con sus valores
                             $cedula = filter_var($c[0], FILTER_SANITIZE_NUMBER_INT);

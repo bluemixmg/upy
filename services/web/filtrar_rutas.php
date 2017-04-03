@@ -68,7 +68,7 @@ if(isset($_POST['fecha'])){
             $p = '';
             $f = 'L2';
         }
-        $consultar = pg_query($conexion_bd, $sql);
+        $consultar = pg_fetch_all(pg_query($conexion_bd, $sql));
         
         if(pg_num_rows($consultar) == 0){
             echo "No se han encontrado resultados para '<b>".$id."</b>'.";
@@ -146,10 +146,10 @@ if(isset($_POST['fecha'])){
                 . "INNER JOIN parada ON parada_ruta.id_parada = parada.id "
                 . "INNER JOIN cliente ON parada.id_cliente = cliente.cedula "
                 . "INNER JOIN empresa ON cliente.rif_empresa = empresa.rif WHERE ruta.id = $id";
-        $consultar_r = pg_query($conexion_bd, $sql);
+        $consultar_r = pg_fetch_all(pg_query($conexion_bd, $sql));
         
         $sql2 = "SELECT DISTINCT parada.id as parada, CONCAT (cliente.cedula, ' - ', cliente.nombre, ' ', cliente.apellido, ' - ', cliente.direccion) as cliente FROM ruta INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta INNER JOIN parada ON parada_ruta.id_parada = parada.id INNER JOIN cliente ON parada.id_cliente = cliente.cedula WHERE ruta.id = $id";
-        $consultar_cli = pg_query($conexion_bd, $sql2);
+        $consultar_cli = pg_fetch_all(pg_query($conexion_bd, $sql2));
         
         if(pg_num_rows($consultar_r) == 0){
             echo "No se han encontrado resultados para la RUTA '<b>".$id."</b>'.";
@@ -192,7 +192,7 @@ if(isset($_POST['fecha'])){
                       . "INNER JOIN vehiculo ON ruta.id_vehiculo = vehiculo.placa "
                       . "INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula "
                       . "WHERE ruta.id=$id";
-                $consultar_chofer = pg_query($conexion_bd, $sql3);
+                $consultar_chofer = pg_fetch_all(pg_query($conexion_bd, $sql3));
                 if(pg_num_rows($consultar_chofer)>0){
                     foreach($consultar_chofer as $chofer){
                         $id_chofer = $chofer['id_cedula'];
@@ -202,7 +202,7 @@ if(isset($_POST['fecha'])){
                 }
                 
                 $sql4 = "SELECT id_cedula, CONCAT (nombre, ' ',  apellido) as chofer FROM chofer WHERE estatus = 1";
-                $consultar_ch = pg_query($conexion_bd, $sql4);
+                $consultar_ch = pg_fetch_all(pg_query($conexion_bd, $sql4));
                 echo '<h4><strong>Conductor: </strong></h4>';
                 echo '<select style="width: 350px; float: none; margin: 10px auto;" id="chofer" class="form-control">';
                 if($id_chofer == ''){
@@ -273,7 +273,7 @@ if(isset($_POST['fecha'])){
             }
             
             $sql_empleados = "SELECT cliente.cedula,cliente.nombre,cliente.apellido,parada.id FROM cliente INNER JOIN parada ON cliente.cedula = parada.id_cliente WHERE cliente.rif_empresa =  '$rif' AND parada.hora =  '$hora' ORDER BY cliente.cedula ASC";
-            $select_empleados = pg_query($conexion_bd, $sql_empleados);
+            $select_empleados = pg_fetch_all(pg_query($conexion_bd, $sql_empleados));
             echo '<form class="contact-bottom text-center">';
             echo '<select id="empleados_nuevos" style="width: 350px; margin: 10px auto;" class="form-control">';
             foreach ($select_empleados as $s){

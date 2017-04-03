@@ -18,7 +18,7 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
     if($id!="" && $pass!=""){
     $sql = "SELECT * FROM usuario INNER JOIN chofer ON usuario.usuario = chofer.id_usuario WHERE usuario.usuario='$id' AND usuario.contrasena='$pass' AND usuario.id_rol=3 AND chofer.estatus != '0' AND chofer.estatus != '3'";
     //echo $sql;
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         if(pg_num_rows($consulta)>0){
             while($fila = pg_fetch_array($consulta)){
                 if($fila['estatus'] != 0){

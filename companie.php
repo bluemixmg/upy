@@ -265,7 +265,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     echo '<h4 class="text-center"><strong>Empresas en lista de espera</strong></h4><br>';
                     require_once './conexion.php';
                     $sql = "SELECT * FROM empresa WHERE estatus=0";
-                    $consulta = pg_query($conexion_bd, $sql);
+                    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                     if(pg_num_rows($consulta)!=0){
                         echo '<table class="table" border="1">';
                         echo '<tr bgcolor="#00bce4">'
@@ -346,7 +346,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 }
                 if(in_array(2, $_SESSION['permisos'])){
                     $sql1 = "SELECT * FROM chofer WHERE estatus=0";
-                    $consulta1 = pg_query($conexion_bd, $sql1);
+                    $consulta1 = pg_fetch_all(pg_query($conexion_bd, $sql1));
                     echo '<br><h4 class="text-center"><strong>Choferes en lista de espera</strong></h4><br>';
                     if(pg_num_rows($consulta1)!=0){
                         echo '<table class="table" border="1" id="choferes_espera">';
@@ -1119,7 +1119,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         <i>Tipo: </i>
                                         <?php
                                         $sql = "SELECT * FROM tipo_vehiculo ORDER BY nro_puestos ASC";
-                                        $consulta = pg_query($conexion_bd, $sql);
+                                        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                                         if (pg_num_rows($consulta)>0){
                                             echo '<select id="tipo_ve" style="height: 32px;">';
                                             foreach ($consulta as $c){
@@ -1130,7 +1130,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                             echo 'No hay tipos registrados';
                                         }
                                         $sql1 = 'SELECT * FROM condicion';
-                                        $consulta1 = pg_query($conexion_bd, $sql1);
+                                        $consulta1 = pg_fetch_all(pg_query($conexion_bd, $sql1));
                                         if (pg_num_rows($consulta1)>0){
                                             echo '<br><i>Condiciones del Vehiculo: </i>';
                                             echo '<select id="cond_ve">';
@@ -1362,7 +1362,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             <?php
             include './conexion.php';
             $sql = "SELECT chofer.*,vehiculo.modelo FROM chofer INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula WHERE estatus=1 AND latitud IS NOT NULL";
-            $con = pg_query($conexion_bd, $sql);
+            $con = pg_fetch_all(pg_query($conexion_bd, $sql));
             if(pg_num_rows($con)>0){
                 $i = 1;
                 foreach ($con as $c){
@@ -1682,10 +1682,10 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                             <?php
                                                 require_once 'conexion.php';
                                                 $sql = 'SELECT * FROM tipo_vehiculo';
-                                                $consulta_nro_puestos = pg_query($conexion_bd, $sql);
+                                                $consulta_nro_puestos = pg_fetch_all(pg_query($conexion_bd, $sql));
                                                 foreach($consulta_nro_puestos as $c){
                                                     $sql_n = "SELECT id_tipo_vehiculo FROM vehiculo WHERE id_tipo_vehiculo='".$c['id']."'";
-                                                    $consulta_existe = pg_query($conexion_bd, $sql_n);
+                                                    $consulta_existe = pg_fetch_all(pg_query($conexion_bd, $sql_n));
                                                     if(pg_num_rows($consulta_existe)>0){
                                                         echo '<option id="'.$c['id'].'" value="'.$c['nro_puestos'].'">'.$c['nombre'].'</option>';
                                                     }
@@ -1698,7 +1698,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         <br>
                                         <?php
                                         $sql = "SELECT * FROM cliente WHERE rif_empresa='".$_SESSION['rif']."' AND estatus=1 ORDER BY nombre";
-                                        $consulta = pg_query($conexion_bd, $sql);
+                                        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                                         if(pg_num_rows($consulta)>0){
                                             echo '<table class="table" border="1">';
                                                 echo '<tr>';
@@ -1708,7 +1708,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                 echo '</tr>';
                                             foreach ($consulta as $c){
                                                 $sql = "SELECT id,lat_o,hora FROM parada WHERE id_cliente='".$c['cedula']."' ORDER BY hora ASC";
-                                                $consulta1 = pg_query($conexion_bd, $sql);
+                                                $consulta1 = pg_fetch_all(pg_query($conexion_bd, $sql));
                                                 echo '<tr>'
                                                 . '<td>'.$c['cedula'].'</td>'
                                                 . '<td>'.utf8_encode($c['nombre']).' '.utf8_encode($c['apellido']).'</td>';
@@ -1902,7 +1902,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                     . 'INNER JOIN chofer ON chofer.id_usuario = incidencia.id_usuario '
                                                     . 'INNER JOIN vehiculo ON chofer.id_cedula = vehiculo.id_chofer '
                                                     . 'WHERE revisado=0';
-                                            $consulta_incidencia = pg_query($conexion_bd, $sql_incidencia);
+                                            $consulta_incidencia = pg_fetch_all(pg_query($conexion_bd, $sql_incidencia));
                                             if(pg_num_rows($consulta_incidencia)>0){
                                                 foreach ($consulta_incidencia as $ci){
                                                     echo '<tr id="'.$ci['id'].'">';
@@ -1921,7 +1921,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                         $sql = "SELECT cliente.nombre,cliente.apellido,empresa.nombre as empresa FROM cliente "
                                                              . "INNER JOIN empresa ON empresa.rif = cliente.rif_empresa "
                                                              . "WHERE cliente.cedula='".$ci['id_cliente']."'";
-                                                        $consulta_cliente = pg_query($conexion_bd, $sql);
+                                                        $consulta_cliente = pg_fetch_all(pg_query($conexion_bd, $sql));
                                                         foreach ($consulta_cliente as $cc){
                                                             echo '<td>PASAJERO AUSENTE<br>'.$cc['nombre'].' '.$cc['apellido'].'<br>'.$cc['empresa'].'</td>';
                                                         }
@@ -1929,7 +1929,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                         $sql = "SELECT cliente.nombre,cliente.apellido,empresa.nombre as empresa FROM cliente "
                                                              . "INNER JOIN empresa ON empresa.rif = cliente.rif_empresa "
                                                              . "WHERE cliente.cedula='".$ci['id_cliente']."'";
-                                                        $consulta_cliente = pg_query($conexion_bd, $sql);
+                                                        $consulta_cliente = pg_fetch_all(pg_query($conexion_bd, $sql));
                                                         foreach ($consulta_cliente as $cc){
                                                             echo '<td>RETRASO DEL PASAJERO<br>'.$cc['nombre'].' '.$cc['apellido'].'<br>'.$cc['empresa'].'</td>';
                                                         }
@@ -2097,7 +2097,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                 include './conexion.php';
                                 
                                 $sql_tipo = "SELECT * FROM tipo_ruta WHERE estatus=1";
-                                $consulta_rutas = pg_query($conexion_bd, $sql_tipo);
+                                $consulta_rutas = pg_fetch_all(pg_query($conexion_bd, $sql_tipo));
                                 
                                 if(pg_num_rows($consulta_rutas)==0){
                                     echo '<tr colspan="3"><i>No existen costos por ruta</i></tr>';
@@ -2239,7 +2239,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                 include './conexion.php';
                                 
                                 $sql_vehiculo = "SELECT * FROM tipo_vehiculo WHERE estatus=1";
-                                $consulta_vehiculo = pg_query($conexion_bd, $sql_vehiculo);
+                                $consulta_vehiculo = pg_fetch_all(pg_query($conexion_bd, $sql_vehiculo));
                                 
                                 if(pg_num_rows($consulta_vehiculo)==0){
                                     echo '<tr colspan="4"><i>No existen costos por vehículo</i></tr>';
@@ -2397,7 +2397,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                         <?php
                         include './conexion.php';
                         $sql_roles = "SELECT * FROM rol";
-                        $consulta = pg_query($conexion_bd, $sql_roles);
+                        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql_roles));
                         foreach ($consulta as $c){
                             if($c['id']!=1 && $c['id']!=3){
                                 echo '<li onclick="buscar_rol(this.id)" id="'.$c['id'].'"><a data-toggle="pill">'.$c['nombre'].'</a></li>';
@@ -2471,7 +2471,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             <?php
                             include './conexion.php';
                             $sql = "SELECT rif,nombre FROM empresa";
-                            $consulta = pg_query($conexion_bd, $sql);
+                            $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                             echo '<select class="form-control" id="select_crear_usuario">';
                             foreach ($consulta as $c){
                                 if ($c['rif']!='V-19850475-'){
@@ -2480,7 +2480,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             }
                             echo '</select>';
                             $sql = "SELECT * FROM rol";
-                            $consulta = pg_query($conexion_bd, $sql);
+                            $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                             echo '<p class="text-left">Rol:</p>';
                             echo '<select class="form-control" id="select_crear_usuario_rol">';
                             foreach ($consulta as $c){
@@ -2607,7 +2607,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 include './conexion.php';
                 if(in_array(26, $_SESSION['permisos']) || in_array(27, $_SESSION['permisos'])){
                     $sql = "SELECT rif,nombre FROM empresa";
-                    $consulta = pg_query($conexion_bd, $sql);
+                    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                     echo '<select id="select_reporte_empresa">';
                     foreach ($consulta as $c){
                         if ($c['rif']!=$_SESSION['rif'] && $c['rif']!='V-19850475-7'){
@@ -2618,7 +2618,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 }
                 if(in_array(28, $_SESSION['permisos'])){
                     $sql = "SELECT * FROM chofer";
-                    $consulta = pg_query($conexion_bd, $sql);
+                    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                     echo '<select id="select_reporte_chofer">';
                     foreach ($consulta as $c){
                         echo '<option value="'.$c['id_cedula'].'">'.$c['id_cedula'].' - '.$c['nombre'].' '.$c['apellido'].'</option>';

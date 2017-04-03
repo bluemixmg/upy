@@ -9,7 +9,7 @@ if($chofer!='' && $tipo!=''){
          . "INNER JOIN vehiculo ON chofer.id_cedula=vehiculo.id_chofer "
          . "INNER JOIN tipo_vehiculo ON tipo_vehiculo.id=vehiculo.id_tipo_vehiculo "
          . "WHERE chofer.id_cedula='$chofer'";
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
     foreach ($consulta as $c1){
         $costo_tipo_vehiculo = $c1['costo'];
         $precio_tipo_vehiculo = $c1['precio'];
@@ -23,7 +23,7 @@ if($chofer!='' && $tipo!=''){
             echo '<label id="label_precio">0</label>';
         }else{
             $sql = "SELECT costo,precio FROM tipo_ruta WHERE id='$tipo'";
-            $consulta = pg_query($conexion_bd, $sql);
+            $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
             foreach ($consulta as $c){
                 $costo_tipo_ruta = $c['costo'];
                 $precio_tipo_ruta = $c['precio'];
@@ -41,7 +41,7 @@ if($chofer!='' && $tipo!=''){
             echo '<label id="label_precio" hidden>0</label>';
         }else{
             $sql = "SELECT costo,precio FROM tipo_ruta WHERE id='$tipo'";
-            $consulta = pg_query($conexion_bd, $sql);
+            $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
             foreach ($consulta as $c){
                 $costo_tipo_ruta = $c['costo'];
                 $precio_tipo_ruta = $c['precio'];

@@ -11,7 +11,7 @@ function buscar_chofer($cedula){
     $sql = "SELECT chofer.*,vehiculo.* FROM chofer "
          . "INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula "
          . "WHERE chofer.id_cedula='$cedula'";
-    $consultar = pg_query($conexion_bd, $sql);
+    $consultar = pg_fetch_all(pg_query($conexion_bd, $sql));
 
     if(pg_num_rows($consultar) == 0){
         echo "No se han encontrado resultados para '<b>".$nombre."</b>'.";
@@ -72,7 +72,7 @@ function buscar_chofer($cedula){
                 <i>Tipo:</i>
                 <?php
                 $sql = "SELECT * FROM tipo_vehiculo ORDER BY nro_puestos ASC";
-                $consulta = pg_query($conexion_bd, $sql);
+                $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
                 if (pg_num_rows($consulta)>0){
                     echo '<select id="tipo_ve_editar" style="height: 32px;">';
                     foreach ($consulta as $c){
@@ -87,7 +87,7 @@ function buscar_chofer($cedula){
                     echo 'No hay tipos registrados';
                 }
                 $sql1 = 'SELECT * FROM condicion';
-                $consulta1 = pg_query($conexion_bd, $sql1);
+                $consulta1 = pg_fetch_all(pg_query($conexion_bd, $sql1));
                 if (pg_num_rows($consulta1)>0){
                     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Condiciones del Vehiculo: </i>';
                     echo '<select id="cond_ve_editar">';

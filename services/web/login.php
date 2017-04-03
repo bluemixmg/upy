@@ -19,7 +19,7 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
     $sql = "SELECT usuario.usuario AS usu, empresa.estatus AS es_em, usuario.estatus AS es_us FROM usuario INNER JOIN empresa ON usuario.usuario=empresa.id_usuario"
             . " WHERE usuario.usuario='$id' AND usuario.contrasena='$pass' AND usuario.id_rol=3";
     
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         if(pg_num_rows($consulta)>0){
             while($fila = pg_fetch_array($consulta)){
                 if($fila['es_em'] == 1){

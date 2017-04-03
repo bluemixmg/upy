@@ -10,11 +10,11 @@ if(isset($_POST['permisos'])){
 require_once './conexion.php';
 
 $sql = "DELETE FROM permiso_rol WHERE id_rol=$id";
-//pg_query($conexion_bd, $sql);
+//pg_fetch_all(pg_query($conexion_bd, $sql));
 
 foreach ($permisos as $p){
     $sql = "INSERT INTO permiso_rol (id_rol,id_permiso) VALUES ($id,$p)";
-//    pg_query($conexion_bd, $sql);
+//    pg_fetch_all(pg_query($conexion_bd, $sql));
 }
 
 pg_close($conexion_bd);

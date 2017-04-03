@@ -9,7 +9,7 @@ if(!empty($n)){
 function buscar_empleado($nombre){
     require ('conexion.php');
     $sql = "SELECT * FROM cliente WHERE cedula='$nombre' OR nombre='$nombre' OR apellido='$nombre'";
-    $consultar = pg_query($conexion_bd, $sql);
+    $consultar = pg_fetch_all(pg_query($conexion_bd, $sql));
 
     if(pg_num_rows($consultar) == 0){
         echo "No se han encontrado resultados para '<b>".$nombre."</b>'.";
@@ -71,10 +71,10 @@ function buscar_empleado($nombre){
                     </tr>
                     <?php
                         $sql = "SELECT id,lat_o,hora FROM parada WHERE id_cliente='$cedula'";
-                        $consulta_paradas = pg_query($conexion_bd, $sql);
+                        $consulta_paradas = pg_fetch_all(pg_query($conexion_bd, $sql));
                         if(pg_num_rows($consulta_paradas)>0){
                             $sql_empresa = "SELECT latitud FROM empresa WHERE rif='$empresa'";
-                            $consulta_empresa = pg_query($conexion_bd, $sql_empresa);
+                            $consulta_empresa = pg_fetch_all(pg_query($conexion_bd, $sql_empresa));
                             foreach ($consulta_empresa as $ce){
                                 $lat_empresa = $ce['latitud'];
                             }

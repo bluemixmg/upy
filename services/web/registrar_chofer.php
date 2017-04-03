@@ -20,13 +20,13 @@ if($cedula!='Cédula' && $nombre!='Nombre' && $apellido!='Apellido' && $correo!=
     require_once './conexion.php';
     
     $sql = "SELECT id_cedula FROM chofer WHERE id_cedula='$cedula'";
-    $consulta_chofer = pg_query($conexion_bd, $sql);
+    $consulta_chofer = pg_fetch_all(pg_query($conexion_bd, $sql));
     if(pg_num_rows($consulta_chofer)==0){
         $sql = "SELECT placa FROM vehiculo WHERE placa='$placa'";
-        $consulta_placa = pg_query($conexion_bd, $sql);
+        $consulta_placa = pg_fetch_all(pg_query($conexion_bd, $sql));
         if(pg_num_rows($consulta_placa)==0){
             $sql = "INSERT INTO chofer (id_cedula,nombre,apellido,sexo,correo,direccion,telefono,id_usuario,estatus) VALUES ('$cedula','$nombre','$apellido','$sexo','$correo','$direccion','$tlf','$usuario','1')";
-            pg_query($conexion_bd, $sql);
+            pg_fetch_all(pg_query($conexion_bd, $sql));
             
             $sql1 = "INSERT INTO vehiculo (placa,marca,modelo,id_tipo_vehiculo,id_condicion,id_chofer) VALUES ('$placa','$marca','$modelo','$tipo','$cond','$cedula')";
             pg_query($conexion_bd, $sql1);

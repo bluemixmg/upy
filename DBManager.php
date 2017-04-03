@@ -51,11 +51,17 @@ class DBManager {
     //Formato URI en credenciales: "postgres://user:password@host:port/dbname"
     $pg_credenciales = multiexplode(array(":","@","/"), substr($pgsql_config["uri"], 11));
     
-    $user = $pg_credenciales[0];
+    /*$user = $pg_credenciales[0];
     $password = $pg_credenciales[1];
     $host = $pg_credenciales[2];
     $port = $pg_credenciales[3];
     $dbname = $pg_credenciales[4];
+    */
+    $user = "ejutiocz";
+    $password = "3FADnobDtSWCVNdAuSCaJcNN6zWKGcUk";
+    $host = "echo-01.db.elephantsql.com";
+    $port = "5432";
+    $dbname = "ejutiocz";
     
     $dbConnectionString = "host=" . $host . " port=" . $port . " dbname=" . $dbname . " user=" . $user . " password=" . $password;
     

@@ -18,7 +18,7 @@ function actualizar($conexion_bd,$id,$latitud,$longitud){
 
     if($id!="" && $latitud!="" && $longitud!=""){
         $sql = "UPDATE chofer SET latitud='$latitud', longitud='$longitud' WHERE id_usuario='$id'";
-        pg_query($conexion_bd, $sql);
+        pg_fetch_all(pg_query($conexion_bd, $sql));
         $respuestaJson['success'] = 1;
     }
     return $respuestaJson;

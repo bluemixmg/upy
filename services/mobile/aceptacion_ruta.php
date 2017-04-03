@@ -22,7 +22,7 @@ function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
         $fecha = date("Y-m-d");
         $hora = date("H:i:s");
 //        $sql = "INSERT INTO incidencia (id_tipo_incidencia,id_usuario,fecha,hora,id_cliente) VALUES ('$id_inc','$id','$fecha','$hora','$id_cliente')";
-//        if(pg_query($conexion_bd, $sql)){
+//        if(pg_fetch_all(pg_query($conexion_bd, $sql))){
 //        $respuestaJson['success'] = 1;
 //        $respuestaJson['message'] = "Incidencia Notificada";
 //        
@@ -37,7 +37,7 @@ function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
             // buscar placa del vehiculo del chofer que rechazo
             $placa = "";
             $sql_p = "SELECT vehiculo.placa FROM chofer INNER JOIN vehiculo ON chofer.id_cedula = vehiculo.id_chofer WHERE chofer.id_usuario='$usuario'";
-            $consulta_p = pg_query($conexion_bd, $sql_p);
+            $consulta_p = pg_fetch_all(pg_query($conexion_bd, $sql_p));
             if(pg_num_rows($consulta_p)>0){
                 foreach ($consulta_p as $cp){
                     $placa = $cp['placa'];
@@ -47,7 +47,7 @@ function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
                 pg_query($conexion_bd, $sql_rr);
                 
                 $sql_crr = "SELECT id_placa FROM ruta_rechazada WHERE id_ruta='$ruta'";
-                $consulta_r = pg_query($conexion_bd, $sql_crr);
+                $consulta_r = pg_fetch_all(pg_query($conexion_bd, $sql_crr));
                 if(pg_num_rows($consulta_r)>0){
                     foreach ($consulta_r as $cr){
                         $choferes[] = $cr['id_placa'];
@@ -56,7 +56,7 @@ function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
                 
                 //contar paradas originales menos la de la empresa
                 $sql_p_r_total = "SELECT COUNT(parada_ruta.id) as n, parada.hora, ruta.fecha, empresa.id_estado FROM ruta INNER JOIN parada_ruta ON parada_ruta.id_ruta = ruta.id INNER JOIN parada ON parada.id = parada_ruta.id_parada INNER JOIN cliente ON cliente.cedula = parada.id_cliente INNER JOIN empresa ON empresa.rif = cliente.rif_empresa WHERE ruta.id = '$ruta' ";
-                $consulta_p_r_total = pg_query($conexion_bd, $sql_p_r_total);
+                $consulta_p_r_total = pg_fetch_all(pg_query($conexion_bd, $sql_p_r_total));
                 foreach ($consulta_p_r_total as $cprt){
                     $nro = $cprt['n'];
                     $hora_ruta = $cprt['hora'];
@@ -88,7 +88,7 @@ function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
 function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
         include './conexion.php';
         $sql_c = "SELECT vehiculo.placa FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN tipo_vehiculo ON vehiculo.id_tipo_vehiculo = tipo_vehiculo.id INNER JOIN disponibilidad ON chofer.id_usuario = disponibilidad.id_usuario INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id WHERE tipo_vehiculo.nro_puestos >= '$n' AND disponibilidad.fecha = '$f' AND ('$hora' BETWEEN bloque.hora_inicio AND bloque.hora_fin) AND chofer.estatus != '0' AND chofer.estatus != '3' AND chofer.id_estado ='$estado' ";
-        $consulta_c = pg_query($conexion_bd, $sql_c);
+        $consulta_c = pg_fetch_all(pg_query($conexion_bd, $sql_c));
         
         $r = 100000;
         $placa = "";
@@ -98,7 +98,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
             $ini_Time = date("H:i:s", strtotime('-30 minutes', $time));
             
             $sql_co = "SELECT DISTINCT vehiculo.placa, vehiculo.id_chofer FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN ruta ON ruta.id_vehiculo = vehiculo.placa INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta INNER JOIN parada ON parada.id = parada_ruta.id_parada WHERE ruta.fecha = '$f' AND (parada.hora BETWEEN '$ini_Time' AND '$hora') AND ruta.id_vehiculo = '".$c['placa']."'";
-            $consulta_co = pg_query($conexion_bd, $sql_co);
+            $consulta_co = pg_fetch_all(pg_query($conexion_bd, $sql_co));
             
             if(pg_num_rows($consulta_co) == 0){
                 $placa_f = $c['placa'];
@@ -108,7 +108,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
             if (!empty($placa_f)){
             
                 $sql_cr = "SELECT COUNT(ruta.id_vehiculo) as nro_r, vehiculo.placa FROM ruta INNER JOIN vehiculo ON ruta.id_vehiculo = vehiculo.placa WHERE ruta.fecha = '$f' AND vehiculo.placa = '$placa_f' ";
-                $consulta_cr = pg_query($conexion_bd, $sql_cr);
+                $consulta_cr = pg_fetch_all(pg_query($conexion_bd, $sql_cr));
                 foreach ($consulta_cr as $cr){
                     if($cr['nro_r'] < $r){
                         $ex = 0;
@@ -137,7 +137,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
 function Mensaje($placa){
     include './conexion.php';
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
-    $consulta_cho = pg_query($conexion_bd, $sql_cho);
+    $consulta_cho = pg_fetch_all(pg_query($conexion_bd, $sql_cho));
     foreach ($consulta_cho as $cho){
         $id_usuario = $cho['id_usuario'];
     }

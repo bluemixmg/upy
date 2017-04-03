@@ -12,7 +12,7 @@ function mostrar($conexion_bd,$id,$respuestaJson){
              . "FROM parada_ruta INNER JOIN parada ON parada_ruta.id_parada=parada.id "
              . "INNER JOIN cliente ON parada.id_cliente=cliente.cedula "
              . "WHERE parada_ruta.id_ruta='$id'";
-        $consulta = pg_query($conexion_bd, $sql);
+        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         if(pg_num_rows($consulta)>0){
             $respuestaJson['success'] = 1;
             foreach ($consulta as $c){

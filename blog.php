@@ -39,8 +39,9 @@
                 <?php
                 require_once './conexion.php';
                 $sql = 'SELECT * FROM noticia ORDER BY fecha DESC';
-                $consulta = pg_query($conexion_bd, $sql);
-                if(@pg_num_rows($consulta)>0){
+                
+                $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
+                if(pg_num_rows($consulta)>0){
                     $i = 0;
                     foreach ($consulta as $c){
                         if($i == 0 || $i == 2 || $i == 4){

@@ -21,7 +21,7 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
         $sql = "SELECT cliente.nombre,empresa.nombre "
              . "FROM cliente INNER JOIN empresa ON cliente.rif_empresa=empresa.rif "
              . "WHERE cliente.cedula='$cedula_usuario' AND empresa.rif='$rif_empresa'";
-        $consulta = pg_query($conexion_bd, $sql);
+        $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         
         if(pg_num_rows($consulta)>0){
             $respuestaJson['success'] = 1;
@@ -36,7 +36,7 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
         $fecha = date("Y-m-d");
         $hora = date("H:i:s");
         $sql = "INSERT INTO incidencia (id_tipo_incidencia,id_usuario,fecha,hora,id_cliente) VALUES ('3','$id_chofer','$fecha','$hora','$cedula_usuario')";
-        pg_query($conexion_bd, $sql);
+        pg_fetch_all(pg_query($conexion_bd, $sql));
         
     }else{
         $respuestaJson["success"] = 0;

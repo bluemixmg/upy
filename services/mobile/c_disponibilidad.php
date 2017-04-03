@@ -17,7 +17,7 @@ function mostrar($conexion_bd,$id_u,$fecha,$respuestaJson){
 
     if($id_u!="" && $fecha!=""){
     $sql = "SELECT * FROM disponibilidad WHERE id_usuario='$id_u' AND fecha='$fecha'";
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = pg_fetch_all(pg_query($conexion_bd, $sql));
         if(pg_num_rows($consulta)>0){
             $respuestaJson['success'] = 1;
             $respuestaJson['message'] = "EXITO";
