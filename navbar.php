@@ -66,7 +66,7 @@ a, a:hover, a:focus, a:active {
         </div>
     </div>
 
- <div>
+<!-- <div>
     <div class="container">
 	<div class="top-nav">
             <span class="menu"><img src="images/menu.png" alt=""> </span>

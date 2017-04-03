@@ -102,6 +102,9 @@
                 <?php
                 $sql = 'SELECT id,titulo FROM noticia ORDER BY fecha DESC LIMIT 8';
                 $consulta = pg_query($conexion_bd, $sql);
+                if(!$consulta) {
+                    die("Hubo error en la consulta");
+                }
                 if(pg_num_rows($consulta)>0){
                     foreach ($consulta as $c){
                     echo '<li><a href="single.php?id='.$c['id'].'"><i class="glyphicon glyphicon-info-sign"></i>  '.$c['titulo'].'</a></li>';
