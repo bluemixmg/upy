@@ -74,7 +74,7 @@
 	<!--//content-mid-->
 	<!--content-left-->
         <?php
-        require_once './conexion.php';
+        require_once 'conexion.php';
         $sql = 'SELECT * FROM noticia ORDER BY fecha DESC LIMIT 3';
                 $consulta = pg_query($conexion_bd, $sql);
                 if(pg_num_rows($consulta) > 0){
@@ -102,7 +102,7 @@
                 <?php
                 $sql = 'SELECT id,titulo FROM noticia ORDER BY fecha DESC LIMIT 8';
                 $consulta = pg_query($conexion_bd, $sql);
-                if(@pg_num_rows($consulta)>0){
+                if(pg_num_rows($consulta)>0){
                     foreach ($consulta as $c){
                     echo '<li><a href="single.php?id='.$c['id'].'"><i class="glyphicon glyphicon-info-sign"></i>  '.$c['titulo'].'</a></li>';
                     }

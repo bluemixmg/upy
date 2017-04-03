@@ -6,8 +6,8 @@
 ?>
 <header class="Header">
     <div class="container">
-        <dir class="row">
-            <div class="col-sm-24">
+        <div class="row">
+            <dir class="col-sm-24">
             <style type="text/css">
                 .menu a {
     border-radius: 10px;
@@ -62,11 +62,11 @@ a, a:hover, a:focus, a:active {
                 <figure class="logo">
                    <a href="index.php"><img src="http://upy3.com/wp-content/themes/upy3/img/logo-upy3.png" height="88" width="116"></a>
                 </figure>
-            </div>
-        </dir>
+            </dir>
+        </div>
     </div>
 
-<!-- <div>
+ <div>
     <div class="container">
 	<div class="top-nav">
             <span class="menu"><img src="images/menu.png" alt=""> </span>
