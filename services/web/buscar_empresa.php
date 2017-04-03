@@ -9,12 +9,12 @@ $buscar = filter_var($_POST['b'], FILTER_SANITIZE_MAGIC_QUOTES);
     function buscar($b) {
         require('conexion.php');
         $sql = "SELECT * FROM empresa WHERE rif='$b' OR nombre='$b' AND estatus=1";
-        $consultar = mysqli_query($conexion_bd, $sql);
+        $consultar = pg_query($conexion_bd, $sql);
         
-        if(mysqli_num_rows($consultar) == 0){
+        if(pg_num_rows($consultar) == 0){
             echo "No se han encontrado resultados para '<b>".$b."</b>'.";
         }else{
-            while($row=mysqli_fetch_array($consultar)){
+            while($row=pg_fetch_array($consultar)){
                 $rif = $row['rif'];
                 $nombre = $row['nombre'];
                 $telefono = $row['telefono'];

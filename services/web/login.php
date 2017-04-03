@@ -19,9 +19,9 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
     $sql = "SELECT usuario.usuario AS usu, empresa.estatus AS es_em, usuario.estatus AS es_us FROM usuario INNER JOIN empresa ON usuario.usuario=empresa.id_usuario"
             . " WHERE usuario.usuario='$id' AND usuario.contrasena='$pass' AND usuario.id_rol=3";
     
-    $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)>0){
-            while($fila = mysqli_fetch_array($consulta)){
+    $consulta = pg_query($conexion_bd, $sql);
+        if(pg_num_rows($consulta)>0){
+            while($fila = pg_fetch_array($consulta)){
                 if($fila['es_em'] == 1){
                     if($fila['es_us'] == 1){
                         $respuestaJson['success'] = 1;
@@ -53,4 +53,4 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id, $pass, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+pg_close($conexion_bd); //Cerramos la conexion a la base de datos

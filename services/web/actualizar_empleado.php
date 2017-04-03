@@ -25,9 +25,9 @@ if($cednueva!='Cédula' && $cednueva!='' && $nombre!='Nombre' && $apellido!='Ape
          . "SET cedula='".$cednueva."', nombre='".utf8_decode($nombre)."', apellido='".utf8_decode($apellido)."', telefono='".$telefono."', correo='".$correo."', "
          . "sexo='".$sexo."',direccion='".$direccion."', latitud='".$latitud."', longitud='".$longitud."', estatus='".$estatus[0]."'"
          . "WHERE cedula='".$cedula."'";
-        mysqli_query($conexion_bd, $sql);
+        pg_query($conexion_bd, $sql);
     $sql = "DELETE FROM parada WHERE id_cliente='$cedula'";
-    mysqli_query($conexion_bd, $sql);
+    pg_query($conexion_bd, $sql);
     foreach ($paradas as $p){
         $tiempo = strtotime($p[2]);
         $hora_nueva = date('H:i:s', $tiempo);
@@ -46,9 +46,9 @@ if($cednueva!='Cédula' && $cednueva!='' && $nombre!='Nombre' && $apellido!='Ape
                 }
             }
         }
-        mysqli_query($conexion_bd, $sql);
+        pg_query($conexion_bd, $sql);
     }
-    mysqli_close($conexion_bd);
+    pg_close($conexion_bd);
     echo '<p>Se actualizó el empleado de cédula '.$cednueva.'<p> y nombre '.$nombre.' '.$apellido;
 }else{
     echo '<p>Rellene los campos requeridos<p>';

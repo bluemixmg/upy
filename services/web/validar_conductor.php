@@ -9,14 +9,14 @@ $rif = $_POST['rif'];
 if($tipo==1){
     if($user!=''){
         $sql = "SELECT usuario FROM usuario WHERE usuario='$user'";
-        $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)==0){
+        $consulta = pg_query($conexion_bd, $sql);
+        if(pg_num_rows($consulta)==0){
             $pass = md5($id);
             $sql = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$user','$pass',3,'$rif')";
-            mysqli_query($conexion_bd, $sql);
+            pg_query($conexion_bd, $sql);
         
             $sql = "UPDATE chofer SET id_usuario='".$user."',estatus=1 WHERE id_cedula='$id'";
-            mysqli_query($conexion_bd, $sql);
+            pg_query($conexion_bd, $sql);
             echo '</p>Conductor admitido, usuario creado con éxito</p>';
         }else{
             echo '</p>El usuario <strong>'.$user.'</strong> ya existe, favor ingrese otro.</p>';
@@ -26,8 +26,8 @@ if($tipo==1){
     }
 }elseif($tipo==2){
     $sql = "UPDATE chofer SET estatus=3 WHERE id_cedula='$id'";
-    mysqli_query($conexion_bd, $sql);
+    pg_query($conexion_bd, $sql);
     echo 'Conductor Rechazado';
 }
 
-mysqli_close($conexion_bd);
+pg_close($conexion_bd);

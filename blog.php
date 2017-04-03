@@ -39,8 +39,8 @@
                 <?php
                 require_once './conexion.php';
                 $sql = 'SELECT * FROM noticia ORDER BY fecha DESC';
-                $consulta = mysqli_query($conexion_bd, $sql);
-                if(@mysqli_num_rows($consulta)>0){
+                $consulta = pg_query($conexion_bd, $sql);
+                if(@pg_num_rows($consulta)>0){
                     $i = 0;
                     foreach ($consulta as $c){
                         if($i == 0 || $i == 2 || $i == 4){
@@ -75,7 +75,7 @@
                         }
                         $i++;
                     }
-                    mysqli_close($conexion_bd);
+                    pg_close($conexion_bd);
                 }else{
                     echo "<p>Disculpe, no hay noticias en este momento<p>";
                 }

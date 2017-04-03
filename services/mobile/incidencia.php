@@ -25,7 +25,7 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
         $fecha = date("Y-m-d");
         $hora = date("H:i:s");
         $sql = "INSERT INTO incidencia (id_tipo_incidencia,id_usuario,fecha,hora,id_cliente) VALUES ('$id_inc','$id','$fecha','$hora','$id_cliente')";
-        if(mysqli_query($conexion_bd, $sql)){
+        if(pg_query($conexion_bd, $sql)){
         $respuestaJson['success'] = 1;
         $respuestaJson['message'] = "Incidencia Notificada";
         
@@ -34,37 +34,37 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
             
             /// Actualizar Chofer a Inactivo 
             $sql_ruta_nueva = "UPDATE chofer SET estatus = '2' WHERE id_usuario = '$id'";
-            mysqli_query($conexion_bd,$sql_ruta_nueva);
+            pg_query($conexion_bd,$sql_ruta_nueva);
             
             $sql_d = "DELETE FROM disponibilidad WHERE id_usuario = '$id' AND fecha = '$fecha'";
-            mysqli_query($conexion_bd, $sql_d);
+            pg_query($conexion_bd, $sql_d);
             
             ////// buscar las rutas en proceso = estatus 2
             // buscar placa del vehiculo del chofer
             $sql_p = "SELECT vehiculo.placa FROM chofer INNER JOIN vehiculo ON chofer.id_cedula = vehiculo.id_chofer WHERE chofer.id_usuario='$id'";
-            $consulta_p = mysqli_query($conexion_bd, $sql_p);
-            if(mysqli_num_rows($consulta_p)>0){
+            $consulta_p = pg_query($conexion_bd, $sql_p);
+            if(pg_num_rows($consulta_p)>0){
                 foreach ($consulta_p as $cp){
                     $placa = $cp['placa'];
                 }
                 // buscar las rutas en proceso que concuerden con la placa
                 $sql_r = "SELECT id FROM ruta WHERE id_vehiculo = '$placa' AND estatus = '2' "; 
-                $consulta_r = mysqli_query($conexion_bd, $sql_r);
-                if(mysqli_num_rows($consulta_r)>0){
+                $consulta_r = pg_query($conexion_bd, $sql_r);
+                if(pg_num_rows($consulta_r)>0){
                     foreach ($consulta_r as $cr){
                         $ruta = $cr['id'];
                         // finalizo la ruta
                         $sql_ruta = "UPDATE ruta SET estatus = '1' WHERE id = '$ruta'";
-                        mysqli_query($conexion_bd,$sql_ruta);
+                        pg_query($conexion_bd,$sql_ruta);
                         
                         ///revisar si la parada empresa esta pendiente
                         $parada_empresa_pendiente = 0;
                         $sql_empre = "SELECT parada.id FROM parada_ruta INNER JOIN parada ON parada_ruta.id_parada = parada.id INNER JOIN empresa ON parada.id_cliente = empresa.rif WHERE parada_ruta.id_ruta = '$ruta' AND parada_ruta.estatus = '1' "; 
-                        $consulta_empre = mysqli_query($conexion_bd, $sql_empre);
-                        if(mysqli_num_rows($consulta_empre)>0){
+                        $consulta_empre = pg_query($conexion_bd, $sql_empre);
+                        if(pg_num_rows($consulta_empre)>0){
                             //contar paradas originales
                             $sql_p_r_total = "SELECT COUNT(parada_ruta.id) as n FROM ruta INNER JOIN parada_ruta ON parada_ruta.id_ruta = ruta.id WHERE ruta.id = '$ruta' ";
-                            $consulta_p_r_total = mysqli_query($conexion_bd, $sql_p_r_total);
+                            $consulta_p_r_total = pg_query($conexion_bd, $sql_p_r_total);
                             foreach ($consulta_p_r_total as $cprt){
                                 $nro_total = $cprt['n'] - 1;
                                 $parada_empresa_pendiente = 1;
@@ -73,28 +73,28 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
                         
                         // reviso estado de la empresa
                         $sql_p_r_total = "SELECT DISTINCT empresa.id_estado FROM ruta INNER JOIN parada_ruta ON parada_ruta.id_ruta = ruta.id INNER JOIN parada ON parada.id = parada_ruta.id_parada INNER JOIN cliente ON cliente.cedula = parada.id_cliente INNER JOIN empresa ON empresa.rif = cliente.rif_empresa WHERE ruta.id = '$ruta' ";
-                        $consulta_p_r_total = mysqli_query($conexion_bd, $sql_p_r_total);
+                        $consulta_p_r_total = pg_query($conexion_bd, $sql_p_r_total);
                         foreach ($consulta_p_r_total as $cprt){
                             $edo_empre = $cprt['id_estado'];
                         }
                         
                         // creo nueva ruta
                         $sql_rn = "INSERT INTO ruta (fecha) VALUES ('$fecha')";
-                        mysqli_query($conexion_bd, $sql_rn);
-                        $ruta_nueva = mysqli_insert_id($conexion_bd);
+                        pg_query($conexion_bd, $sql_rn);
+                        $ruta_nueva = pg_insert_id($conexion_bd);
                         
                         // asigno a parada_ruta pendientes la nueva ruta
                         $sql_pr = "SELECT id FROM parada_ruta WHERE id_ruta = '$ruta' AND estatus = '1' "; 
-                        $consulta_pr = mysqli_query($conexion_bd, $sql_pr);
+                        $consulta_pr = pg_query($conexion_bd, $sql_pr);
                         
                         $nro = 0;
-                        if(mysqli_num_rows($consulta_pr)>0){
+                        if(pg_num_rows($consulta_pr)>0){
                             foreach ($consulta_pr as $pr){
                                 $p_r = $pr['id'];
                                 $nro++;
                                 // actualizar con la ruta nueva
                                 $sql_ruta_nueva = "UPDATE parada_ruta SET id_ruta = '$ruta_nueva' WHERE id = '$p_r'";
-                                mysqli_query($conexion_bd,$sql_ruta_nueva);
+                                pg_query($conexion_bd,$sql_ruta_nueva);
                             }
                         }
                         
@@ -102,13 +102,13 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
                         if ($parada_empresa_pendiente == '1'){
                             // duplico las parada_ruta en la ruta nueva con estatus 0 de realizadas
                             $sql_pr_r = "SELECT id_parada FROM parada_ruta WHERE id_ruta = '$ruta' AND estatus = '0' "; 
-                            $consulta_pr_r = mysqli_query($conexion_bd, $sql_pr_r);
+                            $consulta_pr_r = pg_query($conexion_bd, $sql_pr_r);
 
-                            if(mysqli_num_rows($consulta_pr_r)>0){
+                            if(pg_num_rows($consulta_pr_r)>0){
                                 foreach ($consulta_pr_r as $prr){
                                     $parada_r = $prr['id_parada'];
                                     $sql_prr = "INSERT INTO parada_ruta (id_ruta,id_parada,estatus) VALUES ('$ruta_nueva','$parada_r','0')";
-                                    mysqli_query($conexion_bd, $sql_prr);
+                                    pg_query($conexion_bd, $sql_prr);
                                 }
                             }
                             
@@ -123,13 +123,13 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
                 // buscar las rutas pendientes que concuerden con la placa
 
                 $sql_r2 = "SELECT DISTINCT ruta.id FROM ruta INNER JOIN parada_ruta ON parada_ruta.id_ruta = ruta.id INNER JOIN parada ON parada.id = parada_ruta.id_parada WHERE ruta.fecha = '$fecha' AND parada.hora >= '$hora' AND ruta.id_vehiculo = '$placa' AND ruta.estatus = '0' ORDER BY parada.hora ASC"; 
-                $consulta_r2 = mysqli_query($conexion_bd, $sql_r2);
-                if(mysqli_num_rows($consulta_r2)>0){
+                $consulta_r2 = pg_query($conexion_bd, $sql_r2);
+                if(pg_num_rows($consulta_r2)>0){
                     foreach ($consulta_r2 as $cr2){
                         $ruta = $cr2['id'];
                                   
                         $sql_p_r2 = "SELECT COUNT(parada_ruta.id) as n, parada.hora, empresa.id_estado FROM ruta INNER JOIN parada_ruta ON parada_ruta.id_ruta = ruta.id INNER JOIN parada ON parada.id = parada_ruta.id_parada INNER JOIN cliente ON cliente.cedula = parada.id_cliente INNER JOIN empresa ON empresa.rif = cliente.rif_empresa WHERE ruta.id = '$ruta' AND parada.hora IS NOT NULL";
-                        $consulta_p_r2 = mysqli_query($conexion_bd, $sql_p_r2);
+                        $consulta_p_r2 = pg_query($conexion_bd, $sql_p_r2);
                         foreach ($consulta_p_r2 as $cpr2){
                             
                             $nro_p = $cpr2['n'];
@@ -159,7 +159,7 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
 function AsignarChofer($n, $hora, $ruta, $f, $estado){
         include './conexion.php';
         $sql_c = "SELECT vehiculo.placa FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN tipo_vehiculo ON vehiculo.id_tipo_vehiculo = tipo_vehiculo.id INNER JOIN disponibilidad ON chofer.id_usuario = disponibilidad.id_usuario INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id WHERE tipo_vehiculo.nro_puestos >= '$n' AND disponibilidad.fecha = '$f' AND ('$hora' BETWEEN bloque.hora_inicio AND bloque.hora_fin) AND chofer.estatus != '0' AND chofer.estatus != '3' AND chofer.id_estado ='$estado' ";
-        $consulta_c = mysqli_query($conexion_bd, $sql_c);
+        $consulta_c = pg_query($conexion_bd, $sql_c);
         
         $r = 100000;
         $placa = "";
@@ -169,9 +169,9 @@ function AsignarChofer($n, $hora, $ruta, $f, $estado){
             $ini_Time = date("H:i:s", strtotime('-30 minutes', $time));
             
             $sql_co = "SELECT DISTINCT vehiculo.placa, vehiculo.id_chofer FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN ruta ON ruta.id_vehiculo = vehiculo.placa INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta INNER JOIN parada ON parada.id = parada_ruta.id_parada WHERE ruta.fecha = '$f' AND (parada.hora BETWEEN '$ini_Time' AND '$hora') AND ruta.id_vehiculo = '".$c['placa']."'";
-            $consulta_co = mysqli_query($conexion_bd, $sql_co);
+            $consulta_co = pg_query($conexion_bd, $sql_co);
             
-            if(mysqli_num_rows($consulta_co) == 0){
+            if(pg_num_rows($consulta_co) == 0){
                 $placa_f = $c['placa'];
             }else{
                 $placa_f = "";
@@ -179,7 +179,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $estado){
             if (!empty($placa_f)){
             
                 $sql_cr = "SELECT COUNT(ruta.id_vehiculo) as nro_r, vehiculo.placa FROM ruta INNER JOIN vehiculo ON ruta.id_vehiculo = vehiculo.placa WHERE ruta.fecha = '$f' AND vehiculo.placa = '$placa_f' ";
-                $consulta_cr = mysqli_query($conexion_bd, $sql_cr);
+                $consulta_cr = pg_query($conexion_bd, $sql_cr);
                 foreach ($consulta_cr as $cr){
                     if($cr['nro_r'] < $r){
                         $r = $cr['nro_r'];
@@ -189,7 +189,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $estado){
             }
         }
         $sql_rc = "UPDATE ruta SET id_vehiculo = '$placa' WHERE id = '$ruta' ";
-        mysqli_query($conexion_bd,$sql_rc);
+        pg_query($conexion_bd,$sql_rc);
         if($placa != ""){
             Mensaje($placa);
         }
@@ -200,7 +200,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $estado){
 function Mensaje($placa){
     include './conexion.php';
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
-    $consulta_cho = mysqli_query($conexion_bd, $sql_cho);
+    $consulta_cho = pg_query($conexion_bd, $sql_cho);
     foreach ($consulta_cho as $cho){
         $id_usuario = $cho['id_usuario'];
     }
@@ -238,7 +238,7 @@ function Mensaje($placa){
 function Mensaje2($placa, $texto){
     include './conexion.php';
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
-    $consulta_cho = mysqli_query($conexion_bd, $sql_cho);
+    $consulta_cho = pg_query($conexion_bd, $sql_cho);
     foreach ($consulta_cho as $cho){
         $id_usuario = $cho['id_usuario'];
     }
@@ -276,4 +276,4 @@ function Mensaje2($placa, $texto){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id, $id_inc, $id_cliente, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+pg_close($conexion_bd); //Cerramos la conexion a la base de datos

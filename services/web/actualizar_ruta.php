@@ -11,29 +11,29 @@ $json = json_decode($_POST['json'],true);
 if($id_ruta!='' && $estatus!='' && $chofer!=''){
     require_once './conexion.php';
     $sql = "DELETE FROM parada_ruta WHERE id_ruta='$id_ruta'";//Borramos en parada_ruta las paradas asignadas
-    $consulta = mysqli_query($conexion_bd, $sql);
+    $consulta = pg_query($conexion_bd, $sql);
 
     foreach ($json as $j){
         $sql = "INSERT INTO parada_ruta (id_ruta,id_parada) VALUES ('$id_ruta','$j[0]')";
-        mysqli_query($conexion_bd, $sql);
+        pg_query($conexion_bd, $sql);
     }
     $sql = "SELECT vehiculo.placa, vehiculo.id_chofer, chofer.id_cedula, chofer.id_usuario FROM chofer 
         INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula
         WHERE chofer.id_cedula = '$chofer'";
-    $placa = mysqli_query($conexion_bd, $sql);
+    $placa = pg_query($conexion_bd, $sql);
     
     $sql = "SELECT id FROM parada WHERE id_cliente='$rif'";
-    $parada_empresa = mysqli_query($conexion_bd, $sql);
+    $parada_empresa = pg_query($conexion_bd, $sql);
     
     foreach ($parada_empresa as $p){
         $sql = "INSERT INTO parada_ruta (id_ruta,id_parada) VALUES ('$id_ruta','".$p['id']."')";
-        mysqli_query($conexion_bd, $sql);
+        pg_query($conexion_bd, $sql);
     }
     
     $sql = "SELECT chofer.id_usuario FROM ruta INNER JOIN vehiculo ON ruta.id_vehiculo=vehiculo.placa INNER JOIN chofer ON chofer.id_cedula=vehiculo.id_chofer WHERE ruta.id='$id_ruta'";
-    $chofer_viejo = mysqli_query($conexion_bd, $sql);
+    $chofer_viejo = pg_query($conexion_bd, $sql);
     
-    if (mysqli_num_rows($chofer_viejo)>0){
+    if (pg_num_rows($chofer_viejo)>0){
         foreach ($chofer_viejo as $cv){
             $usuario_viejo = $cv['id_usuario'];
         }
@@ -43,12 +43,12 @@ if($id_ruta!='' && $estatus!='' && $chofer!=''){
     
     foreach ($placa as $c){
         $sql = "UPDATE ruta SET estatus='".$estatus."',id_tipo_ruta='".$tipo_ruta."',id_vehiculo='".$c['placa']."',costo='".$costo."',precio='".$precio."' WHERE id='".$id_ruta."'";
-        mysqli_query($conexion_bd, $sql);
+        pg_query($conexion_bd, $sql);
         $usuario_nuevo = $c['id_usuario'];
     }
     
     echo 'Parada actualizada';
-    mysqli_close($conexion_bd);
+    pg_close($conexion_bd);
     
     $MY_API_KEY="AIzaSyClESwq7mvo76CoqqqkO1Lfef5UA_5xU1Y";
 

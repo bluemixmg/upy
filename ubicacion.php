@@ -7,8 +7,8 @@ include './conexion.php';
     $sql = "SELECT cliente.*,parada.* FROM cliente "
          . "INNER JOIN parada ON cliente.cedula=parada.id_cliente "
          . "WHERE rif_empresa='V-2525'";
-    $con = mysqli_query($conexion_bd, $sql);
-    if(mysqli_num_rows($con)>0){
+    $con = pg_query($conexion_bd, $sql);
+    if(pg_num_rows($con)>0){
         $i = 1;
         foreach ($con as $c){
             $lat = $c['latitud'];
@@ -22,7 +22,7 @@ include './conexion.php';
     var mapChoferes;
     var bounds = new google.maps.LatLngBounds();
     <?php
-    for ($i=1;$i<=mysqli_num_rows($con);$i++){
+    for ($i=1;$i<=pg_num_rows($con);$i++){
         echo "var lat$i = parseFloat(document.getElementById('lat$i').value);";
         echo "var lng$i = parseFloat(document.getElementById('lng$i').value);";
     }

@@ -23,12 +23,12 @@ if(isset($_POST['estatus'])){
              . "SET rif='".$rifnuevo."', nombre='".$nombre."', telefono='".$telefono."', "
              . "correo='".$correo."', direccion='".$direccion."', latitud='".$latitud."', longitud='".$longitud."', estatus=$estatus[0] "
              . "WHERE rif='".$rif."'";
-        mysqli_query($conexion_bd, $sql);
+        pg_query($conexion_bd, $sql);
         $sql1 = "UPDATE parada SET lat_d='".$latitud."', lng_d='".$longitud."' WHERE lat_d='".$latitud_vi."' AND lng_d='".$longitud_vi."'";
-        mysqli_query($conexion_bd, $sql1);
+        pg_query($conexion_bd, $sql1);
         $sql2 = "UPDATE parada SET lat_o='".$latitud."', lng_o='".$longitud."' WHERE lat_o='".$latitud_vi."' AND lng_o='".$longitud_vi."'";
-        mysqli_query($conexion_bd, $sql2);
-        mysqli_close($conexion_bd);
+        pg_query($conexion_bd, $sql2);
+        pg_close($conexion_bd);
         echo '<p><strong>Se actualizó el rif '.$rifnuevo.'</strong><p>';
     }else{
         echo '<p>Rellene los campos requeridos<p>';

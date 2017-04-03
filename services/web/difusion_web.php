@@ -25,9 +25,9 @@ if($titulo!='Título' && $texto!='Texto'){
 
     require_once ('conexion.php');
     $sql = "INSERT INTO noticia (titulo,texto,ruta_imagen,fecha) VALUES ('$titulo','$texto','$ruta','$fecha')";
-    mysqli_query($conexion_bd, $sql);
+    pg_query($conexion_bd, $sql);
     echo 'Informacion registrada exitosamente';
-    mysqli_close($conexion_bd);
+    pg_close($conexion_bd);
 }else{
     echo 'Favor ingrese todos los datos';
 }

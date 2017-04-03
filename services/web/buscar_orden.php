@@ -9,9 +9,9 @@ if($_POST['fecha']!=''){
          . "INNER JOIN parada ON parada.id = parada_ruta.id_parada "
          . "INNER JOIN cliente ON parada.id_cliente = cliente.cedula "
          . "WHERE cliente.rif_empresa = '$rif' AND ruta.fecha='$fecha' AND ruta.estatus=0 ORDER BY ruta.id";
-    $consulta = mysqli_query($conexion_bd, $sql);
-    mysqli_close($conexion_bd);
-    if(mysqli_num_rows($consulta)>0){
+    $consulta = pg_query($conexion_bd, $sql);
+    pg_close($conexion_bd);
+    if(pg_num_rows($consulta)>0){
         echo '<p>Leyenda</p>
                 <p>Inverso (I): Parada -> Empresa</p>
                 <p>Salida (S): Empresa -> Parada</p>

@@ -12,8 +12,8 @@ function mostrar($conexion_bd,$id,$respuestaJson){
              . "FROM parada_ruta INNER JOIN parada ON parada_ruta.id_parada=parada.id "
              . "INNER JOIN cliente ON parada.id_cliente=cliente.cedula "
              . "WHERE parada_ruta.id_ruta='$id'";
-        $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)>0){
+        $consulta = pg_query($conexion_bd, $sql);
+        if(pg_num_rows($consulta)>0){
             $respuestaJson['success'] = 1;
             foreach ($consulta as $c){
                 $d[] = $c['id_cliente'];
@@ -46,4 +46,4 @@ function mostrar($conexion_bd,$id,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+pg_close($conexion_bd); //Cerramos la conexion a la base de datos

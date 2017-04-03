@@ -18,11 +18,11 @@ function actualizar($conexion_bd,$id,$latitud,$longitud){
 
     if($id!="" && $latitud!="" && $longitud!=""){
         $sql = "UPDATE chofer SET latitud='$latitud', longitud='$longitud' WHERE id_usuario='$id'";
-        mysqli_query($conexion_bd, $sql);
+        pg_query($conexion_bd, $sql);
         $respuestaJson['success'] = 1;
     }
     return $respuestaJson;
 }
 
 echo json_encode(actualizar($conexion_bd,$id,$latitud,$longitud));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+pg_close($conexion_bd); //Cerramos la conexion a la base de datos

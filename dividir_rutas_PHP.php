@@ -131,7 +131,7 @@ $D = 0.009170;
                 if(isset($B[$m])){
                         //Crea parada_ruta en BD
                         //$sql = "INSERT INTO parada_ruta ";
-                        //mysqli_query($sql);
+                        //pg_query($sql);
                         var_dump($B[$m]);
 //                            echo 'Ruta Creada';
                 }else{

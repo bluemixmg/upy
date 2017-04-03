@@ -13,7 +13,7 @@
  */
 
 /*Permite dividir un string en varios substrings con delimitadores múltiples*/
-function multiexplode ($delimiters,$string) {
+function multiexplode ($delimiters, $string) {
     
     $ready = str_replace($delimiters, $delimiters[0], $string);
     $launch = explode($delimiters[0], $ready);
@@ -28,8 +28,6 @@ class DBManager {
     $services_json = json_decode($services,true);
     
     /*==============Obtener credenciales de servicio ClearDB==================*/
-    
-    /*Obtener credenciales de servicio ClearDB*/
     
     //$mysql_config = $services_json["cleardb"][0]["credentials"];
     //$db = $mysql_config["name"];
@@ -54,15 +52,10 @@ class DBManager {
     $pg_credenciales = multiexplode(array(":","@","/"), substr($pgsql_config["uri"], 11));
     
     $user = $pg_credenciales[0];
-    echo "user = $user <br>";
     $password = $pg_credenciales[1];
-    echo "password = $password <br>";
     $host = $pg_credenciales[2];
-    echo "host = $host <br>";
     $port = $pg_credenciales[3];
-    echo "port = $port <br>";
     $dbname = $pg_credenciales[4];
-    echo "dbname = $dbname <br>";
     
     $dbConnectionString = "host=" . $host . " port=" . $port . " dbname=" . $dbname . " user=" . $user . " password=" . $password;
     

@@ -5,8 +5,8 @@ $correo = filter_var($_POST['correo'], FILTER_VALIDATE_EMAIL);
 if($correo!=''){
     include './conexion.php';
     $sql = "SELECT rif,nombre FROM empresa WHERE correo='$correo'";
-    $consulta = mysqli_query($conexion_bd, $sql);
-    mysqli_close($conexion_bd);
+    $consulta = pg_query($conexion_bd, $sql);
+    pg_close($conexion_bd);
 
     $para = $correo;
     $titulo = 'Mensaje Automático de UPY';

@@ -21,7 +21,7 @@ function mostrar($conexion_bd,$id_u,$id_bloque,$fecha,$respuestaJson){
     if($id_u!="" && $fecha!=""){
         foreach ($id_bloque['id_bloq'] as $i){
             $sql = "INSERT INTO disponibilidad (id_usuario,id_bloque,fecha) VALUES ('$id_u','".$i['id_b']."','$fecha')";
-            mysqli_query($conexion_bd, $sql);
+            pg_query($conexion_bd, $sql);
             $respuestaJson['success'] = 1;
         }
     }else{
@@ -33,4 +33,4 @@ function mostrar($conexion_bd,$id_u,$id_bloque,$fecha,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id_u, $id_bloque, $fecha,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+pg_close($conexion_bd); //Cerramos la conexion a la base de datos

@@ -69,8 +69,8 @@
             <?php
             require_once './conexion.php';
             $sql = "SELECT * FROM tipo_vehiculo ORDER BY nro_puestos ASC";
-            $consulta = mysqli_query($conexion_bd, $sql);
-            if (mysqli_num_rows($consulta)>0){
+            $consulta = pg_query($conexion_bd, $sql);
+            if (pg_num_rows($consulta)>0){
                 echo '<select id="tipo_ve" style="height: 32px;">';
                 foreach ($consulta as $c){
                     echo '<option id="'.$c['id'].'" value="'.$c['id'].'">'.$c['nombre'].' ('.$c['nro_puestos'].') puestos</option>';
@@ -80,8 +80,8 @@
                 echo 'No hay tipos registrados';
             }
             $sql1 = 'SELECT * FROM condicion';
-            $consulta1 = mysqli_query($conexion_bd, $sql1);
-            if (mysqli_num_rows($consulta1)>0){
+            $consulta1 = pg_query($conexion_bd, $sql1);
+            if (pg_num_rows($consulta1)>0){
                 echo '<i>Condiciones del Vehiculo: </i>';
                 echo '<select id="cond_ve">';
                 foreach ($consulta1 as $c1){
@@ -91,7 +91,7 @@
             }else{
                 echo 'No hay condiciones registradas';
             }
-            mysqli_close($conexion_bd);
+            pg_close($conexion_bd);
             ?>
         </form>
         <div class="text-center">

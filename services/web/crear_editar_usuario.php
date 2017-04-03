@@ -8,13 +8,13 @@ if($_POST['tipo']==1){
     if($id!='' && $pass!=''){
         require_once './conexion.php';
         $sql = "SELECT * FROM usuario WHERE usuario='$id'";
-        $consulta = mysqli_query($conexion_bd, $sql);
+        $consulta = pg_query($conexion_bd, $sql);
         
-        if(mysqli_num_rows($consulta)==0){
+        if(pg_num_rows($consulta)==0){
             $pass1 = md5($pass);
             $sql = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$id','$pass1','$rol','$rif')";
-            mysqli_query($conexion_bd, $sql);
-            mysqli_close($conexion_bd);
+            pg_query($conexion_bd, $sql);
+            pg_close($conexion_bd);
             echo '<p>Usuario creado con éxito</p>';
         }else{
             echo '<p>ID de usuario en uso</p>';
@@ -35,8 +35,8 @@ if($_POST['tipo']==1){
     if($id!='' && $pass!=''){
         require_once './conexion.php';
         $sql = "UPDATE usuario SET usuario='".$id."', contrasena='".$pass."', id_rol=".$rol.", rif_empresa='".$rif."' WHERE usuario='".$id_viejo."'";
-        mysqli_query($conexion_bd, $sql);
-        mysqli_close($conexion_bd);
+        pg_query($conexion_bd, $sql);
+        pg_close($conexion_bd);
         echo '<p>Usuario editado con éxito</p>';
     }else{
         echo '<p>Faltan datos</p>';

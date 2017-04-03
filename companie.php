@@ -265,8 +265,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     echo '<h4 class="text-center"><strong>Empresas en lista de espera</strong></h4><br>';
                     require_once './conexion.php';
                     $sql = "SELECT * FROM empresa WHERE estatus=0";
-                    $consulta = mysqli_query($conexion_bd, $sql);
-                    if(mysqli_num_rows($consulta)!=0){
+                    $consulta = pg_query($conexion_bd, $sql);
+                    if(pg_num_rows($consulta)!=0){
                         echo '<table class="table" border="1">';
                         echo '<tr bgcolor="#00bce4">'
                                 . '<td><strong>ID</strong></td>'
@@ -346,9 +346,9 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 }
                 if(in_array(2, $_SESSION['permisos'])){
                     $sql1 = "SELECT * FROM chofer WHERE estatus=0";
-                    $consulta1 = mysqli_query($conexion_bd, $sql1);
+                    $consulta1 = pg_query($conexion_bd, $sql1);
                     echo '<br><h4 class="text-center"><strong>Choferes en lista de espera</strong></h4><br>';
-                    if(mysqli_num_rows($consulta1)!=0){
+                    if(pg_num_rows($consulta1)!=0){
                         echo '<table class="table" border="1" id="choferes_espera">';
                         echo '<tr bgcolor="#00bce4">'
                                 . '<td><strong>ID</strong></td>'
@@ -1119,8 +1119,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         <i>Tipo: </i>
                                         <?php
                                         $sql = "SELECT * FROM tipo_vehiculo ORDER BY nro_puestos ASC";
-                                        $consulta = mysqli_query($conexion_bd, $sql);
-                                        if (mysqli_num_rows($consulta)>0){
+                                        $consulta = pg_query($conexion_bd, $sql);
+                                        if (pg_num_rows($consulta)>0){
                                             echo '<select id="tipo_ve" style="height: 32px;">';
                                             foreach ($consulta as $c){
                                                 echo '<option id="'.$c['id'].'" value="'.$c['id'].'">'.$c['nombre'].' ('.$c['nro_puestos'].') puestos</option>';
@@ -1130,8 +1130,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                             echo 'No hay tipos registrados';
                                         }
                                         $sql1 = 'SELECT * FROM condicion';
-                                        $consulta1 = mysqli_query($conexion_bd, $sql1);
-                                        if (mysqli_num_rows($consulta1)>0){
+                                        $consulta1 = pg_query($conexion_bd, $sql1);
+                                        if (pg_num_rows($consulta1)>0){
                                             echo '<br><i>Condiciones del Vehiculo: </i>';
                                             echo '<select id="cond_ve">';
                                             foreach ($consulta1 as $c1){
@@ -1141,7 +1141,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         }else{
                                             echo 'No hay condiciones registradas';
                                         }
-                                        mysqli_close($conexion_bd);
+                                        pg_close($conexion_bd);
                                         ?>
                                     </form>
                                     <input type="submit" onclick="registrar_chofer();return false;" value="Registrar Chofer">
@@ -1362,8 +1362,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             <?php
             include './conexion.php';
             $sql = "SELECT chofer.*,vehiculo.modelo FROM chofer INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula WHERE estatus=1 AND latitud IS NOT NULL";
-            $con = mysqli_query($conexion_bd, $sql);
-            if(mysqli_num_rows($con)>0){
+            $con = pg_query($conexion_bd, $sql);
+            if(pg_num_rows($con)>0){
                 $i = 1;
                 foreach ($con as $c){
                     $lat = $c['latitud'];
@@ -1378,7 +1378,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             var mapChoferes;
             var bounds = new google.maps.LatLngBounds();
             <?php
-            for ($i=1;$i<=mysqli_num_rows($con);$i++){
+            for ($i=1;$i<=pg_num_rows($con);$i++){
                 echo "var lat$i = parseFloat(document.getElementById('lat$i').value);";
                 echo "var lng$i = parseFloat(document.getElementById('lng$i').value);";
             }
@@ -1682,11 +1682,11 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                             <?php
                                                 require_once 'conexion.php';
                                                 $sql = 'SELECT * FROM tipo_vehiculo';
-                                                $consulta_nro_puestos = mysqli_query($conexion_bd, $sql);
+                                                $consulta_nro_puestos = pg_query($conexion_bd, $sql);
                                                 foreach($consulta_nro_puestos as $c){
                                                     $sql_n = "SELECT id_tipo_vehiculo FROM vehiculo WHERE id_tipo_vehiculo='".$c['id']."'";
-                                                    $consulta_existe = mysqli_query($conexion_bd, $sql_n);
-                                                    if(mysqli_num_rows($consulta_existe)>0){
+                                                    $consulta_existe = pg_query($conexion_bd, $sql_n);
+                                                    if(pg_num_rows($consulta_existe)>0){
                                                         echo '<option id="'.$c['id'].'" value="'.$c['nro_puestos'].'">'.$c['nombre'].'</option>';
                                                     }
                                                 }
@@ -1698,8 +1698,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         <br>
                                         <?php
                                         $sql = "SELECT * FROM cliente WHERE rif_empresa='".$_SESSION['rif']."' AND estatus=1 ORDER BY nombre";
-                                        $consulta = mysqli_query($conexion_bd, $sql);
-                                        if(mysqli_num_rows($consulta)>0){
+                                        $consulta = pg_query($conexion_bd, $sql);
+                                        if(pg_num_rows($consulta)>0){
                                             echo '<table class="table" border="1">';
                                                 echo '<tr>';
                                                 echo '<td>Cédula</td>';
@@ -1708,11 +1708,11 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                 echo '</tr>';
                                             foreach ($consulta as $c){
                                                 $sql = "SELECT id,lat_o,hora FROM parada WHERE id_cliente='".$c['cedula']."' ORDER BY hora ASC";
-                                                $consulta1 = mysqli_query($conexion_bd, $sql);
+                                                $consulta1 = pg_query($conexion_bd, $sql);
                                                 echo '<tr>'
                                                 . '<td>'.$c['cedula'].'</td>'
                                                 . '<td>'.utf8_encode($c['nombre']).' '.utf8_encode($c['apellido']).'</td>';
-                                                    if(mysqli_num_rows($consulta1)>0){
+                                                    if(pg_num_rows($consulta1)>0){
                                                         echo '<td>';
                                                         foreach ($consulta1 as $c1){
                                                             $hora = strtotime($c1['hora']);
@@ -1730,7 +1730,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                 echo '</tr>';
                                             }
                                             echo '</table>';
-                                            mysqli_close($conexion_bd);
+                                            pg_close($conexion_bd);
                                         }else{
                                             echo '<i>No se han registrado usuarios</i>';
                                         }
@@ -1902,8 +1902,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                     . 'INNER JOIN chofer ON chofer.id_usuario = incidencia.id_usuario '
                                                     . 'INNER JOIN vehiculo ON chofer.id_cedula = vehiculo.id_chofer '
                                                     . 'WHERE revisado=0';
-                                            $consulta_incidencia = mysqli_query($conexion_bd, $sql_incidencia);
-                                            if(mysqli_num_rows($consulta_incidencia)>0){
+                                            $consulta_incidencia = pg_query($conexion_bd, $sql_incidencia);
+                                            if(pg_num_rows($consulta_incidencia)>0){
                                                 foreach ($consulta_incidencia as $ci){
                                                     echo '<tr id="'.$ci['id'].'">';
                                                     echo '<td>'.$ci['id_usuario'].'</td>';
@@ -1921,7 +1921,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                         $sql = "SELECT cliente.nombre,cliente.apellido,empresa.nombre as empresa FROM cliente "
                                                              . "INNER JOIN empresa ON empresa.rif = cliente.rif_empresa "
                                                              . "WHERE cliente.cedula='".$ci['id_cliente']."'";
-                                                        $consulta_cliente = mysqli_query($conexion_bd, $sql);
+                                                        $consulta_cliente = pg_query($conexion_bd, $sql);
                                                         foreach ($consulta_cliente as $cc){
                                                             echo '<td>PASAJERO AUSENTE<br>'.$cc['nombre'].' '.$cc['apellido'].'<br>'.$cc['empresa'].'</td>';
                                                         }
@@ -1929,7 +1929,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                         $sql = "SELECT cliente.nombre,cliente.apellido,empresa.nombre as empresa FROM cliente "
                                                              . "INNER JOIN empresa ON empresa.rif = cliente.rif_empresa "
                                                              . "WHERE cliente.cedula='".$ci['id_cliente']."'";
-                                                        $consulta_cliente = mysqli_query($conexion_bd, $sql);
+                                                        $consulta_cliente = pg_query($conexion_bd, $sql);
                                                         foreach ($consulta_cliente as $cc){
                                                             echo '<td>RETRASO DEL PASAJERO<br>'.$cc['nombre'].' '.$cc['apellido'].'<br>'.$cc['empresa'].'</td>';
                                                         }
@@ -1943,7 +1943,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                             }else{
                                                 echo '<tr><td colspan=8><i>No hay incidencias en este momento</i></td></tr>';
                                             }
-                                            mysqli_close($conexion_bd);
+                                            pg_close($conexion_bd);
                                             ?>
                                         </table>
                                         <div id="incidencia_post"></div>
@@ -2097,9 +2097,9 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                 include './conexion.php';
                                 
                                 $sql_tipo = "SELECT * FROM tipo_ruta WHERE estatus=1";
-                                $consulta_rutas = mysqli_query($conexion_bd, $sql_tipo);
+                                $consulta_rutas = pg_query($conexion_bd, $sql_tipo);
                                 
-                                if(mysqli_num_rows($consulta_rutas)==0){
+                                if(pg_num_rows($consulta_rutas)==0){
                                     echo '<tr colspan="3"><i>No existen costos por ruta</i></tr>';
                                 }else{
                                     foreach ($consulta_rutas as $cr){
@@ -2114,7 +2114,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         echo '</tr>';
                                     }
                                 }
-                                mysqli_close($conexion_bd);
+                                pg_close($conexion_bd);
                                 ?>
                             </table>
                             <input type="submit" value="Agregar Tipo de Ruta" onclick="agregar_costo_ruta();return false;"><br><br>
@@ -2239,9 +2239,9 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                 include './conexion.php';
                                 
                                 $sql_vehiculo = "SELECT * FROM tipo_vehiculo WHERE estatus=1";
-                                $consulta_vehiculo = mysqli_query($conexion_bd, $sql_vehiculo);
+                                $consulta_vehiculo = pg_query($conexion_bd, $sql_vehiculo);
                                 
-                                if(mysqli_num_rows($consulta_vehiculo)==0){
+                                if(pg_num_rows($consulta_vehiculo)==0){
                                     echo '<tr colspan="4"><i>No existen costos por vehículo</i></tr>';
                                 }else{
                                     foreach ($consulta_vehiculo as $cv){
@@ -2257,7 +2257,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         echo '</tr>';
                                     }
                                 }
-                                mysqli_close($conexion_bd);
+                                pg_close($conexion_bd);
                                 ?>
                             </table>
                             <input type="submit" value="Agregar Tipo de Vehiculo" onclick="agregar_costo_vehiculo();return false;"><br>
@@ -2397,7 +2397,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                         <?php
                         include './conexion.php';
                         $sql_roles = "SELECT * FROM rol";
-                        $consulta = mysqli_query($conexion_bd, $sql_roles);
+                        $consulta = pg_query($conexion_bd, $sql_roles);
                         foreach ($consulta as $c){
                             if($c['id']!=1 && $c['id']!=3){
                                 echo '<li onclick="buscar_rol(this.id)" id="'.$c['id'].'"><a data-toggle="pill">'.$c['nombre'].'</a></li>';
@@ -2471,7 +2471,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             <?php
                             include './conexion.php';
                             $sql = "SELECT rif,nombre FROM empresa";
-                            $consulta = mysqli_query($conexion_bd, $sql);
+                            $consulta = pg_query($conexion_bd, $sql);
                             echo '<select class="form-control" id="select_crear_usuario">';
                             foreach ($consulta as $c){
                                 if ($c['rif']!='V-19850475-'){
@@ -2480,7 +2480,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             }
                             echo '</select>';
                             $sql = "SELECT * FROM rol";
-                            $consulta = mysqli_query($conexion_bd, $sql);
+                            $consulta = pg_query($conexion_bd, $sql);
                             echo '<p class="text-left">Rol:</p>';
                             echo '<select class="form-control" id="select_crear_usuario_rol">';
                             foreach ($consulta as $c){
@@ -2489,7 +2489,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                 }
                             }
                             echo '</select><br><br>';
-                            mysqli_close($conexion_bd);
+                            pg_close($conexion_bd);
                             ?>
                             <input type="submit" value="Crear" id="crear_usuario" onclick="crear_usuario_script();return false;">
                             <div id="resultado_crear_usuarios"></div>
@@ -2607,7 +2607,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 include './conexion.php';
                 if(in_array(26, $_SESSION['permisos']) || in_array(27, $_SESSION['permisos'])){
                     $sql = "SELECT rif,nombre FROM empresa";
-                    $consulta = mysqli_query($conexion_bd, $sql);
+                    $consulta = pg_query($conexion_bd, $sql);
                     echo '<select id="select_reporte_empresa">';
                     foreach ($consulta as $c){
                         if ($c['rif']!=$_SESSION['rif'] && $c['rif']!='V-19850475-7'){
@@ -2618,7 +2618,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 }
                 if(in_array(28, $_SESSION['permisos'])){
                     $sql = "SELECT * FROM chofer";
-                    $consulta = mysqli_query($conexion_bd, $sql);
+                    $consulta = pg_query($conexion_bd, $sql);
                     echo '<select id="select_reporte_chofer">';
                     foreach ($consulta as $c){
                         echo '<option value="'.$c['id_cedula'].'">'.$c['id_cedula'].' - '.$c['nombre'].' '.$c['apellido'].'</option>';

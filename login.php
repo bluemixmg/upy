@@ -69,8 +69,8 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
-            $consulta = mysqli_query($conexion_bd, $sql);
-            if (mysqli_num_rows($consulta) > 0){
+            $consulta = pg_query($conexion_bd, $sql);
+            if (pg_num_rows($consulta) > 0){
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
@@ -84,7 +84,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 $_SESSION['estatus'] = $ss['estatus'];
                 $_SESSION['rol'] = $ss['id_rol'];
                 $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=".$ss['id_rol'];
-                $consulta1 = mysqli_query($conexion_bd, $sql);
+                $consulta1 = pg_query($conexion_bd, $sql);
                 $permisos[] = array();
                 foreach ($consulta1 as $c1){
                     $permisos[] = $c1['id_permiso'];
@@ -100,8 +100,8 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
                 . "INNER JOIN empresa "
                 . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='V-19850475-7'";
-             $consulta = mysqli_query($conexion_bd, $sql);
-            if (mysqli_num_rows($consulta) > 0){
+             $consulta = pg_query($conexion_bd, $sql);
+            if (pg_num_rows($consulta) > 0){
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
@@ -118,7 +118,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 header("Location:login.php?success=no");
             }
         }
-        mysqli_close($conexion_bd);
+        pg_close($conexion_bd);
     }
     }
     ?>
