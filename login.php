@@ -71,6 +71,11 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
     </script>
         <?php
         include("conexion.php");
+        ?>
+        <script type="text/javascript">
+            console.log("<?php echo "_POST['txtid'] = " . $_POST['txtid']?>");
+        </script>
+        <?php
         if($_POST['txtid']!='op1'){
             ?>
             <script type="text/javascript">
@@ -81,6 +86,11 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
             $consulta = pg_query($conexion_bd, $sql);
+        ?>
+            <script type="text/javascript">
+                console.log("<?php echo 'pg_num_rows($consulta) = ' . pg_num_rows($consulta)?>");
+            </script>
+        <?php
             if (pg_num_rows($consulta) > 0){
                 ?>
                 <script type="text/javascript">
@@ -88,6 +98,11 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 </script>
                 <?php
                 $_SESSION['success'] = yes;
+                ?>
+                <script type="text/javascript">
+                    console.log("<?php echo '$_SESSION["success"] = ' . $_SESSION["success"]?>");
+                </script>
+                <?php
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
                 $_SESSION['rif'] = $ss['rif'];
@@ -114,9 +129,14 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             }
         }else{
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
-                . "INNER JOIN empresa "
-                . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='V-19850475-7'";
+                . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
+                . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='J-406819212'";
              $consulta = pg_query($conexion_bd, $sql);
+             ?>
+                <script type="text/javascript">
+                    console.log("<?php echo 'pg_num_rows($consulta) 2 = ' . pg_num_rows($consulta)?>");
+                </script>
+                <?php
             if (pg_num_rows($consulta) > 0){
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){
