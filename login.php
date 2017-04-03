@@ -64,6 +64,12 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
     if(isset($_POST['txtid'])){
         $login_pass = md5($_POST['txtpass']);
         $login_usuario = $_POST['txtid'];
+        ?>
+    <script type="text/javascript">
+        console.log("<?php echo "login_pass = $login_pass"?>");
+        console.log("<?php echo "login_usuario = $login_usuario"?>");
+    </script>
+        <?php
         include("conexion.php");
         if($_POST['txtid']!='op1'){
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
