@@ -57,6 +57,28 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
         include ('navbar.php');
     ?>
     <?php
+            $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
+            . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
+            . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
+            $consulta = pg_query($conexion_bd, $sql);
+            if (pg_num_rows($consulta) > 0){
+                foreach($consulta as $ss){
+                ?>
+                <script type="text/javascript">
+                    console.log("<?php echo 'usuario = ' . $ss['usuario']?>");
+                    console.log("<?php echo 'rif = ' . $ss['rif']?>");
+                    console.log("<?php echo 'nombre = ' . $ss['nombre']?>");
+                    console.log("<?php echo 'correo = ' . $ss['correo']?>");
+                    console.log("<?php echo 'telefono = ' . $ss['telefono']?>");
+                    console.log("<?php echo 'direccion = ' . $ss['direccion']?>");
+                    console.log("<?php echo 'estatus = ' . $ss['estatus']?>");
+                    console.log("<?php echo 'rol = ' . $ss['rol']?>");
+                </script>
+                <?php
+                }
+            }
+        ?>
+    <?php
     if(isset($_POST['success']) && $_POST['success']=='no'){
 
     }else{
