@@ -72,11 +72,21 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
         <?php
         include("conexion.php");
         if($_POST['txtid']!='op1'){
+            ?>
+            <script type="text/javascript">
+                console.log("Pasó el primer if");
+            </script>
+        <?php
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
             $consulta = pg_query($conexion_bd, $sql);
             if (pg_num_rows($consulta) > 0){
+                ?>
+                <script type="text/javascript">
+                    console.log("Pasó el segundo if");
+                </script>
+                <?php
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
