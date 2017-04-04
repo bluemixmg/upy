@@ -7,16 +7,16 @@ if(!empty($cedula)){
 }
 
 function buscar_chofer($cedula){
-    require ('conexion.php');
+    require ('conexion.php');$con = new Conexion();
     $sql = "SELECT chofer.*,vehiculo.* FROM chofer "
          . "INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula "
          . "WHERE chofer.id_cedula='$cedula'";
-    $consultar = mysqli_query($conexion_bd, $sql);
+    $consultar = $con->consultar( $sql);
 
-    if(mysqli_num_rows($consultar) == 0){
+    if($con->num_filas($consultar) == 0){
         echo "No se han encontrado resultados para '<b>".$nombre."</b>'.";
     }else{
-        while($row= mysqli_fetch_array($consultar)){
+        while($row= pg_fetch_array($consultar)){
             //Chofer
             $cedula = $row['id_cedula'];
             $nombre = $row['nombre'];
@@ -72,8 +72,8 @@ function buscar_chofer($cedula){
                 <i>Tipo:</i>
                 <?php
                 $sql = "SELECT * FROM tipo_vehiculo ORDER BY nro_puestos ASC";
-                $consulta = mysqli_query($conexion_bd, $sql);
-                if (mysqli_num_rows($consulta)>0){
+                $consulta = $con->consultar( $sql);
+                if ($con->num_filas($consulta)>0){
                     echo '<select id="tipo_ve_editar" style="height: 32px;">';
                     foreach ($consulta as $c){
                         if($tipo_vehiculo == $c['id']){
@@ -87,8 +87,8 @@ function buscar_chofer($cedula){
                     echo 'No hay tipos registrados';
                 }
                 $sql1 = 'SELECT * FROM condicion';
-                $consulta1 = mysqli_query($conexion_bd, $sql1);
-                if (mysqli_num_rows($consulta1)>0){
+                $consulta1 = $con->consultar( $sql1);
+                if ($con->num_filas($consulta1)>0){
                     echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Condiciones del Vehiculo: </i>';
                     echo '<select id="cond_ve_editar">';
                     foreach ($consulta1 as $c1){
@@ -114,5 +114,5 @@ function buscar_chofer($cedula){
             <?php
         }
     }
-    mysqli_close($conexion_bd);
+    $con->cerrar_conexion();
 }

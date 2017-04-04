@@ -1,0 +1,8 @@
+{
+	"require": {
+        "ext-pgsql": "* 0"
+   },
+	"require-dev": {
+		"ext-pdo_pgsql": "* 1.0.2"
+	}
+}

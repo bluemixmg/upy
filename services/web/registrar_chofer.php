@@ -17,23 +17,23 @@ $rif = $_POST['rif'];
 
 if($cedula!='Cédula' && $nombre!='Nombre' && $apellido!='Apellido' && $correo!='Correo' && $tlf!='Teléfono' && $placa!='Placa' && $usuario!='Usuario'){
     
-    require_once './conexion.php';
+    require_once './conexion.php';$con = new Conexion();
     
     $sql = "SELECT id_cedula FROM chofer WHERE id_cedula='$cedula'";
-    $consulta_chofer = mysqli_query($conexion_bd, $sql);
-    if(mysqli_num_rows($consulta_chofer)==0){
+    $consulta_chofer = $con->consultar( $sql);
+    if($con->num_filas($consulta_chofer)==0){
         $sql = "SELECT placa FROM vehiculo WHERE placa='$placa'";
-        $consulta_placa = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta_placa)==0){
+        $consulta_placa = $con->consultar( $sql);
+        if($con->num_filas($consulta_placa)==0){
             $sql = "INSERT INTO chofer (id_cedula,nombre,apellido,sexo,correo,direccion,telefono,id_usuario,estatus) VALUES ('$cedula','$nombre','$apellido','$sexo','$correo','$direccion','$tlf','$usuario','1')";
-            mysqli_query($conexion_bd, $sql);
+            $con->consultar( $sql);
             
             $sql1 = "INSERT INTO vehiculo (placa,marca,modelo,id_tipo_vehiculo,id_condicion,id_chofer) VALUES ('$placa','$marca','$modelo','$tipo','$cond','$cedula')";
-            mysqli_query($conexion_bd, $sql1);
+            $con->consultar( $sql1);
             
             $pass = md5($cedula);
-            $sql2 = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$usuario','$pass','3','$rif')";
-            mysqli_query($conexion_bd, $sql2);
+            $sql2 = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES ('$usuario','$pass',3,'$rif')";
+            $con->consultar( $sql2);
             echo '<p>Chofer registrado con éxito</p>';
         }else{
             echo '<p>La placa ingresada ya se encuentra registrada</p>';
@@ -41,7 +41,7 @@ if($cedula!='Cédula' && $nombre!='Nombre' && $apellido!='Apellido' && $correo!=
     }else{
         echo '<p>El ID de chofer ya se encuentra registrado</p>';
     }
-    mysqli_close($conexion_bd);
+    $con->cerrar_conexion();
 }else{
     echo '<p>Favor, debe llenar todos los datos</p>';
 }

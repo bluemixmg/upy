@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php'); //Archivo para conectar a la base de datos
+require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['cedula_usuario']) && isset($_POST['rif_empresa'])){
@@ -21,9 +21,9 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
         $sql = "SELECT cliente.nombre,empresa.nombre "
              . "FROM cliente INNER JOIN empresa ON cliente.rif_empresa=empresa.rif "
              . "WHERE cliente.cedula='$cedula_usuario' AND empresa.rif='$rif_empresa'";
-        $consulta = mysqli_query($conexion_bd, $sql);
+        $consulta = $con->consultar( $sql);
         
-        if(mysqli_num_rows($consulta)>0){
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             $respuestaJson['message'] = "Pasajero Aceptado";
 
@@ -36,7 +36,7 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
         $fecha = date("Y-m-d");
         $hora = date("H:i:s");
         $sql = "INSERT INTO incidencia (id_tipo_incidencia,id_usuario,fecha,hora,id_cliente) VALUES ('3','$id_chofer','$fecha','$hora','$cedula_usuario')";
-        mysqli_query($conexion_bd, $sql);
+        $con->consultar( $sql);
         
     }else{
         $respuestaJson["success"] = 0;
@@ -47,4 +47,4 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
 
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $cedula_usuario,$rif_empresa,$id_chofer,$respuestaJson));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

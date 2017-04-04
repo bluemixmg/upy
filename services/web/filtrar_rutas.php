@@ -26,9 +26,9 @@ if(isset($_POST['fecha'])){
     }
 
     function filtros($id, $para, $fecha) {
-        require_once './conexion.php';
+        require_once './conexion.php';$con = new Conexion();
         if ($para == "estado"){
-            $sql = "SELECT id,nombre_estado as texto FROM estado WHERE id_pais='17' ORDER BY nombre_estado";
+            $sql = "SELECT id,nombre_estado as texto FROM estado WHERE id_pais=17 ORDER BY nombre_estado";
             $p = 'r_estado';
             $f = 'L1';
         }else if ($para == "r"){
@@ -68,9 +68,9 @@ if(isset($_POST['fecha'])){
             $p = '';
             $f = 'L2';
         }
-        $consultar = mysqli_query($conexion_bd, $sql);
+        $consultar = $con->consultar( $sql);
         
-        if(mysqli_num_rows($consultar) == 0){
+        if($con->num_filas($consultar) == 0){
             echo "No se han encontrado resultados para '<b>".$id."</b>'.";
         }else{
             foreach($consultar as $c){
@@ -112,7 +112,7 @@ if(isset($_POST['fecha'])){
             -->
             <?php
         }
-        mysqli_close($conexion_bd);
+        $con->cerrar_conexion();
     }
     
     function estatus($i){
@@ -136,7 +136,7 @@ if(isset($_POST['fecha'])){
     }
     
     function rutas($id){
-        require_once './conexion.php';
+        require_once './conexion.php';$con = new Conexion();
         //ruta.id, ruta.id_vehiculo, ruta.fecha, ruta.estatus, parada.hora, empresa.rif, empresa.nombre, chofer.id_cedula, chofer.nombre, chofer.apellido
         //cliente.cedula, cliente.nombre, cliente.apellido
         $sql = "SELECT DISTINCT CONCAT ('RUTA ', ruta.id) as ruta, ruta.id_vehiculo, ruta.fecha, "
@@ -145,13 +145,13 @@ if(isset($_POST['fecha'])){
                 . "INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta "
                 . "INNER JOIN parada ON parada_ruta.id_parada = parada.id "
                 . "INNER JOIN cliente ON parada.id_cliente = cliente.cedula "
-                . "INNER JOIN empresa ON cliente.rif_empresa = empresa.rif WHERE ruta.id = '$id'";
-        $consultar_r = mysqli_query($conexion_bd, $sql);
+                . "INNER JOIN empresa ON cliente.rif_empresa = empresa.rif WHERE ruta.id = $id";
+        $consultar_r = $con->consultar( $sql);
         
-        $sql2 = "SELECT DISTINCT parada.id as parada, CONCAT (cliente.cedula, ' - ', cliente.nombre, ' ', cliente.apellido, ' - ', cliente.direccion) as cliente FROM ruta INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta INNER JOIN parada ON parada_ruta.id_parada = parada.id INNER JOIN cliente ON parada.id_cliente = cliente.cedula WHERE ruta.id = '$id'";
-        $consultar_cli = mysqli_query($conexion_bd, $sql2);
+        $sql2 = "SELECT DISTINCT parada.id as parada, CONCAT (cliente.cedula, ' - ', cliente.nombre, ' ', cliente.apellido, ' - ', cliente.direccion) as cliente FROM ruta INNER JOIN parada_ruta ON ruta.id = parada_ruta.id_ruta INNER JOIN parada ON parada_ruta.id_parada = parada.id INNER JOIN cliente ON parada.id_cliente = cliente.cedula WHERE ruta.id = $id";
+        $consultar_cli = $con->consultar( $sql2);
         
-        if(mysqli_num_rows($consultar_r) == 0){
+        if($con->num_filas($consultar_r) == 0){
             echo "No se han encontrado resultados para la RUTA '<b>".$id."</b>'.";
         }else{
             foreach($consultar_r as $c){
@@ -191,9 +191,9 @@ if(isset($_POST['fecha'])){
                 $sql3 = "SELECT chofer.id_cedula FROM ruta "
                       . "INNER JOIN vehiculo ON ruta.id_vehiculo = vehiculo.placa "
                       . "INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula "
-                      . "WHERE ruta.id='$id'";
-                $consultar_chofer = mysqli_query($conexion_bd, $sql3);
-                if(mysqli_num_rows($consultar_chofer)>0){
+                      . "WHERE ruta.id=$id";
+                $consultar_chofer = $con->consultar( $sql3);
+                if($con->num_filas($consultar_chofer)>0){
                     foreach($consultar_chofer as $chofer){
                         $id_chofer = $chofer['id_cedula'];
                     }
@@ -202,13 +202,13 @@ if(isset($_POST['fecha'])){
                 }
                 
                 $sql4 = "SELECT id_cedula, CONCAT (nombre, ' ',  apellido) as chofer FROM chofer WHERE estatus = 1";
-                $consultar_ch = mysqli_query($conexion_bd, $sql4);
+                $consultar_ch = $con->consultar( $sql4);
                 echo '<h4><strong>Conductor: </strong></h4>';
                 echo '<select style="width: 350px; float: none; margin: 10px auto;" id="chofer" class="form-control">';
                 if($id_chofer == ''){
                     echo '<option id="" value="" selected="true">No hay chofer asignado</option>';
                 }
-                if(mysqli_num_rows($consultar_ch)>0){
+                if($con->num_filas($consultar_ch)>0){
                     foreach($consultar_ch as $cch){
                         if ($id_chofer == $cch['id_cedula']){
                             echo '<option selected="true" id="'.$cch['id_cedula'].'" value="'.$cch['id_cedula'].'">'.$cch['chofer'].'</option>';
@@ -256,7 +256,7 @@ if(isset($_POST['fecha'])){
             
             echo '<br><h4><strong>Empleados en Ruta</strong></h4>';
             echo '<table class="table" border="1" id="empleados_filtro">';
-            if(mysqli_num_rows($consultar_cli)>0){
+            if($con->num_filas($consultar_cli)>0){
                 foreach($consultar_cli as $cc){
                     $id = $cc['parada'];
                     $texto = $cc['cliente'];
@@ -273,7 +273,7 @@ if(isset($_POST['fecha'])){
             }
             
             $sql_empleados = "SELECT cliente.cedula,cliente.nombre,cliente.apellido,parada.id FROM cliente INNER JOIN parada ON cliente.cedula = parada.id_cliente WHERE cliente.rif_empresa =  '$rif' AND parada.hora =  '$hora' ORDER BY cliente.cedula ASC";
-            $select_empleados = mysqli_query($conexion_bd, $sql_empleados);
+            $select_empleados = $con->consultar( $sql_empleados);
             echo '<form class="contact-bottom text-center">';
             echo '<select id="empleados_nuevos" style="width: 350px; margin: 10px auto;" class="form-control">';
             foreach ($select_empleados as $s){
@@ -286,5 +286,5 @@ if(isset($_POST['fecha'])){
             echo '<input type="submit" onClick="actualizar_ruta();return false;" value="Guardar Cambios">';
             echo '<div id="dialog"></div></form>';
         }
-        mysqli_close($conexion_bd);
+        $con->cerrar_conexion();
     }

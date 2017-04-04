@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require_once ('conexion.php'); //Archivo para conectar a la base de datos
+require_once ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id_parada']) && isset($_POST['id_ruta']) && isset($_POST['id_usuario'])){
@@ -19,14 +19,14 @@ function actualizar($conexion_bd,$id_parada,$id_ruta,$id_usuario,$respuestaJson)
 
     if($id_parada!="" && $id_ruta!="" && $id_usuario!=""){
         $sql = "UPDATE parada_ruta SET estatus=0 WHERE id_ruta='$id_ruta' AND id_parada='$id_parada'";
-        if(mysqli_query($conexion_bd, $sql)){
+        if($con->consultar( $sql)){
             $respuestaJson['success'] = 1;
             $respuestaJson['message'] = "Parada Cumplida";
             $sql1 = "SELECT DISTINCT estatus FROM parada_ruta WHERE id_ruta='$id_ruta'";
-            $consulta = mysqli_query($conexion_bd, $sql1);
-            if(mysqli_num_rows($consulta)==1){
+            $consulta = $con->consultar( $sql1);
+            if($con->num_filas($consulta)==1){
                 $sql = "UPDATE ruta SET estatus=1 WHERE id='$id_ruta'";
-                mysqli_query($conexion_bd, $sql);
+                $con->consultar( $sql);
                 $MY_API_KEY="AIzaSyClESwq7mvo76CoqqqkO1Lfef5UA_5xU1Y";
                 $data = array(
                     "to" => "/topics/upy",
@@ -54,7 +54,7 @@ function actualizar($conexion_bd,$id_parada,$id_ruta,$id_usuario,$respuestaJson)
                 curl_close($ch);
             }else{
                 $sql = "UPDATE ruta SET estatus=2 WHERE id='$id_ruta'";
-                mysqli_query($conexion_bd, $sql);
+                $con->consultar( $sql);
             }
         }else{
             $respuestaJson['success'] = 0;
@@ -69,4 +69,4 @@ function actualizar($conexion_bd,$id_parada,$id_ruta,$id_usuario,$respuestaJson)
 
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(actualizar($conexion_bd, $id_parada, $id_ruta, $id_usuario, $respuestaJson));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

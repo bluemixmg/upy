@@ -1,7 +1,7 @@
 <?php
 
 if($_POST['fecha']!=''){
-    require_once './conexion.php';
+    require_once './conexion.php';$con = new Conexion();
     $rif = $_POST['rif'];
     $fecha = date_format(new DateTime($_POST['fecha']), 'Y-m-d');
     $sql = "SELECT ruta.id,parada.lat_o,parada.hora,cliente.cedula,cliente.nombre,cliente.apellido FROM ruta "
@@ -9,9 +9,9 @@ if($_POST['fecha']!=''){
          . "INNER JOIN parada ON parada.id = parada_ruta.id_parada "
          . "INNER JOIN cliente ON parada.id_cliente = cliente.cedula "
          . "WHERE cliente.rif_empresa = '$rif' AND ruta.fecha='$fecha' AND ruta.estatus=0 ORDER BY ruta.id";
-    $consulta = mysqli_query($conexion_bd, $sql);
-    mysqli_close($conexion_bd);
-    if(mysqli_num_rows($consulta)>0){
+    $consulta = $con->consultar( $sql);
+    $con->cerrar_conexion();
+    if($con->num_filas($consulta)>0){
         echo '<p>Leyenda</p>
                 <p>Inverso (I): Parada -> Empresa</p>
                 <p>Salida (S): Empresa -> Parada</p>

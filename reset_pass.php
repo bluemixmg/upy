@@ -6,7 +6,7 @@
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -48,7 +48,8 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             <form class="form-inline">
                 <h4 style="color: white">Ingrese su Correo</h4>
                 <input type="text" id="txtid" name="txtid">
-                <input type="submit" onclick="r();return false;" value="Enviar"><br><br>
+                <!--<input type="submit" onclick="r();return false;" value="Enviar"><br><br>-->
+                <input type="submit" onclick="r()" value="Enviar"><br><br>
                 <div style="height: 200px;width: 300px;color: white;" id="resultado_reset"></div>
             </form>
         </div>

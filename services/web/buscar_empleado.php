@@ -7,14 +7,14 @@ if(!empty($n)){
 }
 
 function buscar_empleado($nombre){
-    require ('conexion.php');
+    require ('conexion.php');$con = new Conexion();
     $sql = "SELECT * FROM cliente WHERE cedula='$nombre' OR nombre='$nombre' OR apellido='$nombre'";
-    $consultar = mysqli_query($conexion_bd, $sql);
+    $consultar = $con->consultar( $sql);
 
-    if(mysqli_num_rows($consultar) == 0){
+    if($con->num_filas($consultar) == 0){
         echo "No se han encontrado resultados para '<b>".$nombre."</b>'.";
     }else{
-        while($row= mysqli_fetch_array($consultar)){
+        while($row= pg_fetch_array($consultar)){
             $cedula = $row['cedula'];
             $nombre = $row['nombre'];
             $apellido = $row['apellido'];
@@ -71,10 +71,10 @@ function buscar_empleado($nombre){
                     </tr>
                     <?php
                         $sql = "SELECT id,lat_o,hora FROM parada WHERE id_cliente='$cedula'";
-                        $consulta_paradas = mysqli_query($conexion_bd, $sql);
-                        if(mysqli_num_rows($consulta_paradas)>0){
+                        $consulta_paradas = $con->consultar( $sql);
+                        if($con->num_filas($consulta_paradas)>0){
                             $sql_empresa = "SELECT latitud FROM empresa WHERE rif='$empresa'";
-                            $consulta_empresa = mysqli_query($conexion_bd, $sql_empresa);
+                            $consulta_empresa = $con->consultar( $sql_empresa);
                             foreach ($consulta_empresa as $ce){
                                 $lat_empresa = $ce['latitud'];
                             }
