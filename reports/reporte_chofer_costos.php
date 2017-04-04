@@ -21,7 +21,8 @@ function Header(){
     $this->Ln();
     //Buscamos el nombre de la empresa
     $sql = "SELECT nombre,apellido FROM chofer WHERE id_cedula='".$GLOBALS['cedula']."'";
-    $nombre_chofer = pg_query($GLOBALS['conexion_bd'], $sql);
+    $con = new Conexion();
+    $nombre_chofer = $con->consultar($sql);
     foreach ($nombre_chofer as $nc){
     $this->Cell(180,10,'Conductor: '.$nc['nombre'].' '.$nc['apellido'],0,0,'C');
     $this->Ln();
@@ -68,8 +69,8 @@ $sql = "SELECT COUNT(ruta.id_vehiculo) as nro_r, vehiculo.placa, CONCAT (chofer.
     INNER JOIN vehiculo ON ruta.id_vehiculo = vehiculo.placa
     INNER JOIN chofer ON chofer.id_cedula = vehiculo.id_chofer
     WHERE ruta.fecha BETWEEN '".$fecha_inicio."' AND '".$fecha_fin."' AND chofer.id_cedula='".$cedula."'";
-$consulta = pg_query($conexion_bd, $sql);
-if(pg_num_rows($consulta)>0){
+$consulta = $con->consultar( $sql);
+if($con->num_filas($consulta)>0){
     $pdf->Ln();
     $x = $pdf->GetX();
     $y = $pdf->GetY();
@@ -142,8 +143,8 @@ if(pg_num_rows($consulta)>0){
         INNER JOIN cliente ON cliente.cedula = parada.id_cliente 
         INNER JOIN empresa ON empresa.rif = cliente.rif_empresa 
     WHERE ruta.fecha BETWEEN '".$fecha_inicio."' AND '".$fecha_fin."' AND ruta.id_vehiculo='".$placa."'";
-    $consulta2 = pg_query($conexion_bd, $sql2);
-    if(pg_num_rows($consulta2)>0){
+    $consulta2 = $con->consultar( $sql2);
+    if($con->num_filas($consulta2)>0){
         $x = $pdf->GetX();
         $y = $pdf->GetY();
         $y2 = $y;
@@ -222,5 +223,5 @@ if(pg_num_rows($consulta)>0){
     $pdf->Cell(0,10, utf8_decode('No existen datos para mostrar'),0,1);
 }
 
-pg_close($conexion_bd);
+$con->cerrar_conexion();
 $pdf->Output();

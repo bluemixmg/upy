@@ -60,8 +60,8 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
-            $consulta = pg_query($conexion_bd, $sql);
-            if (pg_num_rows($consulta) > 0){
+            $consulta = $con->consultar( $sql);
+            if ($con->num_filas($consulta) > 0){
                 foreach($consulta as $ss){
                 ?>
                 <script type="text/javascript">
@@ -107,13 +107,13 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
-            $consulta = pg_query($conexion_bd, $sql);
+            $consulta = $con->consultar( $sql);
         ?>
             <script type="text/javascript">
-                console.log("<?php echo 'pg_num_rows($consulta) = ' . pg_num_rows($consulta)?>");
+                console.log("<?php echo '$con->num_filas($consulta) = ' . $con->num_filas($consulta)?>");
             </script>
         <?php
-            if (pg_num_rows($consulta) > 0){
+            if ($con->num_filas($consulta) > 0){
                 ?>
                 <script type="text/javascript">
                     console.log("Pasó el segundo if");
@@ -137,7 +137,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 $_SESSION['estatus'] = $ss['estatus'];
                 $_SESSION['rol'] = $ss['id_rol'];
                 $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=".$ss['id_rol'];
-                $consulta1 = pg_query($conexion_bd, $sql);
+                $consulta1 = $con->consultar( $sql);
                 $permisos[] = array();
                 foreach ($consulta1 as $c1){
                     $permisos[] = $c1['id_permiso'];
@@ -153,13 +153,13 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
                 . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
                 . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='J-406819212'";
-             $consulta = pg_query($conexion_bd, $sql);
+             $consulta = $con->consultar( $sql);
              ?>
                 <script type="text/javascript">
-                    console.log("<?php echo 'pg_num_rows($consulta) 2 = ' . pg_num_rows($consulta)?>");
+                    console.log("<?php echo '$con->num_filas($consulta) 2 = ' . $con->num_filas($consulta)?>");
                 </script>
                 <?php
-            if (pg_num_rows($consulta) > 0){
+            if ($con->num_filas($consulta) > 0){
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
@@ -176,7 +176,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 header("Location:login.php?success=no");
             }
         }
-        pg_close($conexion_bd);
+        $con->cerrar_conexion();
     }
     }
     ?>

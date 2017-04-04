@@ -1,6 +1,6 @@
 <?php
 
-require_once './conexion.php';
+require_once './conexion.php';$con = new Conexion();
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id']) && isset($_POST['latitud']) && isset($_POST['latitud'])){
@@ -18,11 +18,11 @@ function actualizar($conexion_bd,$id,$latitud,$longitud){
 
     if($id!="" && $latitud!="" && $longitud!=""){
         $sql = "UPDATE chofer SET latitud='$latitud', longitud='$longitud' WHERE id_usuario='$id'";
-        pg_query($conexion_bd, $sql);
+        $con->consultar( $sql);
         $respuestaJson['success'] = 1;
     }
     return $respuestaJson;
 }
 
 echo json_encode(actualizar($conexion_bd,$id,$latitud,$longitud));
-pg_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

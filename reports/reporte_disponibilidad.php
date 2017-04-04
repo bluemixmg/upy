@@ -1,7 +1,7 @@
 <?php
 
 require_once '../fpdf/fpdf.php';
-require_once '../conexion.php';
+require_once '../conexion.php';$con = new Conexion();
 
 $fecha_inicio = $_GET['ini'];
 $fecha_fin = $_GET['fin'];
@@ -64,8 +64,8 @@ $sql = "SELECT disponibilidad.fecha, CONCAT (disponibilidad.id_usuario, ' - ',ch
     INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id
     WHERE fecha BETWEEN '".$fecha_inicio."' AND '".$fecha_fin."'"
   . " ORDER BY disponibilidad.fecha, chofer.nombre, bloque.id";
-$consulta = pg_query($conexion_bd, $sql);
-if(pg_num_rows($consulta)>0){
+$consulta = $con->consultar( $sql);
+if($con->num_filas($consulta)>0){
     $x = $pdf->GetX();
     $y = $pdf->GetY();
     $y2 = $y;
@@ -118,5 +118,5 @@ if(pg_num_rows($consulta)>0){
     $pdf->Cell(0,10, utf8_decode('No existen datos para mostrar'),0,1);
 }
 
-pg_close($conexion_bd);
+$con->cerrar_conexion();
 $pdf->Output();

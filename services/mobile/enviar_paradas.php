@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require_once './conexion.php';
+require_once './conexion.php';$con = new Conexion();
 
 $id = $_POST['id'];
 $respuestaJson = array();
@@ -13,8 +13,8 @@ function mostrar($conexion_bd,$id,$respuestaJson){
              . "INNER JOIN cliente ON parada.id_cliente=cliente.cedula "
              . "INNER JOIN ruta ON parada_ruta.id_ruta=ruta.id "
              . "WHERE parada_ruta.id_ruta='$id'";
-        $consulta = pg_query($conexion_bd, $sql);
-        if(pg_num_rows($consulta)>0){
+        $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             foreach ($consulta as $c){
                 $d[] = $c['id_cliente'];
@@ -34,7 +34,7 @@ function mostrar($conexion_bd,$id,$respuestaJson){
              . "FROM parada_ruta INNER JOIN parada ON parada_ruta.id_parada=parada.id "
              . "INNER JOIN empresa ON parada.id_cliente=empresa.rif "
              . "WHERE parada_ruta.id_ruta='$id'";
-            $consulta2 = pg_query($conexion_bd, $sql2);
+            $consulta2 = $con->consultar( $sql2);
             foreach ($consulta2 as $c){
                 $d2 = $c['id_cliente'];
                 $s2 = $c['estatus'];
@@ -74,4 +74,4 @@ function mostrar($conexion_bd,$id,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-pg_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

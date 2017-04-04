@@ -17,23 +17,23 @@ $acept = $_POST['acept'];
 if($acept!=''){
     if($id!='' && $nombre!='Nombre' && $apellido!='Apellido' && $tlf!='' && $placa!='Placa' 
         && $marca!='Marca' && $modelo!='Modelo' && $correo!='Correo'){
-        require_once './conexion.php';
+        require_once './conexion.php';$con = new Conexion();
         
         $sql = "SELECT id_cedula FROM chofer WHERE id_cedula='".$id."'";
-        $consulta = pg_query($conexion_bd, $sql);
+        $consulta = $con->consultar( $sql);
         
-        if(pg_num_rows($consulta)==0){
+        if($con->num_filas($consulta)==0){
             $sql = "SELECT placa FROM vehiculo WHERE placa='".$placa."'";
-            $consulta1 = pg_query($conexion_bd, $sql);
-            if(pg_num_rows($consulta1)==0){
+            $consulta1 = $con->consultar( $sql);
+            if($con->num_filas($consulta1)==0){
                 $nombre1 = utf8_decode($nombre);
                 $apellido1 = utf8_decode($apellido);
                 $sql_chofer = "INSERT INTO chofer (id_cedula,nombre,apellido,sexo,correo,direccion,telefono,estatus) "
                      . "VALUES ('$id','$nombre1','$apellido1','$sexo','$correo','$direccion','$tlf','0')";
-                pg_query($conexion_bd, $sql_chofer);
+                $con->consultar( $sql_chofer);
                 $sql1 = "INSERT INTO vehiculo (placa,marca,modelo,id_tipo_vehiculo,id_condicion,id_chofer) "
                       . "VALUES ('$placa','$marca','$modelo','$tipo_v','$cond','$id')";
-                pg_query($conexion_bd, $sql1);
+                $con->consultar( $sql1);
                 echo '<p>Registro exitoso, espere ser contactado</p>';
             }else{
                 echo '<p>El número de placa ya se encuentra registrado</p>';
@@ -41,7 +41,7 @@ if($acept!=''){
         }else{
             echo '<p>El número de identificación ya se ha registrado anteriormente</p>';
         }
-        pg_close($conexion_bd);
+        $con->cerrar_conexion();
     }else{
         echo '<p>Favor ingrese todos los datos</p>';
     }

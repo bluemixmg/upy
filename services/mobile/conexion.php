@@ -3,8 +3,8 @@ require $_SERVER['DOCUMENT_ROOT'] . '/conexion.php';
 ?>
 <?php
 
-    $dbm = new DBManager();
-    $conexion_bd = $dbm->getConnection();
+    //$dbm = new DBManager();
+    //$conexion_bd = $dbm->getConnection();
 // Parametros a configurar para la conexion de la base de datos 
 
 //$hotsbd = "whois.dattatec.com";    // sera el valor de nuestra BD 

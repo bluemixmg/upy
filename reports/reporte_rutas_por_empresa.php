@@ -27,7 +27,8 @@ function Header(){
     $this->Ln();
     //Buscamos el nombre de la empresa
     $sql = "SELECT nombre FROM empresa WHERE rif='".$GLOBALS['rif']."'";
-    $nombre_empresa = pg_query($GLOBALS['conexion_bd'], $sql);
+    $con = new Conexion();
+    $nombre_empresa = $con->consultar($sql);
     foreach ($nombre_empresa as $ne){
     $this->Cell(180,10,'Empresa: '.$ne['nombre'],0,0,'C');
     $this->Ln();
@@ -77,9 +78,9 @@ $sql = "SELECT DISTINCT ruta.*,parada.hora,chofer.nombre as nombre_c, chofer.ape
      . "INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula "
      . "WHERE cliente.rif_empresa = '$rif' AND "
      . "ruta.fecha BETWEEN '".$fecha_inicio."' AND '".$fecha_fin."'";
-$consulta = pg_query($conexion_bd, $sql);
+$consulta = $con->consultar( $sql);
 
-if(pg_num_rows($consulta) > 0){
+if($con->num_filas($consulta) > 0){
     
     $x = $pdf->GetX();
     $y = $pdf->GetY();
@@ -137,9 +138,9 @@ if(pg_num_rows($consulta) > 0){
         
         $sql = "SELECT descripcion FROM tipo_ruta "
             . "WHERE id = '".$c['id_tipo_ruta']."'";
-        $consulta_tipo = pg_query($conexion_bd, $sql);
+        $consulta_tipo = $con->consultar( $sql);
 
-        if(pg_num_rows($consulta_tipo) > 0){
+        if($con->num_filas($consulta_tipo) > 0){
          foreach ($consulta_tipo as $ct){
              $tipo = utf8_decode($ct['descripcion']). "\n";
          }
@@ -157,9 +158,9 @@ if(pg_num_rows($consulta) > 0){
             . "INNER JOIN parada ON parada.id = parada_ruta.id_parada "
             . "INNER JOIN cliente ON cliente.cedula = parada.id_cliente "
             . "WHERE ruta.id = '".$c['id']."'";
-        $consulta_emple = pg_query($conexion_bd, $sql);
+        $consulta_emple = $con->consultar( $sql);
 
-        if(pg_num_rows($consulta_emple) > 0){
+        if($con->num_filas($consulta_emple) > 0){
          foreach ($consulta_emple as $ce){
              $emp .= $ce['cedula']. " ". $ce['nombre']. " ". $ce['apellido']. "\n";
          }
@@ -176,5 +177,5 @@ if(pg_num_rows($consulta) > 0){
     $pdf->Cell(0,10, utf8_decode('No existen datos para mostrar'),0,1);
 }
 
-pg_close($conexion_bd);
+$con->cerrar_conexion();
 $pdf->Output();

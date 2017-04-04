@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php'); //Archivo para conectar a la base de datos
+require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id']) && isset($_POST['pass'])){
@@ -18,8 +18,8 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
     if($id!="" && $pass!=""){
     $sql = "SELECT * FROM usuario INNER JOIN chofer ON usuario.usuario = chofer.id_usuario WHERE usuario.usuario='$id' AND usuario.contrasena='$pass' AND usuario.id_rol=3 AND chofer.estatus != '0' AND chofer.estatus != '3'";
     //echo $sql;
-    $consulta = pg_query($conexion_bd, $sql);
-        if(pg_num_rows($consulta)>0){
+    $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
             while($fila = pg_fetch_array($consulta)){
                 if($fila['estatus'] != 0){
                     $respuestaJson['success'] = 1;
@@ -47,4 +47,4 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id, $pass, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-pg_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

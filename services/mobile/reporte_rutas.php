@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require_once './conexion.php';
+require_once './conexion.php';$con = new Conexion();
 
 $id = $_POST['id'];
 $fecha = $_POST['fecha'];
@@ -23,8 +23,8 @@ function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
         }elseif($estatus==1){
             $sql.= "AND ruta.estatus='1' AND chofer.id_usuario='$id' ORDER BY parada.hora ASC";
         }
-        $consulta = pg_query($conexion_bd, $sql);
-        if(pg_num_rows($consulta)>0){
+        $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             foreach ($consulta as $c){
                 $d[] = $c['id'].' - '.$c['nombre'].' - '.$c['hor'];
@@ -44,4 +44,4 @@ function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id, $fecha, $estatus,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-pg_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

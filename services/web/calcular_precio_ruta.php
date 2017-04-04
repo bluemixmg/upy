@@ -4,12 +4,12 @@ $tipo = filter_var($_POST['tipo'],FILTER_SANITIZE_NUMBER_INT);
 $chofer = $_POST['chofer'];
 
 if($chofer!='' && $tipo!=''){
-    require_once './conexion.php';
+    require_once './conexion.php';$con = new Conexion();
     $sql = "SELECT tipo_vehiculo.id,tipo_vehiculo.costo,tipo_vehiculo.precio,vehiculo.id_chofer,vehiculo.id_tipo_vehiculo,chofer.id_cedula FROM chofer "
          . "INNER JOIN vehiculo ON chofer.id_cedula=vehiculo.id_chofer "
          . "INNER JOIN tipo_vehiculo ON tipo_vehiculo.id=vehiculo.id_tipo_vehiculo "
          . "WHERE chofer.id_cedula='$chofer'";
-    $consulta = pg_query($conexion_bd, $sql);
+    $consulta = $con->consultar( $sql);
     foreach ($consulta as $c1){
         $costo_tipo_vehiculo = $c1['costo'];
         $precio_tipo_vehiculo = $c1['precio'];
@@ -23,7 +23,7 @@ if($chofer!='' && $tipo!=''){
             echo '<label id="label_precio">0</label>';
         }else{
             $sql = "SELECT costo,precio FROM tipo_ruta WHERE id='$tipo'";
-            $consulta = pg_query($conexion_bd, $sql);
+            $consulta = $con->consultar( $sql);
             foreach ($consulta as $c){
                 $costo_tipo_ruta = $c['costo'];
                 $precio_tipo_ruta = $c['precio'];
@@ -41,7 +41,7 @@ if($chofer!='' && $tipo!=''){
             echo '<label id="label_precio" hidden>0</label>';
         }else{
             $sql = "SELECT costo,precio FROM tipo_ruta WHERE id='$tipo'";
-            $consulta = pg_query($conexion_bd, $sql);
+            $consulta = $con->consultar( $sql);
             foreach ($consulta as $c){
                 $costo_tipo_ruta = $c['costo'];
                 $precio_tipo_ruta = $c['precio'];
@@ -52,5 +52,5 @@ if($chofer!='' && $tipo!=''){
             echo '<label id="label_precio" hidden>'.$precio_tipo_ruta * $precio_tipo_vehiculo.'</label>';
         }
     }
-    pg_close($conexion_bd);
+    $con->cerrar_conexion();
 }

@@ -23,11 +23,11 @@ if($titulo!='Título' && $texto!='Texto'){
         $ruta = 'images/noticias/1.jpg';
     }
 
-    require_once ('conexion.php');
+    require_once ('conexion.php');$con = new Conexion();
     $sql = "INSERT INTO noticia (titulo,texto,ruta_imagen,fecha) VALUES ('$titulo','$texto','$ruta','$fecha')";
-    pg_query($conexion_bd, $sql);
+    $con->consultar( $sql);
     echo 'Informacion registrada exitosamente';
-    pg_close($conexion_bd);
+    $con->cerrar_conexion();
 }else{
     echo 'Favor ingrese todos los datos';
 }

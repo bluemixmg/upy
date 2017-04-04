@@ -37,10 +37,10 @@
 	<div class="blog-head">
             
                 <?php
-                require_once './conexion.php';
+                require_once './conexion.php';$con = new Conexion();
                 $sql = 'SELECT * FROM noticia ORDER BY fecha DESC';
-                $consulta = pg_query($conexion_bd, $sql);
-                if(@pg_num_rows($consulta)>0){
+                $consulta = $con->consultar( $sql);
+                if(@$con->num_filas($consulta)>0){
                     $i = 0;
                     foreach ($consulta as $c){
                         if($i == 0 || $i == 2 || $i == 4){
@@ -75,7 +75,7 @@
                         }
                         $i++;
                     }
-                    pg_close($conexion_bd);
+                    $con->cerrar_conexion();
                 }else{
                     echo "<p>Disculpe, no hay noticias en este momento<p>";
                 }

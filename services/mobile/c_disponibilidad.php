@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php'); //Archivo para conectar a la base de datos
+require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id_u']) && isset($_POST['fecha'])){
@@ -17,8 +17,8 @@ function mostrar($conexion_bd,$id_u,$fecha,$respuestaJson){
 
     if($id_u!="" && $fecha!=""){
     $sql = "SELECT * FROM disponibilidad WHERE id_usuario='$id_u' AND fecha='$fecha'";
-    $consulta = pg_query($conexion_bd, $sql);
-        if(pg_num_rows($consulta)>0){
+    $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             $respuestaJson['message'] = "EXITO";
         }else{
@@ -35,4 +35,4 @@ function mostrar($conexion_bd,$id_u,$fecha,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id_u, $fecha, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-pg_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

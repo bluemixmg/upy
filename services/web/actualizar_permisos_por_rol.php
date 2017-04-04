@@ -7,16 +7,16 @@ if(isset($_POST['permisos'])){
     $permisos[] = 0;
 }
 
-require_once './conexion.php';
+require_once './conexion.php';$con = new Conexion();
 
 $sql = "DELETE FROM permiso_rol WHERE id_rol=$id";
-//pg_query($conexion_bd, $sql);
+//$con->consultar( $sql);
 
 foreach ($permisos as $p){
     $sql = "INSERT INTO permiso_rol (id_rol,id_permiso) VALUES ($id,$p)";
-//    pg_query($conexion_bd, $sql);
+//    $con->consultar( $sql);
 }
 
-pg_close($conexion_bd);
+$con->cerrar_conexion();
 
 echo '<p>Permisos Actualizados con Éxito</p>';

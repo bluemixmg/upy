@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php'); //Archivo para conectar a la base de datos
+require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id_usuario']) && isset($_POST['id_bloque']) && isset($_POST['fecha'])){
@@ -21,7 +21,7 @@ function mostrar($conexion_bd,$id_u,$id_bloque,$fecha,$respuestaJson){
     if($id_u!="" && $fecha!=""){
         foreach ($id_bloque['id_bloq'] as $i){
             $sql = "INSERT INTO disponibilidad (id_usuario,id_bloque,fecha) VALUES ('$id_u','".$i['id_b']."','$fecha')";
-            pg_query($conexion_bd, $sql);
+            $con->consultar( $sql);
             $respuestaJson['success'] = 1;
         }
     }else{
@@ -33,4 +33,4 @@ function mostrar($conexion_bd,$id_u,$id_bloque,$fecha,$respuestaJson){
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id_u, $id_bloque, $fecha,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-pg_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

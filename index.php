@@ -74,10 +74,11 @@
 	<!--//content-mid-->
 	<!--content-left-->
         <?php
-        require_once 'conexion.php';
+        require_once 'conexion.php';$con = new Conexion();
+        $con = new Conexion();
         $sql = 'SELECT * FROM noticia ORDER BY fecha DESC LIMIT 3';
-                $consulta = pg_query($conexion_bd, $sql);
-                if(pg_num_rows($consulta) > 0){
+                $consulta = $con->consultar($sql);
+                if($con->num_filas($consulta) > 0){
                     echo '<div class="content-left">';
                     foreach ($consulta as $c){
                         echo '<div class="col-md-4 content-left-top">
@@ -101,16 +102,13 @@
             <ul>
                 <?php
                 $sql = 'SELECT id,titulo FROM noticia ORDER BY fecha DESC LIMIT 8';
-                $consulta = pg_query($conexion_bd, $sql);
-                if(!$consulta) {
-                    die("Hubo error en la consulta");
-                }
-                if(pg_num_rows($consulta)>0){
+                $consulta = $con->consultar($sql);
+                if($con->num_filas($consulta)>0){
                     foreach ($consulta as $c){
                     echo '<li><a href="single.php?id='.$c['id'].'"><i class="glyphicon glyphicon-info-sign"></i>  '.$c['titulo'].'</a></li>';
                     }
                 }
-                pg_close($conexion_bd);
+                $con->cerrar_conexion();
                 ?>
             </ul>
 	</div>
