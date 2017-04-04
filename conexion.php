@@ -6,13 +6,6 @@
  * @author jparedes
  */
 
-/*Permite dividir un string en varios substrings con delimitadores múltiples*/
-function multiexplode ($delimiters, $string) {
-    $ready = str_replace($delimiters, $delimiters[0], $string);
-    $launch = explode($delimiters[0], $ready);
-    return  $launch;
-}
-
 /*Clase de conexión a BD*/
 class Conexion {
     
@@ -23,6 +16,13 @@ class Conexion {
         $this->conexion = $this->getConnection();
     }
     
+    /*Permite dividir un string en varios substrings con delimitadores múltiples*/
+    private function multiexplode ($delimiters, $string) {
+        $ready = str_replace($delimiters, $delimiters[0], $string);
+        $launch = explode($delimiters[0], $ready);
+        return  $launch;
+    }
+    
     private function getConnection(){
 
         $services = getenv("VCAP_SERVICES");
@@ -31,23 +31,23 @@ class Conexion {
             $services_json = json_decode($services,true);
             
             /*Conectar con servicio ClearDB (MySQL) de Bluemix*/
-            //return $this->conectarClearDB($services_json);
+            return $this->conectarClearDB($services_json);
             
             /*Conectar con servicio Elephant (PostgreSQL) de Bluemix*/
-            return $this->conectarElephant($services_json);
+            //return $this->conectarElephant($services_json);
         }
         else {
             //Entrará aquí si se ejecuta la app en localhost o fuera de Bluemix
             
-            //$this->gestorBD = 'mysql'; //Si la BD es MySQL
-            $this->gestorBD = 'pgsql'; //Si la BD es PostgreSQL
+            $this->gestorBD = 'mysql'; //Si la BD es MySQL
+            //$this->gestorBD = 'pgsql'; //Si la BD es PostgreSQL
             
             //Colocar credenciales para ejecutar en localhost o fuera de Bluemix
-            $user = "postgres";
-            $password = "postgres";
-            $host = "localhost";
-            $port = "5432";
-            $dbname = "upy";
+            $user = "b74e1e2c618ed4";
+            $password = "96c9ba72";
+            $host = "us-cdbr-iron-east-03.cleardb.net";
+            $port = "3306";
+            $dbname = "ad_cf9caa47af41265";
             
             return $this->conectar($this->gestorBD, $dbname, $host, $port, $user, $password);
         }
@@ -74,7 +74,7 @@ class Conexion {
         $pgsql_config = $json["elephantsql"][0]["credentials"];
         
       //Formato URI de credenciales: "postgres://user:password@host:port/dbname"
-        $pg_credenciales = multiexplode(array(":","@","/"),
+        $pg_credenciales = $this->multiexplode(array(":","@","/"),
                             substr($pgsql_config["uri"], 11));
         
         $user = $pg_credenciales[0];
@@ -126,7 +126,7 @@ class Conexion {
             return $result;
         }
         elseif($this->gestorBD == 'pgsql') {
-            //echo "this->conexion = " .$this->conexion . '<br>';
+            //echo "this->conexion = " .pg_fetch_assoc($this->conexion) . '<br>';
             //echo "sql = $sql <br>";
             $result = pg_query($this->conexion, $sql);
             //echo "result = " .$result . '<br>';
@@ -142,6 +142,7 @@ class Conexion {
             return mysqli_num_rows($resultado);
         }
         elseif($this->gestorBD == 'pgsql') {
+            //echo "resultado = " . $resultado . '<br>';
             return count($resultado);
         }
         die("Hubo un problema con la consulta");

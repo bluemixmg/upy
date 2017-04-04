@@ -267,6 +267,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     $sql = "SELECT * FROM empresa WHERE estatus=0";
                     $con = new Conexion();
                     $consulta = $con->consultar($sql);
+                    //echo "con->num_filas = " . $con->num_filas($consulta) . '<br>';
                     if($con->num_filas($consulta)!=0){
                         echo '<table class="table" border="1">';
                         echo '<tr bgcolor="#00bce4">'
@@ -1361,7 +1362,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
         </div>
         
             <?php
-            include './conexion.php';$con = new Conexion();
+            //include './conexion.php';
             $sql = "SELECT chofer.*,vehiculo.modelo FROM chofer INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula WHERE estatus=1 AND latitud IS NOT NULL";
             $con = $con->consultar($sql);
             if($con->num_filas($con)>0){
