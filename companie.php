@@ -1364,10 +1364,10 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             <?php
             //include './conexion.php';
             $sql = "SELECT chofer.*,vehiculo.modelo FROM chofer INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula WHERE estatus=1 AND latitud IS NOT NULL";
-            $con = $con->consultar($sql);
-            if($con->num_filas($con)>0){
+            $consulta = $con->consultar($sql);
+            if($con->num_filas($consulta)>0){
                 $i = 1;
-                foreach ($con as $c){
+                foreach ($consulta as $c){
                     $lat = $c['latitud'];
                     $lng = $c['longitud'];
                     echo '<input type="hidden" id="lat'.$i.'" value="'.$lat.'" />';
@@ -1380,7 +1380,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             var mapChoferes;
             var bounds = new google.maps.LatLngBounds();
             <?php
-            for ($i=1;$i<=$con->num_filas($con);$i++){
+            for ($i=1;$i<=$con->num_filas($consulta);$i++){
                 echo "var lat$i = parseFloat(document.getElementById('lat$i').value);";
                 echo "var lng$i = parseFloat(document.getElementById('lng$i').value);";
             }
@@ -1390,7 +1390,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 });
                 <?php
                 $i=1;
-                foreach ($con as $c){
+                foreach ($consulta as $c){
                     $titulo = $c['nombre'].' '.$c['apellido'].' '.$c['modelo'].' '.$c['telefono'];
                     echo "var marker$i = new google.maps.Marker({"
                        . 'position: {lat: lat'.$i.', lng: lng'.$i.'},'
@@ -1682,7 +1682,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         <input type="text" id="fecha_transporte" />
                                         <select id="selectvehiculos" class="form-control">
                                             <?php
-                                                require_once 'conexion.php';$con = new Conexion();
+                                                require_once 'conexion.php';
                                                 $sql = 'SELECT * FROM tipo_vehiculo';
                                                 $consulta_nro_puestos = $con->consultar($sql);
                                                 foreach($consulta_nro_puestos as $c){
