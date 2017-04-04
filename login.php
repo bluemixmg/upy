@@ -57,28 +57,6 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
         include ('navbar.php');
     ?>
     <?php
-            $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
-            . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
-            . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
-            $consulta = $con->consultar( $sql);
-            if ($con->num_filas($consulta) > 0){
-                foreach($consulta as $ss){
-                ?>
-                <script type="text/javascript">
-                    console.log("<?php echo 'usuario = ' . $ss['usuario']?>");
-                    console.log("<?php echo 'rif = ' . $ss['rif']?>");
-                    console.log("<?php echo 'nombre = ' . $ss['nombre']?>");
-                    console.log("<?php echo 'correo = ' . $ss['correo']?>");
-                    console.log("<?php echo 'telefono = ' . $ss['telefono']?>");
-                    console.log("<?php echo 'direccion = ' . $ss['direccion']?>");
-                    console.log("<?php echo 'estatus = ' . $ss['estatus']?>");
-                    console.log("<?php echo 'rol = ' . $ss['rol']?>");
-                </script>
-                <?php
-                }
-            }
-        ?>
-    <?php
     if(isset($_POST['success']) && $_POST['success']=='no'){
 
     }else{
@@ -87,45 +65,18 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
         $login_pass = md5($_POST['txtpass']);
         $login_usuario = $_POST['txtid'];
         ?>
-    <script type="text/javascript">
-        console.log("<?php echo "login_pass = $login_pass"?>");
-        console.log("<?php echo "login_usuario = $login_usuario"?>");
-    </script>
         <?php
         include("conexion.php");
         $con = new Conexion();
-        ?>
-        <script type="text/javascript">
-            console.log("<?php echo "_POST['txtid'] = " . $_POST['txtid']?>");
-        </script>
-        <?php
         if($_POST['txtid']!='op1'){
-            ?>
-            <script type="text/javascript">
-                console.log("Pasó el primer if");
-            </script>
-        <?php
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
             $consulta = $con->consultar( $sql);
-        ?>
-            <script type="text/javascript">
-                console.log("<?php echo '$con->num_filas($consulta) = ' . $con->num_filas($consulta)?>");
-            </script>
-        <?php
+            //echo "consulta = " . $consulta . '<br>';
             if ($con->num_filas($consulta) > 0){
-                ?>
-                <script type="text/javascript">
-                    console.log("Pasó el segundo if");
-                </script>
-                <?php
-                $_SESSION['success'] = yes;
-                ?>
-                <script type="text/javascript">
-                    console.log("<?php echo '$_SESSION["success"] = ' . $_SESSION["success"]?>");
-                </script>
-                <?php
+                $_SESSION['success'] = 'yes';
+                
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
                 $_SESSION['rif'] = $ss['rif'];
@@ -155,11 +106,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
                 . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='J-406819212'";
              $consulta = $con->consultar( $sql);
-             ?>
-                <script type="text/javascript">
-                    console.log("<?php echo '$con->num_filas($consulta) 2 = ' . $con->num_filas($consulta)?>");
-                </script>
-                <?php
+             
             if ($con->num_filas($consulta) > 0){
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){

@@ -263,8 +263,9 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 <?php
                 if (in_array(1, $_SESSION['permisos'])) {
                     echo '<h4 class="text-center"><strong>Empresas en lista de espera</strong></h4><br>';
-                    require_once './conexion.php';$con = new Conexion();
+                    require_once 'conexion.php';
                     $sql = "SELECT * FROM empresa WHERE estatus=0";
+                    $con = new Conexion();
                     $consulta = $con->consultar($sql);
                     if($con->num_filas($consulta)!=0){
                         echo '<table class="table" border="1">';
@@ -344,7 +345,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 
                 <?php
                 }
-                //if(in_array(2, $_SESSION['permisos'])){
+                if(in_array(2, $_SESSION['permisos'])){
                     $sql1 = "SELECT * FROM chofer WHERE estatus=0";
                     $consulta1 = $con->consultar($sql1);
                     echo '<br><h4 class="text-center"><strong>Choferes en lista de espera</strong></h4><br>';
@@ -434,7 +435,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 </script>
                 
                 <?php
-                //}
+                }
                 ?>
             </div>
         </div>
@@ -446,7 +447,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 <p>Datos Básicos</p>
                 <div>
                     <?php
-                    if(in_array(3, $_SESSION['permisos'])){
+                    //if(in_array(3, $_SESSION['permisos'])){
                     ?>    
                         <!--Menu Izquierdo-->
                         <div class="col-md-3">
@@ -516,7 +517,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             </script>
                             
                             <?php
-                            }
+                            //}
                             if(in_array(4, $_SESSION['permisos'])){
                             ?>
                             

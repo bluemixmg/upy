@@ -39,15 +39,15 @@ class Conexion {
         else {
             //Entrará aquí si se ejecuta la app en localhost o fuera de Bluemix
             
-            $this->gestorBD = 'mysql'; //Si la BD es MySQL
-            //$this->gestorBD = 'pgsql'; //Si la BD es PostgreSQL
+            //$this->gestorBD = 'mysql'; //Si la BD es MySQL
+            $this->gestorBD = 'pgsql'; //Si la BD es PostgreSQL
             
             //Colocar credenciales para ejecutar en localhost o fuera de Bluemix
-            $user = "b74e1e2c618ed4";
-            $password = "96c9ba72";
-            $host = "us-cdbr-iron-east-03.cleardb.net";
-            $port = "3306";
-            $dbname = "ad_cf9caa47af41265";
+            $user = "postgres";
+            $password = "postgres";
+            $host = "localhost";
+            $port = "5432";
+            $dbname = "upy";
             
             return $this->conectar($this->gestorBD, $dbname, $host, $port, $user, $password);
         }
@@ -126,8 +126,12 @@ class Conexion {
             return $result;
         }
         elseif($this->gestorBD == 'pgsql') {
+            //echo "this->conexion = " .$this->conexion . '<br>';
+            //echo "sql = $sql <br>";
             $result = pg_query($this->conexion, $sql);
+            //echo "result = " .$result . '<br>';
             $arr = pg_fetch_all($result);
+            //echo "arr = " .$arr . '<br>';
             return $arr;
         }
         die("Hubo un problema con la consulta");
