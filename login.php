@@ -93,6 +93,7 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
     </script>
         <?php
         include("conexion.php");
+        $con = new Conexion();
         ?>
         <script type="text/javascript">
             console.log("<?php echo "_POST['txtid'] = " . $_POST['txtid']?>");
