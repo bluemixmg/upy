@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
+require ('conexion.php'); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['cedula_usuario']) && isset($_POST['rif_empresa'])){
@@ -16,7 +16,8 @@ $id_chofer = $_POST['id_chofer'];
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuestaJson){
-
+require('conexion.php');
+    $con = new Conexion();
     if($cedula_usuario!="" && $rif_empresa!=""){
         $sql = "SELECT cliente.nombre,empresa.nombre "
              . "FROM cliente INNER JOIN empresa ON cliente.rif_empresa=empresa.rif "
@@ -45,6 +46,8 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
     return $respuestaJson;
 }
 
+
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $cedula_usuario,$rif_empresa,$id_chofer,$respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $cedula_usuario,$rif_empresa,$id_chofer,$respuestaJson));
 $con->cerrar_conexion(); //Cerramos la conexion a la base de datos

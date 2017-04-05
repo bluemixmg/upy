@@ -16,6 +16,10 @@ class Conexion {
         $this->conexion = $this->getConnection();
     }
     
+    public function getConexion() {
+        return $this->conexion;
+    }
+    
     /*Permite dividir un string en varios substrings con delimitadores múltiples*/
     private function multiexplode ($delimiters, $string) {
         $ready = str_replace($delimiters, $delimiters[0], $string);

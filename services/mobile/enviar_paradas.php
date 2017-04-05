@@ -1,12 +1,14 @@
 <?php
 header('Content-Type: application/json');
 
-require_once './conexion.php';$con = new Conexion();
+require_once 'conexion.php';
 
 $id = $_POST['id'];
 $respuestaJson = array();
 
 function mostrar($conexion_bd,$id,$respuestaJson){
+    require('conexion.php');
+    $con = new Conexion();
     if($id!=''){
         $sql = "SELECT cliente.nombre,cliente.apellido,ruta.aceptacion,parada_ruta.estatus,parada_ruta.id_ruta,parada_ruta.id_parada,parada.id_cliente,parada.lat_o,parada.lng_o,parada.lat_d,parada.lng_d "
              . "FROM parada_ruta INNER JOIN parada ON parada_ruta.id_parada=parada.id "
@@ -71,7 +73,8 @@ function mostrar($conexion_bd,$id,$respuestaJson){
     return $respuestaJson;
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id,$respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
 $con->cerrar_conexion(); //Cerramos la conexion a la base de datos

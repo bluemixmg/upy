@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require_once ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
+require_once ('conexion.php');//Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id_parada']) && isset($_POST['id_ruta']) && isset($_POST['id_usuario'])){
@@ -16,7 +16,8 @@ $id_usuario = $_POST['id_usuario'];
 $respuestaJson = array();
 
 function actualizar($conexion_bd,$id_parada,$id_ruta,$id_usuario,$respuestaJson){
-
+require('conexion.php');
+    $con = new Conexion();
     if($id_parada!="" && $id_ruta!="" && $id_usuario!=""){
         $sql = "UPDATE parada_ruta SET estatus=0 WHERE id_ruta='$id_ruta' AND id_parada='$id_parada'";
         if($con->consultar( $sql)){
@@ -66,7 +67,7 @@ function actualizar($conexion_bd,$id_parada,$id_ruta,$id_usuario,$respuestaJson)
     }
     return $respuestaJson;
 }
-
+$con = new Conexion(); 
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(actualizar($conexion_bd, $id_parada, $id_ruta, $id_usuario, $respuestaJson));
+echo json_encode(actualizar($con->getConexion(), $id_parada, $id_ruta, $id_usuario, $respuestaJson));
 $con->cerrar_conexion(); //Cerramos la conexion a la base de datos

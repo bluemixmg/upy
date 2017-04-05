@@ -19,7 +19,8 @@ $id_inc = $_POST['id_inc'];
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
-$con = new Conexion();
+require('conexion.php');
+    $con = new Conexion();
     if($id!="" && $id_inc!=""){
         date_default_timezone_set("America/Caracas");
         $fecha = date("Y-m-d");
@@ -152,7 +153,8 @@ $con = new Conexion();
 
 
 function AsignarChofer($n, $hora, $ruta, $f, $estado){
-        $con = new Conexion();
+        require('conexion.php');
+    $con = new Conexion();
         $sql_c = "SELECT vehiculo.placa FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN tipo_vehiculo ON vehiculo.id_tipo_vehiculo = tipo_vehiculo.id INNER JOIN disponibilidad ON chofer.id_usuario = disponibilidad.id_usuario INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id WHERE tipo_vehiculo.nro_puestos >= '$n' AND disponibilidad.fecha = '$f' AND ('$hora' BETWEEN bloque.hora_inicio AND bloque.hora_fin) AND chofer.estatus != '0' AND chofer.estatus != '3' AND chofer.id_estado ='$estado' ";
         $consulta_c = $con->consultar( $sql_c);
         
@@ -193,6 +195,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $estado){
 }
 
 function Mensaje($placa){
+    require('conexion.php');
     $con = new Conexion();
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
     $consulta_cho = $con->consultar( $sql_cho);
@@ -231,7 +234,8 @@ function Mensaje($placa){
 }
 
 function Mensaje2($placa, $texto){
-$con = new Conexion();
+require('conexion.php');
+    $con = new Conexion();
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
     $consulta_cho = $con->consultar( $sql_cho);
     foreach ($consulta_cho as $cho){
@@ -268,7 +272,8 @@ $con = new Conexion();
     curl_close($ch);
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id, $id_inc, $id_cliente, $respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id, $id_inc, $id_cliente, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
 $con->cerrar_conexion(); //Cerramos la conexion a la base de datos

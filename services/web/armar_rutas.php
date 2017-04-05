@@ -22,7 +22,7 @@ if($fechaN=="" || $ids==0){
     echo '<p>Faltan datos para generar la Orden</p>';
 }else{
     //Guardamos los ids de las paradas seleccionadas
-    include './conexion.php';
+    require 'conexion.php';
     $con = new Conexion();
     $paradas = [];
     $D = 0.009170;
@@ -146,6 +146,7 @@ if($fechaN=="" || $ids==0){
     }
 
     function PicarRuta(&$B, $hora){
+        require 'conexion.php';
         while (isset($B[0])){
 //            echo '<br>Ruta Definitiva<br>';
             // INSERTAR RUTA NUEVA EN BD
@@ -154,7 +155,7 @@ if($fechaN=="" || $ids==0){
             $sql_r = "INSERT INTO ruta (fecha) VALUES ('$fecha')";
             $con->consultar( $sql_r);
             $ruta = $con->insertar_id();
-            //$ruta = pg_insert_id($conexion_bd);
+            //$ruta = $con->insertar_id();
             $nro_p_r = 0;
             for($m=0; $m < $GLOBALS['nro_puestos']; $m++){
                 if(isset($B[$m])){
@@ -194,6 +195,7 @@ if($fechaN=="" || $ids==0){
     }
     
     function AsignarChofer($n, $hora, $n_max, $ruta, $estado){
+        require 'conexion.php';
         $f = $GLOBALS['fechaN'];
         $con = new Conexion();
         $sql_c = "SELECT vehiculo.placa FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN tipo_vehiculo ON vehiculo.id_tipo_vehiculo = tipo_vehiculo.id INNER JOIN disponibilidad ON chofer.id_usuario = disponibilidad.id_usuario INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id WHERE tipo_vehiculo.nro_puestos >= '$n' AND tipo_vehiculo.nro_puestos <= '$n_max' AND disponibilidad.fecha = '$f' AND ('$hora' BETWEEN bloque.hora_inicio AND bloque.hora_fin) AND chofer.estatus != '0' AND chofer.estatus != '3' AND chofer.id_estado ='$estado' ";
@@ -238,6 +240,7 @@ if($fechaN=="" || $ids==0){
     }
     
     function Mensaje($placa){
+        require 'conexion.php';
         $con = new Conexion();
         $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
         $consulta_cho = $con->consultar( $sql_cho);

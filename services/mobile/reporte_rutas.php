@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require_once './conexion.php';$con = new Conexion();
+require_once './conexion.php';
 
 $id = $_POST['id'];
 $fecha = $_POST['fecha'];
@@ -9,6 +9,8 @@ $estatus = $_POST['estatus'];
 $respuestaJson = array();
 
 function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
+    require('conexion.php');
+    $con = new Conexion();
     if($id!='' && $fecha!='' && $estatus!=''){
         $sql = "SELECT DISTINCT DATE_FORMAT(parada.hora,'%h:%i %p') AS hor,ruta.id,ruta.estatus,empresa.nombre FROM chofer "
             . "INNER JOIN vehiculo ON chofer.id_cedula=vehiculo.id_chofer "
@@ -41,7 +43,8 @@ function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
     return $respuestaJson;
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id, $fecha, $estatus,$respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id, $fecha, $estatus,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
 $con->cerrar_conexion(); //Cerramos la conexion a la base de datos

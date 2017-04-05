@@ -16,6 +16,7 @@ $resp = $_POST['resp'];
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
+    require('conexion.php');
     $con = new Conexion();
     if($ruta!="" && $usuario!="" && $resp!=""){
         date_default_timezone_set("America/Caracas");
@@ -86,6 +87,7 @@ function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
 
 
 function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
+    require('conexion.php');
         $con = new Conexion();
         $sql_c = "SELECT vehiculo.placa FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN tipo_vehiculo ON vehiculo.id_tipo_vehiculo = tipo_vehiculo.id INNER JOIN disponibilidad ON chofer.id_usuario = disponibilidad.id_usuario INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id WHERE tipo_vehiculo.nro_puestos >= '$n' AND disponibilidad.fecha = '$f' AND ('$hora' BETWEEN bloque.hora_inicio AND bloque.hora_fin) AND chofer.estatus != '0' AND chofer.estatus != '3' AND chofer.id_estado ='$estado' ";
         $consulta_c = $con->consultar( $sql_c);
@@ -135,6 +137,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
 }
 
 function Mensaje($placa){
+    require('conexion.php');
     $con = new Conexion();
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
     $consulta_cho = $con->consultar( $sql_cho);
@@ -171,8 +174,8 @@ function Mensaje($placa){
     curl_exec($ch);
     curl_close($ch);
 }
-
+$con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(procesar($conexion_bd, $ruta, $usuario, $resp, $respuestaJson));
+echo json_encode(procesar($con->getConexion(), $ruta, $usuario, $resp, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
 $con->cerrar_conexion(); //Cerramos la conexion a la base de datos

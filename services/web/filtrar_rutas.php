@@ -24,8 +24,9 @@ if(isset($_POST['fecha'])){
     }else {
          echo "No se han encontrado resultados";
     }
-require_once './conexion.php';
+
     function filtros($id, $para, $fecha) {
+        require_once 'conexion.php';
         $con = new Conexion();
         if ($para == "estado"){
             $sql = "SELECT id,nombre_estado as texto FROM estado WHERE id_pais=17 ORDER BY nombre_estado";
@@ -136,6 +137,7 @@ require_once './conexion.php';
     }
     
     function rutas($id){
+        require_once 'conexion.php';
         $con = new Conexion();
         //ruta.id, ruta.id_vehiculo, ruta.fecha, ruta.estatus, parada.hora, empresa.rif, empresa.nombre, chofer.id_cedula, chofer.nombre, chofer.apellido
         //cliente.cedula, cliente.nombre, cliente.apellido

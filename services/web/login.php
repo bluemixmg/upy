@@ -14,7 +14,7 @@ $pass = md5($_POST['pass']);
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$id,$pass,$respuestaJson){
-
+require('conexion.php');
     if($id!="" || $pass!=""){
         $con = new Conexion();
     $sql = "SELECT usuario.usuario AS usu, empresa.estatus AS es_em, usuario.estatus AS es_us FROM usuario INNER JOIN empresa ON usuario.usuario=empresa.id_usuario"
@@ -52,7 +52,8 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
     return $respuestaJson;
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id, $pass, $respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id, $pass, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
 $con->cerrar_conexion(); //Cerramos la conexion a la base de datos
