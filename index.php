@@ -74,7 +74,7 @@
 	<!--//content-mid-->
 	<!--content-left-->
         <?php
-        require_once 'conexion.php';$con = new Conexion();
+        require_once 'conexion.php';
         $con = new Conexion();
         $sql = 'SELECT * FROM noticia ORDER BY fecha DESC LIMIT 3';
                 $consulta = $con->consultar($sql);

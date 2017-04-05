@@ -11,12 +11,13 @@ if(isset($_FILES['file-0'])){
     //verificamos que el archivo tenga la extensión correcta para procesar la información
     if(strtolower(end($chk_ext)) == "csv"){
         //Establecemos la conexión con nuestro servidor
-        require_once './conexion.php';$con = new Conexion();
+        require_once './conexion.php';
+        $con = new Conexion();
  
         //si es correcto, entonces damos permisos de lectura para subir
         $filename = $_FILES['file-0']['tmp_name'];
         $handle = fopen($filename, "r");
-        require_once './conexion.php';$con = new Conexion();
+        
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){
             
             foreach ($data as $d){

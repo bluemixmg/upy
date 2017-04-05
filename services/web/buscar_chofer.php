@@ -7,7 +7,8 @@ if(!empty($cedula)){
 }
 
 function buscar_chofer($cedula){
-    require ('conexion.php');$con = new Conexion();
+    require ('conexion.php');
+    $con = new Conexion();
     $sql = "SELECT chofer.*,vehiculo.* FROM chofer "
          . "INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula "
          . "WHERE chofer.id_cedula='$cedula'";
@@ -16,7 +17,8 @@ function buscar_chofer($cedula){
     if($con->num_filas($consultar) == 0){
         echo "No se han encontrado resultados para '<b>".$nombre."</b>'.";
     }else{
-        while($row= pg_fetch_array($consultar)){
+        //while($row= pg_fetch_array($consultar)){
+        foreach($consultar as $row){
             //Chofer
             $cedula = $row['id_cedula'];
             $nombre = $row['nombre'];

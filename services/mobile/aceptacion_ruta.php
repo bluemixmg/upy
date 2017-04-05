@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
+require ('conexion.php'); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['ruta']) && isset($_POST['usuario']) && isset($_POST['resp'])){
@@ -16,7 +16,7 @@ $resp = $_POST['resp'];
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
-
+    $con = new Conexion();
     if($ruta!="" && $usuario!="" && $resp!=""){
         date_default_timezone_set("America/Caracas");
         $fecha = date("Y-m-d");
@@ -86,7 +86,7 @@ function procesar($conexion_bd,$ruta,$usuario,$resp,$respuestaJson){
 
 
 function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
-        include './conexion.php';$con = new Conexion();
+        $con = new Conexion();
         $sql_c = "SELECT vehiculo.placa FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN tipo_vehiculo ON vehiculo.id_tipo_vehiculo = tipo_vehiculo.id INNER JOIN disponibilidad ON chofer.id_usuario = disponibilidad.id_usuario INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id WHERE tipo_vehiculo.nro_puestos >= '$n' AND disponibilidad.fecha = '$f' AND ('$hora' BETWEEN bloque.hora_inicio AND bloque.hora_fin) AND chofer.estatus != '0' AND chofer.estatus != '3' AND chofer.id_estado ='$estado' ";
         $consulta_c = $con->consultar( $sql_c);
         
@@ -135,7 +135,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $choferes, $estado){
 }
 
 function Mensaje($placa){
-    include './conexion.php';$con = new Conexion();
+    $con = new Conexion();
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
     $consulta_cho = $con->consultar( $sql_cho);
     foreach ($consulta_cho as $cho){

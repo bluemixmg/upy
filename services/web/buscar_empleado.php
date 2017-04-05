@@ -7,14 +7,16 @@ if(!empty($n)){
 }
 
 function buscar_empleado($nombre){
-    require ('conexion.php');$con = new Conexion();
+    require ('conexion.php');
+    $con = new Conexion();
     $sql = "SELECT * FROM cliente WHERE cedula='$nombre' OR nombre='$nombre' OR apellido='$nombre'";
     $consultar = $con->consultar( $sql);
 
     if($con->num_filas($consultar) == 0){
         echo "No se han encontrado resultados para '<b>".$nombre."</b>'.";
     }else{
-        while($row= pg_fetch_array($consultar)){
+        //while($row= pg_fetch_array($consultar)){
+        foreach($consultar as $row){
             $cedula = $row['cedula'];
             $nombre = $row['nombre'];
             $apellido = $row['apellido'];

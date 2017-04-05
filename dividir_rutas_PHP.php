@@ -130,8 +130,10 @@ $D = 0.009170;
             for($m=0; $m < $GLOBALS['nro_puestos']; $m++){
                 if(isset($B[$m])){
                         //Crea parada_ruta en BD
+                        //require_once('conexion.php');
+                        //$con = new Conexion();
                         //$sql = "INSERT INTO parada_ruta ";
-                        //pg_query($sql);
+                        //$con->consultar($sql);
                         var_dump($B[$m]);
 //                            echo 'Ruta Creada';
                 }else{

@@ -67,7 +67,8 @@
             <input class="form-control" type="text" id="txtmarca" value="Marca" onfocus="if(this.value=='Marca') this.value='';" onblur="if (this.value == '') {this.value = 'Marca';}">
             <input class="form-control" type="text" id="txtmodelo" value="Modelo" onfocus="if(this.value=='Modelo') this.value='';" onblur="if (this.value == '') {this.value = 'Modelo';}">
             <?php
-            require_once './conexion.php';$con = new Conexion();
+            require_once './conexion.php';
+            $con = new Conexion();
             $sql = "SELECT * FROM tipo_vehiculo ORDER BY nro_puestos ASC";
             $consulta = $con->consultar( $sql);
             if ($con->num_filas($consulta)>0){

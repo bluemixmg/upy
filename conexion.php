@@ -122,7 +122,9 @@ class Conexion {
     
     public function consultar($sql) {
         if($this->gestorBD == 'mysql') {
+            //echo "sql = $sql <br>";
             $result = mysqli_query($this->conexion, $sql);
+            //echo "result = ". mysqli_fetch_assoc($result) . "<br>";
             return $result;
         }
         elseif($this->gestorBD == 'pgsql') {

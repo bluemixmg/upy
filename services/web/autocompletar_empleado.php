@@ -1,13 +1,15 @@
 <?php
 
 function buscar_emp($a){
-    require('conexion.php');$con = new Conexion();
+    require('conexion.php');
+    $con = new Conexion();
     $search = $a;
     $sql = "SELECT cedula,nombre FROM cliente "
             . "WHERE (cedula LIKE '%".$search."%' OR nombre LIKE '%".$search."%' OR apellido LIKE "
             . "'%".$search."%') AND rif_empresa='".$_GET['rif']."' ORDER BY nombre ASC";
     $consulta = $con->consultar($sql);
-    while ($row = pg_fetch_array($consulta)) {
+    //while ($row = pg_fetch_array($consulta)) {
+    foreach($consulta as $row) {
         $resultado[] = $row['nombre'];
     }
     return $resultado;

@@ -262,7 +262,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 <?php
                 if (in_array(1, $_SESSION['permisos'])) {
                     echo '<h4 class="text-center"><strong>Empresas en lista de espera</strong></h4><br>';
-                    require_once './conexion.php';$con = new Conexion();
+                    require_once './conexion.php';
+                    $con = new Conexion();
                     $sql = "SELECT * FROM empresa WHERE estatus=0";
                     $consulta = $con->consultar( $sql);
                     if($con->num_filas($consulta)!=0){
@@ -1339,7 +1340,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
         </div>
         
             <?php
-            include './conexion.php';$con = new Conexion();
+            $con = new Conexion();
             $sql = "SELECT chofer.*,vehiculo.modelo FROM chofer INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula WHERE estatus=1 AND latitud IS NOT NULL";
             $con = $con->consultar( $sql);
             if($con->num_filas($con)>0){
@@ -1650,7 +1651,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                         <input type="text" id="fecha_transporte" />
                                         <select id="selectvehiculos" class="form-control">
                                             <?php
-                                                require_once 'conexion.php';$con = new Conexion();
+                                                $con = new Conexion();
                                                 $sql = 'SELECT * FROM tipo_vehiculo';
                                                 $consulta_nro_puestos = $con->consultar( $sql);
                                                 foreach($consulta_nro_puestos as $c){
@@ -1867,7 +1868,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                 <td><strong>ACCIÓN</strong></td>
                                             </tr>
                                             <?php
-                                            require_once './conexion.php';$con = new Conexion();
+                                            $con = new Conexion();
                                             $sql_incidencia = 'SELECT incidencia.*,chofer.id_usuario,chofer.nombre,chofer.apellido,chofer.telefono,vehiculo.modelo FROM incidencia '
                                                     . 'INNER JOIN chofer ON chofer.id_usuario = incidencia.id_usuario '
                                                     . 'INNER JOIN vehiculo ON chofer.id_cedula = vehiculo.id_chofer '
@@ -2064,7 +2065,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                     <td><strong>Acción</strong></td>
                                 </tr>
                                 <?php
-                                include './conexion.php';$con = new Conexion();
+                                $con = new Conexion();
                                 
                                 $sql_tipo = "SELECT * FROM tipo_ruta WHERE estatus=1";
                                 $consulta_rutas = $con->consultar( $sql_tipo);
@@ -2206,7 +2207,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                     <td><strong>Acción</strong></td>
                                 </tr>
                                 <?php
-                                include './conexion.php';$con = new Conexion();
+                                $con = new Conexion();
                                 
                                 $sql_vehiculo = "SELECT * FROM tipo_vehiculo WHERE estatus=1";
                                 $consulta_vehiculo = $con->consultar( $sql_vehiculo);
@@ -2365,7 +2366,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     <p>Haga click en un rol y defina los permisos para el uso de UPY3</p>
                     <ul class="nav nav-pills">
                         <?php
-                        include './conexion.php';$con = new Conexion();
+                        $con = new Conexion();
                         $sql_roles = "SELECT * FROM rol";
                         $consulta = $con->consultar( $sql_roles);
                         foreach ($consulta as $c){
@@ -2439,7 +2440,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             <input type="password" placeholder="Password" id="pass_usuario">
                             <p class="text-left">Empresa:</p>
                             <?php
-                            include './conexion.php';$con = new Conexion();
+                            $con = new Conexion();
                             $sql = "SELECT rif,nombre FROM empresa";
                             $consulta = $con->consultar( $sql);
                             echo '<select class="form-control" id="select_crear_usuario">';
@@ -2574,7 +2575,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 <p>Fecha Fin</p>
                 <input type="text" id="fecha_fin_reporte"><br><br>
                 <?php
-                include './conexion.php';$con = new Conexion();
+                $con = new Conexion();
                 if(in_array(26, $_SESSION['permisos']) || in_array(27, $_SESSION['permisos'])){
                     $sql = "SELECT rif,nombre FROM empresa";
                     $consulta = $con->consultar( $sql);

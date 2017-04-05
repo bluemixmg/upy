@@ -24,9 +24,9 @@ if(isset($_POST['fecha'])){
     }else {
          echo "No se han encontrado resultados";
     }
-
+require_once './conexion.php';
     function filtros($id, $para, $fecha) {
-        require_once './conexion.php';$con = new Conexion();
+        $con = new Conexion();
         if ($para == "estado"){
             $sql = "SELECT id,nombre_estado as texto FROM estado WHERE id_pais=17 ORDER BY nombre_estado";
             $p = 'r_estado';
@@ -136,7 +136,7 @@ if(isset($_POST['fecha'])){
     }
     
     function rutas($id){
-        require_once './conexion.php';$con = new Conexion();
+        $con = new Conexion();
         //ruta.id, ruta.id_vehiculo, ruta.fecha, ruta.estatus, parada.hora, empresa.rif, empresa.nombre, chofer.id_cedula, chofer.nombre, chofer.apellido
         //cliente.cedula, cliente.nombre, cliente.apellido
         $sql = "SELECT DISTINCT CONCAT ('RUTA ', ruta.id) as ruta, ruta.id_vehiculo, ruta.fecha, "

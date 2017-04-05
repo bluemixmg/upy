@@ -1363,6 +1363,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
         
             <?php
             //include './conexion.php';
+            $con = new Conexion();
             $sql = "SELECT chofer.*,vehiculo.modelo FROM chofer INNER JOIN vehiculo ON vehiculo.id_chofer = chofer.id_cedula WHERE estatus=1 AND latitud IS NOT NULL";
             $consulta = $con->consultar($sql);
             if($con->num_filas($consulta)>0){
@@ -1409,7 +1410,7 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
             }
         }
         
-        if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || !in_array(16, $_SESSION['permisos'])){
+        if(in_array(14, $_SESSION['permisos']) || in_array(15, $_SESSION['permisos']) || in_array(16, $_SESSION['permisos'])){
         ?>
         
         <!--FILTROS DE RUTAS-->
@@ -1899,7 +1900,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                                 <td><strong>ACCIÓN</strong></td>
                                             </tr>
                                             <?php
-                                            require_once './conexion.php';$con = new Conexion();
+                                            //require_once './conexion.php';
+                                            $con = new Conexion();
                                             $sql_incidencia = 'SELECT incidencia.*,chofer.id_usuario,chofer.nombre,chofer.apellido,chofer.telefono,vehiculo.modelo FROM incidencia '
                                                     . 'INNER JOIN chofer ON chofer.id_usuario = incidencia.id_usuario '
                                                     . 'INNER JOIN vehiculo ON chofer.id_cedula = vehiculo.id_chofer '
@@ -2096,7 +2098,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                     <td><strong>Acción</strong></td>
                                 </tr>
                                 <?php
-                                include './conexion.php';$con = new Conexion();
+                                //include './conexion.php';
+                                $con = new Conexion();
                                 
                                 $sql_tipo = "SELECT * FROM tipo_ruta WHERE estatus=1";
                                 $consulta_rutas = $con->consultar($sql_tipo);
@@ -2238,7 +2241,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                                     <td><strong>Acción</strong></td>
                                 </tr>
                                 <?php
-                                include './conexion.php';$con = new Conexion();
+                                //include './conexion.php';
+                                $con = new Conexion();
                                 
                                 $sql_vehiculo = "SELECT * FROM tipo_vehiculo WHERE estatus=1";
                                 $consulta_vehiculo = $con->consultar($sql_vehiculo);
@@ -2397,7 +2401,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                     <p>Haga click en un rol y defina los permisos para el uso de UPY3</p>
                     <ul class="nav nav-pills">
                         <?php
-                        include './conexion.php';$con = new Conexion();
+                        //include './conexion.php';
+                        $con = new Conexion();
                         $sql_roles = "SELECT * FROM rol";
                         $consulta = $con->consultar($sql_roles);
                         foreach ($consulta as $c){
@@ -2471,7 +2476,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                             <input type="password" placeholder="Password" id="pass_usuario">
                             <p class="text-left">Empresa:</p>
                             <?php
-                            include './conexion.php';$con = new Conexion();
+                            //include './conexion.php';
+                            $con = new Conexion();
                             $sql = "SELECT rif,nombre FROM empresa";
                             $consulta = $con->consultar($sql);
                             echo '<select class="form-control" id="select_crear_usuario">';
@@ -2606,7 +2612,8 @@ if(in_array(9, $_SESSION['permisos']) || in_array(10, $_SESSION['permisos']) || 
                 <p>Fecha Fin</p>
                 <input type="text" id="fecha_fin_reporte"><br><br>
                 <?php
-                include './conexion.php';$con = new Conexion();
+                //include './conexion.php';
+                $con = new Conexion();
                 if(in_array(26, $_SESSION['permisos']) || in_array(27, $_SESSION['permisos'])){
                     $sql = "SELECT rif,nombre FROM empresa";
                     $consulta = $con->consultar($sql);

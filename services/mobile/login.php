@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
+require ('conexion.php'); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id']) && isset($_POST['pass'])){
@@ -14,13 +14,14 @@ $pass = md5($_POST['pass']);
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$id,$pass,$respuestaJson){
-
+$con = new Conexion();
     if($id!="" && $pass!=""){
     $sql = "SELECT * FROM usuario INNER JOIN chofer ON usuario.usuario = chofer.id_usuario WHERE usuario.usuario='$id' AND usuario.contrasena='$pass' AND usuario.id_rol=3 AND chofer.estatus != '0' AND chofer.estatus != '3'";
     //echo $sql;
     $consulta = $con->consultar( $sql);
         if($con->num_filas($consulta)>0){
-            while($fila = pg_fetch_array($consulta)){
+            //while($fila = pg_fetch_array($consulta)){
+            foreach($consulta as $fila){
                 if($fila['estatus'] != 0){
                     $respuestaJson['success'] = 1;
                     $respuestaJson['message'] = "EXITO";
@@ -41,10 +42,10 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
 	$respuestaJson["message"] = "Faltan Datos";
         //return "Faltan Datos";
     }
+    $con->cerrar_conexion(); //Cerramos la conexion a la base de datos
     return $respuestaJson;
 }
 
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
 echo json_encode(mostrar($conexion_bd, $id, $pass, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

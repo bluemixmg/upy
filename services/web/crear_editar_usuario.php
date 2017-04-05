@@ -1,12 +1,13 @@
 <?php
-
+require_once './conexion.php';
 if($_POST['tipo']==1){
     $id = $_POST['id'];
     $pass = $_POST['pass'];
     $rif = $_POST['rif'];
     $rol = $_POST['rol'];
     if($id!='' && $pass!=''){
-        require_once './conexion.php';$con = new Conexion();
+        
+        $con = new Conexion();
         $sql = "SELECT * FROM usuario WHERE usuario='$id'";
         $consulta = $con->consultar( $sql);
         
@@ -33,7 +34,7 @@ if($_POST['tipo']==1){
     $rif = $_POST['rif'];
     $rol = $_POST['rol'];
     if($id!='' && $pass!=''){
-        require_once './conexion.php';$con = new Conexion();
+        $con = new Conexion();
         $sql = "UPDATE usuario SET usuario='".$id."', contrasena='".$pass."', id_rol=".$rol.", rif_empresa='".$rif."' WHERE usuario='".$id_viejo."'";
         $con->consultar( $sql);
         $con->cerrar_conexion();

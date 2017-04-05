@@ -82,7 +82,8 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
                         // creo nueva ruta
                         $sql_rn = "INSERT INTO ruta (fecha) VALUES ('$fecha')";
                         $con->consultar( $sql_rn);
-                        $ruta_nueva = pg_insert($conexion_bd);
+                        $ruta_nueva = $con->insertar_id();
+                        //$ruta_nueva = pg_insert($conexion_bd);
                         
                         // asigno a parada_ruta pendientes la nueva ruta
                         $sql_pr = "SELECT id FROM parada_ruta WHERE id_ruta = '$ruta' AND estatus = '1' "; 
@@ -158,7 +159,7 @@ function mostrar($conexion_bd,$id,$id_inc,$id_cliente,$respuestaJson){
 
 
 function AsignarChofer($n, $hora, $ruta, $f, $estado){
-        include './conexion.php';$con = new Conexion();
+        $con = new Conexion();
         $sql_c = "SELECT vehiculo.placa FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula INNER JOIN tipo_vehiculo ON vehiculo.id_tipo_vehiculo = tipo_vehiculo.id INNER JOIN disponibilidad ON chofer.id_usuario = disponibilidad.id_usuario INNER JOIN bloque ON disponibilidad.id_bloque = bloque.id WHERE tipo_vehiculo.nro_puestos >= '$n' AND disponibilidad.fecha = '$f' AND ('$hora' BETWEEN bloque.hora_inicio AND bloque.hora_fin) AND chofer.estatus != '0' AND chofer.estatus != '3' AND chofer.id_estado ='$estado' ";
         $consulta_c = $con->consultar( $sql_c);
         
@@ -199,7 +200,7 @@ function AsignarChofer($n, $hora, $ruta, $f, $estado){
 }
 
 function Mensaje($placa){
-    include './conexion.php';$con = new Conexion();
+    $con = new Conexion();
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
     $consulta_cho = $con->consultar( $sql_cho);
     foreach ($consulta_cho as $cho){
@@ -237,7 +238,7 @@ function Mensaje($placa){
 }
 
 function Mensaje2($placa, $texto){
-    include './conexion.php';$con = new Conexion();
+    $con = new Conexion();
     $sql_cho = "SELECT chofer.id_usuario FROM vehiculo INNER JOIN chofer ON vehiculo.id_chofer = chofer.id_cedula WHERE vehiculo.placa = '$placa'";
     $consulta_cho = $con->consultar( $sql_cho);
     foreach ($consulta_cho as $cho){

@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require ('conexion.php');$con = new Conexion(); //Archivo para conectar a la base de datos
+require ('conexion.php'); //Archivo para conectar a la base de datos
 
 //Comprobamos que se han pasado parámetros por POST
 if(isset($_POST['id']) && isset($_POST['pass'])){
@@ -16,12 +16,14 @@ $respuestaJson = array();
 function mostrar($conexion_bd,$id,$pass,$respuestaJson){
 
     if($id!="" || $pass!=""){
+        $con = new Conexion();
     $sql = "SELECT usuario.usuario AS usu, empresa.estatus AS es_em, usuario.estatus AS es_us FROM usuario INNER JOIN empresa ON usuario.usuario=empresa.id_usuario"
             . " WHERE usuario.usuario='$id' AND usuario.contrasena='$pass' AND usuario.id_rol=3";
     
     $consulta = $con->consultar( $sql);
         if($con->num_filas($consulta)>0){
-            while($fila = pg_fetch_array($consulta)){
+            //while($fila = pg_fetch_array($consulta)){
+            foreach($consulta as $fila){
                 if($fila['es_em'] == 1){
                     if($fila['es_us'] == 1){
                         $respuestaJson['success'] = 1;

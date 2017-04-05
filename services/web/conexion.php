@@ -1,5 +1,5 @@
 <?php 
-require $_SERVER['DOCUMENT_ROOT'] . '/conexion.php';$con = new Conexion();
+require $_SERVER['DOCUMENT_ROOT'] . '/conexion.php';
 ?>
 <?php
 
