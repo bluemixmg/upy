@@ -10,7 +10,8 @@
     //$estado = $_POST['estado'];
     
 if($rif!='Rif' && $nombre!='Nombre' && $correo!='Correo'){
-    require_once('conexion.php');$con = new Conexion();
+    require_once('conexion.php');
+    $con = new Conexion();
     $sql = "SELECT * FROM empresa WHERE rif='$rif'";
     $consulta = $con->consultar( $sql);
         if($con->num_filas($consulta)==0){
@@ -21,7 +22,7 @@ if($rif!='Rif' && $nombre!='Nombre' && $correo!='Correo'){
             $sql = "INSERT INTO usuario (usuario,contrasena,id_rol,rif_empresa) VALUES('$correo','$pass',2,'$rif')";
             $con->consultar( $sql);
             $sql12 = "INSERT INTO parada (lat_o,lng_o,lat_d,lng_d,id_cliente,hora) VALUES "
-                 . "('$latitud','$longitud','$latitud','$longitud','$rif','NULL')";
+                 . "('$latitud','$longitud','$latitud','$longitud','$rif',NULL)";
             $con->consultar( $sql12);
             $con->cerrar_conexion();
             echo 'Empresa registrada con éxito';

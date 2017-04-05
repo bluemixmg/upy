@@ -35,30 +35,23 @@ class Conexion {
             $services_json = json_decode($services,true);
             
             /*Conectar con servicio ClearDB (MySQL) de Bluemix*/
-            return $this->conectarClearDB($services_json);
+            //return $this->conectarClearDB($services_json);
             
             /*Conectar con servicio Elephant (PostgreSQL) de Bluemix*/
-            //return $this->conectarElephant($services_json);
+            return $this->conectarElephant($services_json);
         }
         else {
             //Entrará aquí si se ejecuta la app en localhost o fuera de Bluemix
             
-            $this->gestorBD = 'mysql'; //Si la BD es MySQL
-            //$this->gestorBD = 'pgsql'; //Si la BD es PostgreSQL
+            /*Colocar credenciales para ejecutar en localhost o fuera de Bluemix*/
             
-            //Colocar credenciales para ejecutar en localhost o fuera de Bluemix
-            
-            $user = "b74e1e2c618ed4";
-            $password = "96c9ba72";
-            $host = "us-cdbr-iron-east-03.cleardb.net";
-            $port = "3306";
-            $dbname = "ad_cf9caa47af41265";
-            
-            //$user = "postgres";
-            //$password = "postgres";
-            //$host = "localhost";
-            //$port = "5432";
-            //$dbname = "upy";
+            //$this->gestorBD = 'mysql'; //Si la BD es MySQL, comentar en caso contrario
+            $this->gestorBD = 'pgsql'; //Si la BD es PostgreSQL, comentar en caso contrario
+            $user = "postgres";
+            $password = "postgres";
+            $host = "localhost";
+            $port = "5432";
+            $dbname = "upy";
             
             return $this->conectar($this->gestorBD, $dbname, $host, $port, $user, $password);
         }
@@ -142,9 +135,7 @@ class Conexion {
             //echo "this->conexion = " .pg_fetch_assoc($this->conexion) . '<br>';
             //echo "sql = $sql <br>";
             $result = pg_query($this->conexion, $sql);
-            //echo "result = " .$result . '<br>';
             $arr = pg_fetch_all($result);
-            //echo "arr = " .$arr . '<br>';
             return $arr;
         }
         die("Hubo un problema con la consulta");
@@ -155,7 +146,14 @@ class Conexion {
             return mysqli_num_rows($resultado);
         }
         elseif($this->gestorBD == 'pgsql') {
-            //echo "resultado = " . $resultado . '<br>';
+            //$res1 = pg_fetch_all($resultado);
+            //foreach($res1 as $res) {
+                //echo "res1 = " .$res . '<br>';
+            //}
+            //echo "count(resultado) = $resultado <br>";
+            if(!$resultado) {
+                return 0;
+            }
             return count($resultado);
         }
         die("Hubo un problema con la consulta");

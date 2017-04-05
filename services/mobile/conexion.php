@@ -1,5 +1,5 @@
 <?php 
-require $_SERVER['DOCUMENT_ROOT'] . '/upy-local/conexion.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/upy/conexion.php';
 ?>
 <?php
 
