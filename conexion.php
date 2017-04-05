@@ -47,11 +47,18 @@ class Conexion {
             //$this->gestorBD = 'pgsql'; //Si la BD es PostgreSQL
             
             //Colocar credenciales para ejecutar en localhost o fuera de Bluemix
+            
             $user = "b74e1e2c618ed4";
             $password = "96c9ba72";
             $host = "us-cdbr-iron-east-03.cleardb.net";
             $port = "3306";
             $dbname = "ad_cf9caa47af41265";
+            
+            //$user = "postgres";
+            //$password = "postgres";
+            //$host = "localhost";
+            //$port = "5432";
+            //$dbname = "upy";
             
             return $this->conectar($this->gestorBD, $dbname, $host, $port, $user, $password);
         }
