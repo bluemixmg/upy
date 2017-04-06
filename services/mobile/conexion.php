@@ -1,5 +1,10 @@
 <?php 
-require './conexion.php';
+$dir = $_SERVER['DOCUMENT_ROOT'];
+$arr = explode('/', $dir);
+if(in_array('xampp', $arr)) {
+    $dir = $dir . '/upy';
+}
+require $dir . '/conexion.php';
 ?>
 <?php
 
