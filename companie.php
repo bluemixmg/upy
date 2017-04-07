@@ -28,7 +28,7 @@ if($_SESSION['success'] != 'yes'){
 .header{
     background-size: 100%;
     min-height: 320px;
-    }
+}
 .contact-bottom input[type="text"] ,.contact-bottom textarea{
     width: 100%;
     color: black;
