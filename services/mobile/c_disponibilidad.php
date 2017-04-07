@@ -14,11 +14,12 @@ $fecha = md5($_POST['fecha']);
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$id_u,$fecha,$respuestaJson){
-
+    require('conexion.php');
+    $con = new Conexion();
     if($id_u!="" && $fecha!=""){
     $sql = "SELECT * FROM disponibilidad WHERE id_usuario='$id_u' AND fecha='$fecha'";
-    $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)>0){
+    $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             $respuestaJson['message'] = "EXITO";
         }else{
@@ -32,7 +33,8 @@ function mostrar($conexion_bd,$id_u,$fecha,$respuestaJson){
     return $respuestaJson;
 }
 
+$con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id_u, $fecha, $respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id_u, $fecha, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

@@ -17,11 +17,12 @@ if(isset($_POST['id_usuario']) && isset($_POST['id_bloque']) && isset($_POST['fe
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$id_u,$id_bloque,$fecha,$respuestaJson){
-
+require('conexion.php');
+    $con = new Conexion();
     if($id_u!="" && $fecha!=""){
         foreach ($id_bloque['id_bloq'] as $i){
             $sql = "INSERT INTO disponibilidad (id_usuario,id_bloque,fecha) VALUES ('$id_u','".$i['id_b']."','$fecha')";
-            mysqli_query($conexion_bd, $sql);
+            $con->consultar( $sql);
             $respuestaJson['success'] = 1;
         }
     }else{
@@ -30,7 +31,8 @@ function mostrar($conexion_bd,$id_u,$id_bloque,$fecha,$respuestaJson){
     return $respuestaJson;
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id_u, $id_bloque, $fecha,$respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id_u, $id_bloque, $fecha,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

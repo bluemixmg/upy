@@ -12,11 +12,12 @@ if(isset($_FILES['file-0'])){
     if(strtolower(end($chk_ext)) == "csv"){
         //Establecemos la conexión con nuestro servidor
         require_once './conexion.php';
+        $con = new Conexion();
  
         //si es correcto, entonces damos permisos de lectura para subir
         $filename = $_FILES['file-0']['tmp_name'];
         $handle = fopen($filename, "r");
-        require_once './conexion.php';
+        
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){
             
             foreach ($data as $d){
@@ -27,11 +28,11 @@ if(isset($_FILES['file-0'])){
                     }else{
                         //comprobamos que no exista la misma cedula
                         $sql = "SELECT cedula FROM cliente WHERE cedula='$c[0]'";
-                        $consulta = mysqli_query($conexion_bd, $sql);
-                        if(mysqli_num_rows($consulta)==0){
+                        $consulta = $con->consultar( $sql);
+                        if($con->num_filas($consulta)==0){
                             //Insertamos los datos con sus valores
                             $sql = "INSERT INTO chofer (id_cedula,nombre,apellido,sexo,correo,direccion,telefono,estatus) VALUES ('$c[0]','$c[1]','$c[2]','$c[3]','$c[4]','$c[5]','$c[6]','0')";
-                            mysqli_query($conexion_bd,$sql);
+                            $con->consultar($sql);
                         }else{
                             
                         }

@@ -21,12 +21,12 @@
 <body>
 <?php
     include ('navbar.php');
-    require_once './conexion.php';
+    require_once './conexion.php';$con = new Conexion();
     
     if(isset($_GET['id'])){
         $sql = "SELECT * FROM noticia WHERE id='".$_GET['id']."'";
-        $consulta = mysqli_query($conexion_bd, $sql);
-        if (mysqli_num_rows($consulta)>0){
+        $consulta = $con->consultar( $sql);
+        if ($con->num_filas($consulta)>0){
             foreach ($consulta as $c){
                 echo '<!--blog-->
                 <div class="single">
@@ -48,7 +48,7 @@
         }else{
             echo 'Noticia no encontrada';
         }
-        mysqli_close($conexion_bd);
+        $con->cerrar_conexion();
     }
 ?>
 

@@ -23,30 +23,30 @@ if(isset($_POST['nro_puestos'])){
     $puestos = '';
 }
 
-require_once './conexion.php';
+require_once './conexion.php';$con = new Conexion();
 
 if($id=='' && $nombre_ruta!='' && $costo_ruta!='' && $precio_ruta!='' && $tipo==11){
     $sql = "INSERT INTO tipo_ruta (descripcion,costo,precio) VALUES ('$nombre_ruta','$costo_ruta','$precio_ruta')";
-    mysqli_query($conexion_bd, $sql);
+    $con->consultar( $sql);
     echo 'Tipo de Ruta Guardado con Exito';
 }
 
 if($id!='' && $nombre_ruta!='' && $costo_ruta!='' && $precio_ruta!='' && $tipo==11){
     $sql = "UPDATE tipo_ruta SET descripcion='$nombre_ruta',costo='$costo_ruta',precio='$precio_ruta' WHERE id='$id'";
-    mysqli_query($conexion_bd, $sql);
+    $con->consultar( $sql);
     echo 'Tipo de Ruta Actualizado con Exito';
 }
 
 if($id!='' && $tipo==12){
     $sql = "UPDATE tipo_ruta SET estatus=0 WHERE id='$id'";
-    mysqli_query($conexion_bd, $sql);
+    $con->consultar( $sql);
     echo 'Tipo de Ruta eliminado';
 }
 
 if($id=='' && $tipo==21){
     if($puestos!='' && $costo_ruta!='' && $precio_ruta!='' && $nombre_ruta!=''){
     $sql = "INSERT INTO tipo_vehiculo (nombre,nro_puestos,costo,precio) VALUES ('$nombre_ruta','$puestos','$costo_ruta','$precio_ruta')";
-    mysqli_query($conexion_bd, $sql);
+    $con->consultar( $sql);
     echo 'Tipo de Vehiculo Guardado con Exito';
     }else{
         echo 'Faltan datos';
@@ -56,7 +56,7 @@ if($id=='' && $tipo==21){
 if($id!='' && $tipo==21){
     if($nombre_ruta!='' && $puestos!='' && $costo_ruta!='' && $precio_ruta!=''){
         $sql = "UPDATE tipo_vehiculo SET nombre='$nombre_ruta',nro_puestos='$puestos',costo='$costo_ruta',precio='$precio_ruta' WHERE id='$id'";
-        mysqli_query($conexion_bd, $sql);
+        $con->consultar( $sql);
         echo 'Tipo de Vehiculo Actualizado';
     }else{
         echo 'Faltan Datos';
@@ -65,7 +65,7 @@ if($id!='' && $tipo==21){
 
 if($id!='' && $tipo==22){
     $sql = "UPDATE tipo_vehiculo SET estatus=0 WHERE id='$id'";
-    mysqli_query($conexion_bd, $sql);
+    $con->consultar( $sql);
     echo 'Tipo de Vehiculo eliminado';
 }
-mysqli_close($conexion_bd);
+$con->cerrar_conexion();

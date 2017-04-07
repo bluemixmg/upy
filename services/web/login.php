@@ -14,14 +14,16 @@ $pass = md5($_POST['pass']);
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$id,$pass,$respuestaJson){
-
+require('conexion.php');
     if($id!="" || $pass!=""){
+        $con = new Conexion();
     $sql = "SELECT usuario.usuario AS usu, empresa.estatus AS es_em, usuario.estatus AS es_us FROM usuario INNER JOIN empresa ON usuario.usuario=empresa.id_usuario"
             . " WHERE usuario.usuario='$id' AND usuario.contrasena='$pass' AND usuario.id_rol=3";
     
-    $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)>0){
-            while($fila = mysqli_fetch_array($consulta)){
+    $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
+            //while($fila = pg_fetch_array($consulta)){
+            foreach($consulta as $fila){
                 if($fila['es_em'] == 1){
                     if($fila['es_us'] == 1){
                         $respuestaJson['success'] = 1;
@@ -50,7 +52,8 @@ function mostrar($conexion_bd,$id,$pass,$respuestaJson){
     return $respuestaJson;
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id, $pass, $respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id, $pass, $respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

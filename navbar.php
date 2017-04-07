@@ -6,8 +6,8 @@
 ?>
 <header class="Header">
     <div class="container">
-        <dir class="row">
-            <div class="col-sm-24">
+        <div class="row">
+            <dir class="col-sm-24">
             <style type="text/css">
                 .menu a {
     border-radius: 10px;
@@ -51,13 +51,19 @@ a, a:hover, a:focus, a:active {
 }
             </style>
                 <div class="menu info-top">
-                   <a href="logout.php" class="boton boton-sesion">Cerrar sesión</a>
+                    <?php
+                    if(!isset($_SESSION['success'])) {
+                        echo '<a href="login.php" class="boton boton-sesion">Iniciar sesión</a>';
+                    } elseif ($_SESSION['success'] == 'yes') {
+                        echo '<a href="logout.php" class="boton boton-sesion">Cerrar sesión</a>';
+                    }
+                    ?>
                 </div>
                 <figure class="logo">
                    <a href="index.php"><img src="http://upy3.com/wp-content/themes/upy3/img/logo-upy3.png" height="88" width="116"></a>
                 </figure>
-            </div>
-        </dir>
+            </dir>
+        </div>
     </div>
 
 <!-- <div>

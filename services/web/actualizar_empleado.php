@@ -20,14 +20,14 @@ if(isset($_POST['estatus'])){
 }
 
 if($cednueva!='Cédula' && $cednueva!='' && $nombre!='Nombre' && $apellido!='Apellido'){
-    require_once('conexion.php');
+    require_once('conexion.php');$con = new Conexion();
     $sql = "UPDATE cliente "
          . "SET cedula='".$cednueva."', nombre='".utf8_decode($nombre)."', apellido='".utf8_decode($apellido)."', telefono='".$telefono."', correo='".$correo."', "
          . "sexo='".$sexo."',direccion='".$direccion."', latitud='".$latitud."', longitud='".$longitud."', estatus='".$estatus[0]."'"
          . "WHERE cedula='".$cedula."'";
-        mysqli_query($conexion_bd, $sql);
+        $con->consultar( $sql);
     $sql = "DELETE FROM parada WHERE id_cliente='$cedula'";
-    mysqli_query($conexion_bd, $sql);
+    $con->consultar( $sql);
     foreach ($paradas as $p){
         $tiempo = strtotime($p[2]);
         $hora_nueva = date('H:i:s', $tiempo);
@@ -46,9 +46,9 @@ if($cednueva!='Cédula' && $cednueva!='' && $nombre!='Nombre' && $apellido!='Ape
                 }
             }
         }
-        mysqli_query($conexion_bd, $sql);
+        $con->consultar( $sql);
     }
-    mysqli_close($conexion_bd);
+    $con->cerrar_conexion();
     echo '<p>Se actualizó el empleado de cédula '.$cednueva.'<p> y nombre '.$nombre.' '.$apellido;
 }else{
     echo '<p>Rellene los campos requeridos<p>';

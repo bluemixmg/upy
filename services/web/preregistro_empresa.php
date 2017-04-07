@@ -11,18 +11,18 @@ $acept = $_POST['acep'];
 
 if($acept!=''){
     if($rif!='ID Empresa' && $nombre!='Nombre' && $tlf!='Tel&eacute;fono' && $correo!='Correo'){
-        require_once './conexion.php';
+        require_once './conexion.php';$con = new Conexion();
         $sql = "SELECT * FROM empresa WHERE rif='".$rif."'";
-        $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)==0){
+        $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)==0){
             $sql = "INSERT INTO empresa (rif,nombre,direccion,latitud,longitud,correo,telefono,estatus) "
                  . "VALUES ('$rif','$nombre','$direccion','$latitud','$longitud','$correo','$tlf','0')";
-         mysqli_query($conexion_bd, $sql);
+         $con->consultar( $sql);
             echo 'Empresa registrada, espere ser contactado a la brevedad posible';
         }else{
             echo '<p>Esta empresa ha sido registrada anteriormente</p>';
         }
-        mysqli_close($conexion_bd);
+        $con->cerrar_conexion();
     }else{
         echo '<p>Favor, complete los datos</p>';
     }

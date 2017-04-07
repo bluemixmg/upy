@@ -9,6 +9,8 @@ $estatus = $_POST['estatus'];
 $respuestaJson = array();
 
 function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
+    require('conexion.php');
+    $con = new Conexion();
     if($id!='' && $fecha!='' && $estatus!=''){
         $sql = "SELECT DISTINCT DATE_FORMAT(parada.hora,'%h:%i %p') AS hor,ruta.id,ruta.estatus,empresa.nombre FROM chofer "
             . "INNER JOIN vehiculo ON chofer.id_cedula=vehiculo.id_chofer "
@@ -23,8 +25,8 @@ function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
         }elseif($estatus==1){
             $sql.= "AND ruta.estatus='1' AND chofer.id_usuario='$id' ORDER BY parada.hora ASC";
         }
-        $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)>0){
+        $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             foreach ($consulta as $c){
                 $d[] = $c['id'].' - '.$c['nombre'].' - '.$c['hor'];
@@ -41,7 +43,8 @@ function mostrar($conexion_bd,$id,$fecha,$estatus,$respuestaJson){
     return $respuestaJson;
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id, $fecha, $estatus,$respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id, $fecha, $estatus,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

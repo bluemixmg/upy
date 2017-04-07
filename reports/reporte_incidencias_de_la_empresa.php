@@ -1,7 +1,7 @@
 <?php
 
 require_once '../fpdf/fpdf.php';
-require_once '../conexion.php';
+require_once '../conexion.php';$con = new Conexion();
 
 $fecha_inicio = $_GET['ini'];
 $fecha_fin = $_GET['fin'];
@@ -66,8 +66,8 @@ $sql = "SELECT incidencia.*,chofer.id_usuario,chofer.nombre,chofer.apellido,chof
     INNER JOIN empresa ON cliente.rif_empresa = empresa.rif 
     INNER JOIN tipo_incidencia ON incidencia.id_tipo_incidencia = tipo_incidencia.id 
     WHERE fecha BETWEEN '".$fecha_inicio."' AND '".$fecha_fin."' AND empresa.rif='".$rif."'";
-$consulta = mysqli_query($conexion_bd, $sql);
-if(mysqli_num_rows($consulta)>0){
+$consulta = $con->consultar( $sql);
+if($con->num_filas($consulta)>0){
     $x = $pdf->GetX();
     $y = $pdf->GetY();
     $y2 = $y;
@@ -130,8 +130,8 @@ if(mysqli_num_rows($consulta)>0){
             $sql = "SELECT cliente.nombre,cliente.apellido,empresa.nombre as empresa FROM cliente "
                  . "INNER JOIN empresa ON empresa.rif = cliente.rif_empresa "
                  . "WHERE cliente.cedula='".$c['id_cliente']."'";
-            $consulta_cliente = mysqli_query($conexion_bd, $sql);
-            if(mysqli_num_rows($consulta_cliente)>0){
+            $consulta_cliente = $con->consultar( $sql);
+            if($con->num_filas($consulta_cliente)>0){
                 foreach ($consulta_cliente as $cc){
                     $pdf->MultiCell(50,10,utf8_decode($cc['nombre']).' '.$cc['apellido'],0, "C", $bandera);
                 }
@@ -158,5 +158,5 @@ if(mysqli_num_rows($consulta)>0){
     $pdf->Cell(0,10, utf8_decode('No existen datos para mostrar'),0,1);
 }
 
-mysqli_close($conexion_bd);
+$con->cerrar_conexion();
 $pdf->Output();

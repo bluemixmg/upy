@@ -21,17 +21,17 @@ if(isset($_POST['estatus'])){
 }
 
     if($cednueva!='Cédula' && $cednueva!='' && $nombre!='Nombre' && $placa!=''){
-        require_once('conexion.php');
+        require_once('conexion.php');$con = new Conexion();
         $sql = "UPDATE chofer SET id_cedula='$cednueva', nombre='$nombre', apellido='$apellido',sexo='$sexo', "
              . "telefono='$telefono', correo='$correo', direccion='$direccion', estatus='$estatus[0]' "
              . "WHERE id_cedula='$cedula'";
-        mysqli_query($conexion_bd, $sql);
+        $con->consultar( $sql);
         $sql = "UPDATE vehiculo SET placa='$placa', marca='$marca', modelo='$modelo', id_tipo_vehiculo='$tipo', "
              . "id_condicion='$cond',id_chofer='$cednueva' WHERE id_chofer='$cedula'";
-        mysqli_query($conexion_bd, $sql);
+        $con->consultar( $sql);
         $sql = "UPDATE ruta SET id_vehiculo='$placa' WHERE id_vehiculo='$plava_v'";
-        mysqli_query($conexion_bd, $sql);
-        mysqli_close($conexion_bd);
+        $con->consultar( $sql);
+        $con->cerrar_conexion();
         echo '<p>Se actualizó el chofer de cédula '.$cednueva.'<p> y nombre '.$nombre.' '.$apellido;
     }else{
         echo '<p>Rellene los campos requeridos<p>';

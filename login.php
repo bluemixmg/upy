@@ -20,7 +20,7 @@ if(strpos($n, 'no')){
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -64,14 +64,19 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
     if(isset($_POST['txtid'])){
         $login_pass = md5($_POST['txtpass']);
         $login_usuario = $_POST['txtid'];
+        ?>
+        <?php
         include("conexion.php");
+        $con = new Conexion();
         if($_POST['txtid']!='op1'){
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
             . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
             . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.estatus=1";
-            $consulta = mysqli_query($conexion_bd, $sql);
-            if (mysqli_num_rows($consulta) > 0){
-                $_SESSION['success'] = yes;
+            $consulta = $con->consultar( $sql);
+            //echo "consulta = " . $consulta . '<br>';
+            if ($con->num_filas($consulta) > 0){
+                $_SESSION['success'] = 'yes';
+                
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
                 $_SESSION['rif'] = $ss['rif'];
@@ -83,38 +88,43 @@ estudiantes, transporte Venezuela, Caracas, Barquisimeto, Valencia, web design, 
                 $_SESSION['longitud'] = $ss['longitud'];
                 $_SESSION['estatus'] = $ss['estatus'];
                 $_SESSION['rol'] = $ss['id_rol'];
-                $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol='".$ss['id_rol']."'";
-                $consulta1 = mysqli_query($conexion_bd, $sql);
+                $sql = "SELECT id_permiso FROM permiso_rol WHERE id_rol=".$ss['id_rol'];
+                $consulta1 = $con->consultar( $sql);
+                $permisos[] = array();
                 foreach ($consulta1 as $c1){
                     $permisos[] = $c1['id_permiso'];
                 }
                 $_SESSION['permisos'] = $permisos;
-                header("Location:http://www.upy3.com/upyweb/companie.php");
+                //header("Location: http://www.upy3.com/upyweb/companie.php");
+                header("Location: companie.php");
                 }
             } else {
                 header("Location:login.php?success=no");
             }
         }else{
             $sql = "SELECT usuario.usuario,usuario.id_rol,empresa.* FROM usuario "
-                . "INNER JOIN empresa "
-                . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='V-19850475-7'";
-             $consulta = mysqli_query($conexion_bd, $sql);
-            if (mysqli_num_rows($consulta) > 0){
+                . "INNER JOIN empresa ON empresa.rif = usuario.rif_empresa "
+                . "WHERE usuario.usuario='".$login_usuario."' AND usuario.contrasena='".$login_pass."' AND empresa.rif='J-406819212'";
+             $consulta = $con->consultar( $sql);
+             
+            if ($con->num_filas($consulta) > 0){
                 $_SESSION['success'] = yes;
                 foreach($consulta as $ss){
                 $_SESSION['usuario'] = $ss['usuario'];
                 $_SESSION['rol'] = $ss['id_rol'];
-		if ($_SERVER['HTTP_HOST'] == "upy.com"){
-   			$url = "http://www." . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		//if ($_SERVER['HTTP_HOST'] == "upy.com"){
+                if ($_SERVER['HTTP_HOST'] == "mybluemix.net"){
+                    //$url = "http://www." . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                    $url = "http://upy." . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];                    
    			header("Location: $url");
 		} 
-                header("Location:companie.php");
+                header("Location: companie.php");
                 }
             } else {
                 header("Location:login.php?success=no");
             }
         }
-        mysqli_close($conexion_bd);
+        $con->cerrar_conexion();
     }
     }
     ?>

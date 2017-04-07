@@ -7,13 +7,15 @@ $id = $_POST['id'];
 $respuestaJson = array();
 
 function mostrar($conexion_bd,$id,$respuestaJson){
+    require('conexion.php');
+    $con = new Conexion();
     if($id!=''){
         $sql = "SELECT cliente.nombre,cliente.apellido,parada_ruta.estatus,parada_ruta.id_ruta,parada_ruta.id_parada,parada.id_cliente,parada.lat_o,parada.lng_o,parada.lat_d,parada.lng_d "
              . "FROM parada_ruta INNER JOIN parada ON parada_ruta.id_parada=parada.id "
              . "INNER JOIN cliente ON parada.id_cliente=cliente.cedula "
              . "WHERE parada_ruta.id_ruta='$id'";
-        $consulta = mysqli_query($conexion_bd, $sql);
-        if(mysqli_num_rows($consulta)>0){
+        $consulta = $con->consultar( $sql);
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             foreach ($consulta as $c){
                 $d[] = $c['id_cliente'];
@@ -43,7 +45,8 @@ function mostrar($conexion_bd,$id,$respuestaJson){
     return $respuestaJson;
 }
 
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $id,$respuestaJson));
+echo json_encode(mostrar($con->getConexion(), $id,$respuestaJson));
 //echo json_encode(mostrar($conexion_db,$id,$pass));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos

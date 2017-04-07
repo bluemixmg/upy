@@ -16,14 +16,15 @@ $id_chofer = $_POST['id_chofer'];
 $respuestaJson = array();
 //Definimos la funcion de busqueda del usuario
 function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuestaJson){
-
+require('conexion.php');
+    $con = new Conexion();
     if($cedula_usuario!="" && $rif_empresa!=""){
         $sql = "SELECT cliente.nombre,empresa.nombre "
              . "FROM cliente INNER JOIN empresa ON cliente.rif_empresa=empresa.rif "
              . "WHERE cliente.cedula='$cedula_usuario' AND empresa.rif='$rif_empresa'";
-        $consulta = mysqli_query($conexion_bd, $sql);
+        $consulta = $con->consultar( $sql);
         
-        if(mysqli_num_rows($consulta)>0){
+        if($con->num_filas($consulta)>0){
             $respuestaJson['success'] = 1;
             $respuestaJson['message'] = "Pasajero Aceptado";
 
@@ -36,7 +37,7 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
         $fecha = date("Y-m-d");
         $hora = date("H:i:s");
         $sql = "INSERT INTO incidencia (id_tipo_incidencia,id_usuario,fecha,hora,id_cliente) VALUES ('3','$id_chofer','$fecha','$hora','$cedula_usuario')";
-        mysqli_query($conexion_bd, $sql);
+        $con->consultar( $sql);
         
     }else{
         $respuestaJson["success"] = 0;
@@ -45,6 +46,8 @@ function mostrar($conexion_bd,$cedula_usuario,$rif_empresa,$id_chofer,$respuesta
     return $respuestaJson;
 }
 
+
+    $con = new Conexion();
 //Enviamos el resultado de la funcion "mostrar" a codificarse de tipo JSON
-echo json_encode(mostrar($conexion_bd, $cedula_usuario,$rif_empresa,$id_chofer,$respuestaJson));
-mysqli_close($conexion_bd); //Cerramos la conexion a la base de datos
+echo json_encode(mostrar($con->getConexion(), $cedula_usuario,$rif_empresa,$id_chofer,$respuestaJson));
+$con->cerrar_conexion(); //Cerramos la conexion a la base de datos
