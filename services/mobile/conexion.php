@@ -24,3 +24,4 @@ require $dir . '/conexion.php';
     //or die ("Conexión denegada, el Servidor de Base de datos que solicitas no puede ser localizado"); 
     //$db = pg_select_db($conexion_bd,"$basededatos")
     //or die ("La Base de Datos <b>$basededatos</b> no puede ser localizada");
+//
